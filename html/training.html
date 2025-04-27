@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training - Gandi-Hub</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/training.css">
+    <link rel="stylesheet" href="../css/training-mobile.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Header - Only visible on mobile -->
+        <header class="mobile-header d-md-none" style="display: flex; justify-content: space-between; align-items: center; padding: 0 15px; height: 60px; background-color: #1a2634; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div class="header-logo">
+                <img src="../images/rugbylogo.png" alt="Rugby Logo" class="logo" style="height: 40px; width: auto;">
+            </div>
+            <button id="menuBtn" style="background: none; border: none; font-size: 28px; color: white; cursor: pointer; padding: 5px; transition: color 0.2s ease;">
+                <i class="bi bi-list"></i>
+            </button>
+        </header>
+        
+        <!-- Mobile Sidebar -->
+        <div id="mobileSidebar" style="position: fixed; top: 60px; left: -250px; width: 250px; height: calc(100vh - 60px); background: #1a2634; color: white; transition: left 0.3s ease; z-index: 1000; overflow-y: auto; box-shadow: 3px 0 10px rgba(0,0,0,0.2);">
+            <div class="sidebar-header" style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px;">
+                <img src="../images/rugbylogo.png" alt="Gandi-Hub Logo" class="sidebar-logo" style="height: 30px; width: auto;">
+                <h4 style="margin: 0; color: white; font-size: 18px;">Gandi-Hub</h4>
+            </div>
+
+            <nav class="sidebar-nav" style="padding: 15px 0;">
+                <ul class="nav-list" style="list-style: none; padding: 0; margin: 0;">
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#overview" class="nav-link" data-section="overview" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-house-door" style="font-size: 18px;"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#training" class="nav-link" data-section="training" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-trophy" style="font-size: 18px;"></i>
+                            <span>Training</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#calendar" class="nav-link" data-section="schedule" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-calendar-event" style="font-size: 18px;"></i>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#performance" class="nav-link" data-section="performance" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-graph-up" style="font-size: 18px;"></i>
+                            <span>Performance</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Mobile Overlay -->
+        <div id="mobileOverlay" style="position: fixed; top: 60px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 999; display: none; backdrop-filter: blur(2px); transition: opacity 0.3s ease;"></div>
+        
+        <!-- Desktop Sidebar -->
+        <div class="sidebar d-none d-md-flex" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/rugbylogo.png" alt="Gandi-Hub Logo" class="sidebar-logo">
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#overview" class="nav-link" data-section="overview">
+                            <i class="bi bi-house-door"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#training" class="nav-link" data-section="training">
+                            <i class="bi bi-trophy"></i>
+                            <span>Training</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#calendar" class="nav-link" data-section="schedule">
+                            <i class="bi bi-calendar-event"></i>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#performance" class="nav-link" data-section="performance">
+                            <i class="bi bi-graph-up"></i>
+                            <span>Performance</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-sections">
+                <!-- Overview Section -->
+                <div id="overview-content" class="content-section active">
+                    <div class="content-header">
+                        <h1>Overview</h1>
+                    </div>
+                    <!-- Stats Card -->
+                    <div class="overview-card">
+                        <h3 class="card-title">Statistics</h3>
+                        <!-- Weekly Progress -->
+                        <div class="weekly-progress">
+                            <h3>Weekly Progress</h3>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="weeklyProgressBar"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span id="currentHours">0h</span>
+                                <span id="goalHours">Goal: 10h</span>
+                            </div>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="bi bi-calendar-event"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 class="stat-value" id="upcomingSessionsCount">0</h3>
+                                    <p class="stat-label">Upcoming Sessions</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="bi bi-clock-history"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 class="stat-value" id="inProgressCount">0</h3>
+                                    <p class="stat-label">Sessions in-progress</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="bi bi-trophy"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 class="stat-value" id="totalSessions">0</h3>
+                                    <p class="stat-label">Total Sessions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activities Card -->
+                    <div class="overview-card">
+                        <h3 class="card-title">Recent Training Activities</h3>
+                        <div class="recent-sessions">
+                            <!-- Sessions will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training Section -->
+                <div id="training-content" class="content-section">
+                    <div class="content-header">
+                        <h1>Training Programs</h1>
+                        <button class="btn btn-primary desktop-add-btn" data-modal-target="addSessionModal">
+                            <i class="bi bi-plus-lg"></i> New Session
+                        </button>
+                    </div>
+                    <div class="training-cards">
+                        <div class="training-card session-list">
+                            <div class="first-content">
+                                <span>Sessions</span>
+                                <div class="session-count">12</div>
+                            </div>
+                            <div class="second-content">
+                                <span>View All</span>
+                            </div>
+                        </div>
+                        <div class="training-card in-progress">
+                            <div class="first-content">
+                                <span>In Progress</span>
+                                <div class="progress-count">3</div>
+                            </div>
+                            <div class="second-content">
+                                <span>Continue</span>
+                            </div>
+                        </div>
+                        <div class="training-card completed">
+                            <div class="first-content">
+                                <span>Completed</span>
+                                <div class="complete-count">8</div>
+                            </div>
+                            <div class="second-content">
+                                <span>Review</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Session Modal -->
+                    <div id="addSessionModal" class="modal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5>Add Session</h5>
+                                    <button type="button" class="close" data-modal-close>&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="sessionForm">
+                                        <div class="form-group">
+                                            <label>Session Name</label>
+                                            <input type="text" name="sessionName" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Type</label>
+                                            <select name="sessionType" required>
+                                                <option value="fitness">Fitness</option>
+                                                <option value="skills">Skills Training</option>
+                                                <option value="team">Team Practice</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Time</label>
+                                                <div class="time-input-group">
+                                                    <input type="time" name="sessionTime" required>
+                                                    <select name="timeAmPm" required>
+                                                        <option value="AM">AM</option>
+                                                        <option value="PM">PM</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Duration (minutes)</label>
+                                                <input type="number" name="duration" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Date</label>
+                                            <input type="date" name="sessionDate" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <textarea name="sessionNotes" rows="3" placeholder="Add any additional notes or details about the session"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" id="saveSession">Save Session</button>
+                                    <button class="btn btn-secondary" data-modal-close>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="training-container">
+                        <div class="training-types">
+                            <div class="training-grid" id="trainingTypesList"></div>
+                        </div>
+                    </div>
+                    <button class="floating-action-btn" data-modal-target="addSessionModal">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Schedule Section -->
+                <div id="schedule-content" class="content-section">
+                    <div class="content-header">
+                        <h1>Training Schedule</h1>
+                        <button class="btn btn-primary add-event-btn" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                            <i class="bi bi-plus-lg"></i> Add Training Session
+                        </button>
+                    </div>
+                    
+                    <div class="schedule-container">
+                        <!-- Calendar Section -->
+                        <div class="calendar-section">
+                            <div class="calendar-wrapper">
+                                <div class="calendar-controls">
+                                    <div class="calendar-navigation">
+                                        <button id="prevMonth" class="btn btn-icon">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </button>
+                                        <div class="current-month-display">
+                                            <span id="currentMonth">April</span>
+                                            <span id="currentYear">2025</span>
+                                        </div>
+                                        <button id="nextMonth" class="btn btn-icon">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    <button id="todayBtn" class="btn btn-primary btn-sm">Today</button>
+                                </div>
+                                
+                                <div class="calendar-header">
+                                    <div>Sun</div>
+                                    <div>Mon</div>
+                                    <div>Tue</div>
+                                    <div>Wed</div>
+                                    <div>Thu</div>
+                                    <div>Fri</div>
+                                    <div>Sat</div>
+                                </div>
+                                
+                                <div id="calendarGrid" class="calendar-grid">
+                                    <!-- Calendar days will be generated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Day Details Panel -->
+                            <div id="dayDetailsPanel" class="day-details-panel">
+                                <div class="day-details-header">
+                                    <h3 id="selectedDate">April 14, 2025</h3>
+                                    <button id="closeDayDetails" class="btn-close"></button>
+                                </div>
+                                <div id="daySessionsList" class="day-sessions-list">
+                                    <!-- Sessions will be populated by JavaScript -->
+                                </div>
+                                <div class="day-details-actions">
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSessionModal">
+                                        <i class="bi bi-plus"></i> Add Session
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming Events Sidebar -->
+                        <div class="events-sidebar">
+                            <h3>Upcoming Sessions</h3>
+                            <div id="upcomingSessionsList" class="upcoming-sessions-list">
+                                <!-- Events will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    <button class="floating-action-btn" data-modal-target="addEventModal">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Performance Section -->
+                <div id="performance-content" class="content-section">
+                    <div class="content-header">
+                        <h1>Performance Tracking</h1>
+                    </div>
+                    <div class="performance-container">
+                        <div class="quest-card">
+                            <h3>Training Quests</h3>
+                            <div class="quest-list">
+                                <!-- Physical Training -->
+                                <div class="quest-item" data-quest-id="quest1">
+                                    <h4>Power Training</h4>
+                                    <p>Complete 3 gym sessions focusing on power exercises</p>
+                                    <button class="quest-button" onclick="trainingManager.completeQuest('quest1')">Complete Quest</button>
+                                </div>
+                                <div class="quest-item" data-quest-id="quest2">
+                                    <h4>Speed Development</h4>
+                                    <p>Finish 5 sprint training sessions</p>
+                                    <button class="quest-button" onclick="trainingManager.completeQuest('quest2')">Complete Quest</button>
+                                </div>
+                                <!-- Skill Training -->
+                                <div class="quest-item" data-quest-id="quest3">
+                                    <h4>Passing Master</h4>
+                                    <p>Complete 100 accurate passes in training</p>
+                                    <button class="quest-button" onclick="trainingManager.completeQuest('quest3')">Complete Quest</button>
+                                </div>
+                                <div class="quest-item" data-quest-id="quest4">
+                                    <h4>Tackle Technique</h4>
+                                    <p>Perfect form in 20 tackle drills</p>
+                                    <button class="quest-button" onclick="trainingManager.completeQuest('quest4')">Complete Quest</button>
+                                </div>
+                                <!-- Team Integration -->
+                                <div class="quest-item" data-quest-id="quest5">
+                                    <h4>Team Player</h4>
+                                    <p>Participate in 3 full team practice sessions</p>
+                                    <button class="quest-button" onclick="trainingManager.completeQuest('quest5')">Complete Quest</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="achievements-card">
+                            <h3>Achievements</h3>
+                            <div class="achievements-list">
+                                <div class="empty-achievements" id="emptyAchievements">
+                                    <i class="bi bi-trophy"></i>
+                                    <p>Complete quests to unlock achievements!</p>
+                                </div>
+                                <div id="achievementsList">
+                                    <!-- Achievements will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div class="modal fade" id="addEventModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Training Session</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addEventForm">
+                        <div class="mb-3">
+                            <label class="form-label">Session Title</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" name="date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Time</label>
+                            <input type="time" class="form-control" name="time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Duration (minutes)</label>
+                            <input type="number" class="form-control" name="duration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" name="type" required>
+                                <option value="fitness">Fitness Training</option>
+                                <option value="skills">Skills Training</option>
+                                <option value="team">Team Practice</option>
+                                <option value="match">Match</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveEventBtn">Save Session</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Session Template -->
+    <template id="sessionTemplate">
+        <div class="session-item">
+            <div class="session-header">
+                <h4 class="session-title"></h4>
+                <span class="session-type"></span>
+            </div>
+            <p class="session-description"></p>
+            <div class="session-time">
+                <i class="bi bi-clock"></i>
+                <span class="time-display"></span>
+            </div>
+            <div class="session-controls">
+                <button class="session-control-btn start">
+                    <i class="bi bi-play-fill"></i>
+                    Start
+                </button>
+                <button class="session-control-btn pause" style="display: none;">
+                    <i class="bi bi-pause-fill"></i>
+                    Pause
+                </button>
+                <button class="session-control-btn resume" style="display: none;">
+                    <i class="bi bi-play-fill"></i>
+                    Resume
+                </button>
+                <button class="session-control-btn complete" style="display: none;">
+                    <i class="bi bi-check-lg"></i>
+                    Complete
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Achievement Template -->
+    <template id="achievementTemplate">
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <i class="bi bi-trophy"></i>
+            </div>
+            <div class="achievement-content">
+                <h4 class="achievement-title"></h4>
+                <p class="achievement-description"></p>
+            </div>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/modal.js"></script> 
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/training.js"></script>
+    
+    <!-- Simple, standalone mobile menu toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Enhanced mobile menu script loaded');
+            
+            // Get elements
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const navLinks = document.querySelectorAll('#mobileSidebar .nav-link');
+            
+            // Add hover effect to menu button
+            if (menuBtn) {
+                menuBtn.addEventListener('mouseover', function() {
+                    this.style.color = '#4dabf7';
+                });
+                
+                menuBtn.addEventListener('mouseout', function() {
+                    this.style.color = 'white';
+                });
+            }
+            
+            // Add hover effect to nav links
+            navLinks.forEach(function(link) {
+                link.addEventListener('mouseover', function() {
+                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                });
+                
+                link.addEventListener('mouseout', function() {
+                    this.style.backgroundColor = 'transparent';
+                });
+            });
+            
+            // Toggle menu when button is clicked
+            if (menuBtn && mobileSidebar && mobileOverlay) {
+                menuBtn.addEventListener('click', function() {
+                    const isOpen = mobileSidebar.style.left === '0px';
+                    
+                    // Toggle sidebar
+                    mobileSidebar.style.left = isOpen ? '-250px' : '0px';
+                    
+                    // Toggle overlay with fade effect
+                    if (isOpen) {
+                        mobileOverlay.style.opacity = '0';
+                        setTimeout(function() {
+                            mobileOverlay.style.display = 'none';
+                        }, 300);
+                    } else {
+                        mobileOverlay.style.display = 'block';
+                        // Force reflow to ensure transition works
+                        mobileOverlay.offsetHeight;
+                        mobileOverlay.style.opacity = '1';
+                    }
+                    
+                    // Toggle menu icon
+                    const icon = menuBtn.querySelector('i');
+                    icon.className = isOpen ? 'bi bi-list' : 'bi bi-x-lg';
+                });
+                
+                // Close menu when overlay is clicked
+                mobileOverlay.addEventListener('click', function() {
+                    mobileSidebar.style.left = '-250px';
+                    mobileOverlay.style.opacity = '0';
+                    
+                    setTimeout(function() {
+                        mobileOverlay.style.display = 'none';
+                    }, 300);
+                    
+                    // Reset menu icon
+                    const icon = menuBtn.querySelector('i');
+                    icon.className = 'bi bi-list';
+                });
+                
+                // Close menu when links are clicked
+                navLinks.forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        mobileSidebar.style.left = '-250px';
+                        mobileOverlay.style.opacity = '0';
+                        
+                        setTimeout(function() {
+                            mobileOverlay.style.display = 'none';
+                        }, 300);
+                        
+                        // Reset menu icon
+                        const icon = menuBtn.querySelector('i');
+                        icon.className = 'bi bi-list';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

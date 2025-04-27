@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - Gandi-Hub</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #0056b3;
+            --gradient: linear-gradient(135deg, #007BFF, #0056b3);
+            --background-gradient: linear-gradient(135deg, #f4f4f9, #e0e0f5);
+            --card-shadow: 0 8px 30px rgba(0, 123, 255, 0.15);
+            --text-primary: #2c3e50;
+            --text-secondary: #636e72;
+            --font-primary: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            margin: 0;
+            padding: 0;
+            background: var(--background-gradient);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Typography Scale */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        p {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .section-title h1 {
+            font-family: var(--font-primary);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title p {
+            font-family: var(--font-primary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .reviewer-details h3 {
+            font-family: var(--font-primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .reviewer-details p {
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin: 0.5rem 0 0;
+        }
+
+        .review-content {
+            font-family: var(--font-primary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .action-btn {
+            font-family: var(--font-primary);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .back-button {
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .comment-input {
+            font-family: var(--font-primary);
+            font-size: 0.95rem;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+            padding-left: 0;
+        }
+
+        .logo-image {
+            height: 55px;
+            width: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+
+        .back-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .reviews-container {
+            max-width: 1400px;
+            margin: 120px auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+            border: 1px solid rgba(0, 123, 255, 0.1);
+        }
+
+        .review-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .review-card:hover::before {
+            opacity: 1;
+        }
+
+        .review-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 123, 255, 0.2);
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .reviewer-image-container {
+            position: relative;
+            margin-right: 1.5rem;
+        }
+
+        .reviewer-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .reviewer-image:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        .verification-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--gradient);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .reviewer-details {
+            flex-grow: 1;
+        }
+
+        .rating {
+            color: #FFD700;
+            font-size: 1.3rem;
+            margin: 1rem 0;
+            display: inline-flex;
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+        }
+
+        .review-content {
+            color: #444;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .review-content::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -10px;
+            font-size: 3em;
+            color: var(--primary-color);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+
+        .review-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 123, 255, 0.1);
+        }
+
+        .review-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        .action-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .action-btn:hover i {
+            transform: scale(1.2);
+        }
+
+        .action-btn.liked {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .comments-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 123, 255, 0.1);
+            display: none;
+        }
+
+        .comments-section.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+        }
+
+        .submit-comment {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-comment:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comment-item {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .logo-container {
+                padding-left: 0;
+            }
+
+            .logo-image {
+                height: 45px;
+            }
+
+            .back-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                margin-left: 1rem;
+            }
+
+            .reviews-container {
+                margin: 90px auto 4rem;
+                padding: 0 1rem;
+            }
+
+            .section-title h1 {
+                font-size: 2rem;
+            }
+
+            .review-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .review-card {
+                padding: 1.5rem;
+                margin: 0 0.5rem;
+            }
+
+            .reviewer-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .reviewer-details h3 {
+                font-size: 1.2rem;
+            }
+
+            .reviewer-details p {
+                font-size: 1rem;
+            }
+
+            .review-content {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .review-actions {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+
+            .action-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                min-height: 44px;
+            }
+        }
+
+        @media (hover: none) {
+            .action-btn {
+                padding: 12px 20px;
+            }
+
+            .review-card:hover {
+                transform: none;
+            }
+
+            .reviewer-image:hover {
+                transform: none;
+            }
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .scroll-top i {
+            font-size: 1.5rem;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            color: var(--primary-color);
+            animation: heartAnimation 1s ease-out;
+        }
+
+        @keyframes heartAnimation {
+            from {
+                transform: scale(0);
+                opacity: 1;
+            }
+            to {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary-color);
+            transform: scale(0);
+            animation: rippleEffect 0.5s ease-out;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="../images/rugbylogo.png" alt="Gandi-Hub Logo" class="logo-image" onclick="window.location.href='Gandi-hub.html'">
+            </div>
+            <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+        </div>
+    </header>
+
+    <div class="reviews-container">
+        <div class="section-title">
+            <h1>What Our Users Say</h1>
+            <p>Real experiences from our community members</p>
+        </div>
+        
+        <div class="review-grid">
+            <div class="review-card">
+                <div class="reviewer-info">
+                    <div class="reviewer-image-container">
+                        <img src="../images/rugby2.jpg" alt="Musa Mgandi" class="reviewer-image">
+                        <i class="fas fa-check-circle verification-badge"></i>
+                    </div>
+                    <div class="reviewer-details">
+                        <h3>Musa Mgandi</h3>
+                        <p>Rugby Player</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="review-content">"Gandi-Hub has transformed the way I manage my rugby and academic life. The AI chatbot is a game-changer! I can easily track my progress and stay organized."</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 13, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="reviewer-info">
+                    <div class="reviewer-image-container">
+                        <img src="../images/rugby1.jpg" alt="Vincent Onyala" class="reviewer-image">
+                        <i class="fas fa-check-circle verification-badge"></i>
+                    </div>
+                    <div class="reviewer-details">
+                        <h3>Vincent Onyala</h3>
+                        <p>Student Athlete</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="review-content">"The progress tracking feature keeps me motivated and on top of my goals. The platform has helped me maintain a perfect balance between sports and studies."</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 10, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">30</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="reviewer-info">
+                    <div class="reviewer-image-container">
+                        <img src="../images/rugby01.jpg" alt="Mike Johnson" class="reviewer-image">
+                        <i class="fas fa-check-circle verification-badge"></i>
+                    </div>
+                    <div class="reviewer-details">
+                        <h3>Mike Johnson</h3>
+                        <p>Coach</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="review-content">"The reminders and notes feature is a lifesaver. My team never misses a training session or assignment deadline. Great tool for team management!"</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 8, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">25</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Review 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="../images/rev1.png" alt="Reviewer" class="reviewer-image">
+                    <div class="reviewer-info">
+                        <h3>Ian Johnson</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="review-text">"The training resources here are incredible. Really helped improve my game awareness and tactical understanding."</p>
+
+                <div class="review-footer">
+                    <span class="review-date">Posted March 15, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Review 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="../images/rev2.png" alt="Reviewer" class="reviewer-image">
+                    <div class="reviewer-info">
+                        <h3>Mike Thompson</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="review-text">"Outstanding academic support. The study materials and tutoring have been invaluable for balancing sports and studies."</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 12, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Review 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="../images/rev3.png" alt="Reviewer" class="reviewer-image">
+                    <div class="reviewer-info">
+                        <h3>Emily Rodriguez</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="review-text">"The AI chat feature is brilliant! Gets all my questions answered instantly. Really helpful for quick training tips."</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 10, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Review 4 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="../images/rev4.png" alt="Reviewer" class="reviewer-image">
+                    <div class="reviewer-info">
+                        <h3>Daniel Kim</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="review-text">"Love the event updates and community features. Makes it easy to stay connected with the rugby community."</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 8, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Review 5 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="../images/rev5.png" alt="Reviewer" class="reviewer-image">
+                    <div class="reviewer-info">
+                        <h3>Ramah Chen</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="review-text">"The personalized training programs have really helped me improve my skills. Great progress tracking too!"</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 5, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Review 6 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="../images/rev6.png" alt="Reviewer" class="reviewer-image">
+                    <div class="reviewer-info">
+                        <h3>James Wilson</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="review-text">"Excellent resource for both beginners and experienced players. The video tutorials are particularly helpful."</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 3, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Review 7 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="../images/rev7.png" alt="Reviewer" class="reviewer-image">
+                    <div class="reviewer-info">
+                        <h3>Aron Parker</h3>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="review-text">"The academic support and rugby training integration is perfect. Really helps maintain a good balance."</p>
+                <div class="review-footer">
+                    <span class="review-date">Posted March 1, 2024</span>
+                    <div class="review-actions">
+                        <button class="action-btn like-btn" onclick="toggleLike(this)">
+                            <i class="far fa-thumbs-up"></i>
+                            <span class="like-count">45</span>
+                        </button>
+                        <button class="action-btn comment-btn" onclick="toggleComments(this)">
+                            <i class="far fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Write a comment...">
+                        <button class="submit-comment" onclick="addComment(this)">Post</button>
+                    </div>
+                    <div class="comments-list">
+                        <!-- Comments will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Scroll to Top functionality
+        const scrollTopButton = document.querySelector('.scroll-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopButton.classList.add('visible');
+            } else {
+                scrollTopButton.classList.remove('visible');
+            }
+        });
+
+        scrollTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Enhanced Like functionality with animation
+        function toggleLike(button) {
+            button.classList.toggle('liked');
+            const icon = button.querySelector('i');
+            const count = button.querySelector('span');
+            
+            if (button.classList.contains('liked')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                count.textContent = parseInt(count.textContent) + 1;
+                
+                // Add heart animation
+                const heart = document.createElement('i');
+                heart.classList.add('fas', 'fa-heart', 'floating-heart');
+                button.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 1000);
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                count.textContent = parseInt(count.textContent) - 1;
+            }
+        }
+
+        // Enhanced Comments functionality
+        function toggleComments(button) {
+            const card = button.closest('.review-card');
+            const commentSection = card.querySelector('.comments-section');
+            
+            if (commentSection.style.display === 'none' || !commentSection.style.display) {
+                commentSection.style.display = 'block';
+                commentSection.style.opacity = '0';
+                setTimeout(() => {
+                    commentSection.style.opacity = '1';
+                }, 10);
+            } else {
+                commentSection.style.opacity = '0';
+                setTimeout(() => {
+                    commentSection.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // Lazy loading images
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('.reviewer-image');
+            
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.add('loaded');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => {
+                if (img.dataset.src) {
+                    imageObserver.observe(img);
+                }
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add touch ripple effect
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            
+            ripple.className = 'ripple';
+            ripple.style.width = ripple.style.height = `${Math.max(rect.width, rect.height)}px`;
+            ripple.style.left = `${event.clientX - rect.left - ripple.offsetWidth / 2}px`;
+            ripple.style.top = `${event.clientY - rect.top - ripple.offsetHeight / 2}px`;
+            
+            button.appendChild(ripple);
+            ripple.addEventListener('animationend', () => ripple.remove());
+        }
+
+        document.querySelectorAll('.action-btn').forEach(button => {
+            button.addEventListener('click', createRipple);
+        });
+    </script>
+    <script>
+        function addComment(button) {
+            const reviewCard = button.closest('.review-card');
+            const input = reviewCard.querySelector('.comment-input');
+            const commentsList = reviewCard.querySelector('.comments-list');
+            
+            if (input.value.trim()) {
+                const comment = document.createElement('div');
+                comment.className = 'comment-item';
+                comment.innerHTML = `
+                    <div class="comment-header">
+                        <span class="comment-author">User</span>
+                        <span>Just now</span>
+                    </div>
+                    <div class="comment-text">${input.value}</div>
+                `;
+                
+                commentsList.insertBefore(comment, commentsList.firstChild);
+                input.value = '';
+            }
+        }
+    </script>
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        async function loadReviews() {
+            try {
+                const reviewsQuery = query(
+                    collection(db, "reviews"),
+                    orderBy("date", "desc")
+                );
+
+                const snapshot = await getDocs(reviewsQuery);
+                const reviewsContainer = document.querySelector('.review-grid');
+                
+                // Clear existing reviews
+                reviewsContainer.innerHTML = '';
+
+                snapshot.forEach(doc => {
+                    const review = doc.data();
+                    const reviewCard = createReviewCard(review);
+                    reviewsContainer.insertAdjacentHTML('beforeend', reviewCard);
+                });
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+            }
+        }
+
+        function createReviewCard(review) {
+            return `
+                <div class="review-card">
+                    <div class="reviewer-info">
+                        <div class="reviewer-image-container">
+                            <img src="${review.profileImage || 'images/default-avatar.png'}" alt="${review.username}" class="reviewer-image">
+                            <i class="fas fa-check-circle verification-badge"></i>
+                        </div>
+                        <div class="reviewer-details">
+                            <h3>${review.username}</h3>
+                            <p>${review.fullName}</p>
+                        </div>
+                    </div>
+                    <div class="rating">
+                        ${Array(5).fill('').map((_, i) => 
+                            `<i class="${i < review.rating ? 'fas' : 'far'} fa-star"></i>`
+                        ).join('')}
+                    </div>
+                    <p class="review-content">"${review.comment}"</p>
+                    <div class="review-footer">
+                        <span class="review-date">Posted ${new Date(review.date).toLocaleDateString()}</span>
+                        <!-- ... existing actions ... -->
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load reviews when page loads
+        document.addEventListener('DOMContentLoaded', loadReviews);
+    </script>
+</body>
+</html>

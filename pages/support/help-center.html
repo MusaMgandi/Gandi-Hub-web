@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Gandi-Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/support.css">
+    <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #0056b3;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --dark-bg: #1a1f2c;
+            --darker-bg: #151922;
+            --card-bg: #222832;
+            --text-color: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--darker-bg);
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .help-header {
+            background: linear-gradient(135deg, #1a1f2c, #2d3436);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 20px auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 40px;
+        }
+
+        .categories {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-item:hover {
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .category-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .category-item i {
+            margin-right: 10px;
+        }
+
+        .content-area {
+            display: grid;
+            gap: 20px;
+        }
+
+        .help-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .help-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .article-list {
+            list-style: none;
+        }
+
+        .article-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .article-item:hover {
+            background: rgba(0, 123, 255, 0.05);
+            transform: translateX(10px);
+        }
+
+        .article-item i {
+            color: var(--primary-color);
+        }
+
+        .contact-support {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .support-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .support-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .categories {
+                position: static;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Update only article cards on the right side */
+        .articles-grid .article-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            border: 1px solid #eee;
+        }
+
+        .articles-grid .article-card:hover {
+            background: #1a1f2c;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .articles-grid .article-card h3 {
+            color: #007BFF;
+            margin: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .articles-grid .article-card:hover h3 {
+            color: #ffffff;
+        }
+
+        .articles-grid .article-card i {
+            color: #007BFF;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .articles-grid .article-card:hover i {
+            color: #ffffff;
+        }
+
+        .articles-grid .article-card .read-more {
+            color: #007BFF;
+            transition: color 0.3s ease;
+        }
+
+        .articles-grid .article-card:hover .read-more {
+            color: #ffffff;
+        }
+
+        .article-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .article-content h1 {
+            color: #007BFF;
+            margin-bottom: 1.5rem;
+        }
+
+        .setup-steps .step {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 3px solid #007BFF;
+        }
+
+        .nav-sections section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-sections ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .nav-sections li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .nav-sections li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #007BFF;
+        }
+
+        .quick-links {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .quick-links a {
+            display: block;
+            margin: 0.5rem 0;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        /* Update existing styles */
+        .article-card {
+            background: var(--card-bg) !important;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .article-card:hover {
+            background: var(--dark-bg) !important;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: var(--primary-color);
+        }
+
+        .article-card h3 {
+            color: var(--text-color);
+            margin: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover h3 {
+            color: var(--primary-color);
+        }
+
+        .article-card i {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover i {
+            color: var(--primary-color);
+        }
+
+        .read-more {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover .read-more {
+            color: var(--primary-color);
+        }
+
+        /* Update category styles */
+        .category-item {
+            background: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            background: var(--card-bg);
+            color: var(--primary-color);
+        }
+
+        .category-item.active {
+            background: #007BFF;
+            color: #ffffff;
+        }
+
+        /* Add new styles for article content */
+        .guide-content {
+            margin-top: 2rem;
+        }
+
+        .steps-container, .features-grid, .settings-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .step, .feature, .setting-group {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid #007BFF;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .step h3, .feature h3, .setting-group h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .step:hover h3, .feature:hover h3, .setting-group:hover h3 {
+            color: var(--primary-color);
+        }
+
+        .step ul, .feature ul, .setting-group ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .step ul li, .feature ul li, .setting-group ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .step ul li::before, .feature ul li::before, .setting-group ul li::before {
+            content: '→';
+            position: absolute;
+            left: -1.5rem;
+            color: #007BFF;
+        }
+
+        .step:hover ul li, .feature:hover ul li, .setting-group:hover ul li {
+            color: var(--text-color);
+        }
+
+        .quick-links {
+            background: var(--card-bg);
+        }
+
+        .quick-links a {
+            color: var(--text-color);
+        }
+
+        .quick-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Add these new search-specific styles */
+        .search-results {
+            padding: 20px;
+        }
+
+        .search-results h2 {
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            color: var(--text-muted);
+        }
+
+        .category-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            margin: 8px 0;
+        }
+
+        /* Update search container styles */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            z-index: 1;
+            font-size: 1.2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 15px 15px 60px;  /* Increased left padding to accommodate icon */
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="help-container">
+        <header class="help-header">
+            <h1>Help Center</h1>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search help articles...">
+            </div>
+        </header>
+
+        <div class="container">
+            <aside class="sidebar">
+                <div class="category-item active" data-category="getting-started">
+                    <i class="fas fa-home"></i>
+                    <span>Getting Started</span>
+                </div>
+                <div class="category-item" data-category="training">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>Training</span>
+                </div>
+                <div class="category-item" data-category="academics">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Academics</span>
+                </div>
+                <div class="category-item" data-category="ai-features">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Features</span>
+                </div>
+                <div class="category-item" data-category="account">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Account</span>
+                </div>
+                <div class="category-item" data-category="privacy">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Privacy</span>
+                </div>
+            </aside>
+
+            <main class="content-sections">
+                <!-- Content will be dynamically loaded here -->
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const contentData = {
+            'getting-started': {
+                title: 'Getting Started',
+                articles: [
+                    { id: 'welcome', title: 'Welcome to GandiHub', icon: 'fas fa-star' },
+                    { id: 'profile-setup', title: 'Setting up your profile', icon: 'fas fa-user-edit' },
+                    { id: 'navigation', title: 'Navigation guide', icon: 'fas fa-compass' }
+                ]
+            },
+            'training': {
+                title: 'Training Resources',
+                articles: [
+                    { id: 'creating-workout-plans', title: 'Creating workout plans', icon: 'fas fa-calendar-alt' },
+                    { id: 'progress-tracking', title: 'Progress tracking', icon: 'fas fa-chart-line' },
+                    { id: 'rugby-drills-library', title: 'Rugby drills library', icon: 'fas fa-running' }
+                ]
+            },
+            'academics': {
+                title: 'Academic Resources',
+                articles: [
+                    { id: 'academic-performance-tracking', title: 'Academic Performance Tracking', icon: 'fas fa-chart-line' },
+                    { id: 'study-schedule-integration', title: 'Study Schedule Integration', icon: 'fas fa-calendar-check' },
+                    { id: 'academic-goals-setting', title: 'Academic Goals Setting', icon: 'fas fa-bullseye' },
+                    { id: 'school-sports-balance-guide', title: 'School-Sports Balance Guide', icon: 'fas fa-balance-scale' },
+                    { id: 'academic-support-programs', title: 'Academic Support Programs', icon: 'fas fa-graduation-cap' }
+                ]
+            },
+            'ai-features': {
+                title: 'AI Chat Assistant',
+                articles: [
+                    { id: 'getting-started-with-ai-chat', title: 'Getting Started with AI Chat', icon: 'fas fa-robot' },
+                    { id: 'training-analysis-ai', title: 'Training Analysis AI', icon: 'fas fa-brain' },
+                    { id: 'performance-predictions', title: 'Performance Predictions', icon: 'fas fa-chart-bar' },
+                    { id: 'ai-personalized-tips', title: 'AI Personalized Tips', icon: 'fas fa-lightbulb' },
+                    { id: 'chatbot-commands-guide', title: 'Chatbot Commands Guide', icon: 'fas fa-terminal' }
+                ]
+            },
+            'account': {
+                title: 'Account Management',
+                articles: [
+                    { id: 'profile-settings', title: 'Profile Settings', icon: 'fas fa-user-cog' },
+                    { id: 'privacy-controls', title: 'Privacy Controls', icon: 'fas fa-user-shield' },
+                    { id: 'notification-settings', title: 'Notification Settings', icon: 'fas fa-bell' },
+                    { id: 'data-management', title: 'Data Management', icon: 'fas fa-database' },
+                    { id: 'account-security', title: 'Account Security', icon: 'fas fa-lock' }
+                ]
+            },
+            'privacy': {
+                title: 'Privacy & Security',
+                articles: [
+                    { id: 'data-protection-policy', title: 'Data Protection Policy', icon: 'fas fa-shield-alt' },
+                    { id: 'privacy-settings-guide', title: 'Privacy Settings Guide', icon: 'fas fa-user-secret' },
+                    { id: 'information-sharing', title: 'Information Sharing', icon: 'fas fa-share-alt' },
+                    { id: 'security-best-practices', title: 'Security Best Practices', icon: 'fas fa-fingerprint' },
+                    { id: 'third-party-access', title: 'Third-Party Access', icon: 'fas fa-key' }
+                ]
+            }
+        };
+
+        const articleContent = {
+            'welcome': {
+                title: 'Welcome to GandiHub',
+                content: `
+                    <div class="article-content">
+                        <h1>Welcome to GandiHub</h1>
+                        <p>Welcome to GandiHub, your all-in-one platform for sports and academic excellence! We're excited to have you join our community.</p>
+                        
+                        <h2>What You Can Do</h2>
+                        <ul>
+                            <li>Track your sports performance</li>
+                            <li>Manage your academic progress</li>
+                            <li>Connect with coaches and mentors</li>
+                            <li>Access AI-powered training recommendations</li>
+                        </ul>
+
+                        <div class="quick-links">
+                            <h3>Quick Start Links</h3>
+                            <a href="#profile">Set up your profile</a>
+                            <a href="#training">Explore training programs</a>
+                            <a href="#academics">Academic tools</a>
+                        </div>
+                    </div>
+                `
+            },
+            'profile-setup': {
+                title: 'Setting up your Profile',
+                content: `
+                    <div class="article-content">
+                        <h1>Setting up your Profile</h1>
+                        <div class="setup-steps">
+                            <div class="step">
+                                <h3>1. Basic Information</h3>
+                                <p>Add your name, age, and contact details</p>
+                                <img src="../../images/help/profile-basic.png" alt="Basic Information Form">
+                            </div>
+                            
+                            <div class="step">
+                                <h3>2. Sports Details</h3>
+                                <p>Select your primary sport and experience level</p>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>3. Academic Information</h3>
+                                <p>Add your school and academic interests</p>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>4. Profile Picture</h3>
+                                <p>Upload a clear photo of yourself</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'navigation': {
+                title: 'Navigation Guide',
+                content: `
+                    <div class="article-content">
+                        <h1>Navigation Guide</h1>
+                        <div class="nav-sections">
+                            <section>
+                                <h2>Main Menu</h2>
+                                <ul>
+                                    <li>Events - Browse and register for upcoming events</li>
+                                    <li>Training - Access your training programs</li>
+                                    <li>Academics - View your academic dashboard</li>
+                                    <li>AI Chat - Get instant assistance</li>
+                                </ul>
+                            </section>
+                            
+                            <section>
+                                <h2>Quick Actions</h2>
+                                <ul>
+                                    <li>Profile icon - Access your profile settings</li>
+                                    <li>Bell icon - View notifications</li>
+                                    <li>Search bar - Find specific content</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                `
+            },
+            'creating-workout-plans': {
+                title: 'Creating Workout Plans',
+                content: `
+                    <div class="article-content">
+                        <h1>Creating Your Workout Plan</h1>
+                        <div class="guide-content">
+                            <h2>Getting Started with Training</h2>
+                            <p>Create personalized workout plans tailored to your rugby goals.</p>
+                            
+                            <div class="steps-container">
+                                <div class="step">
+                                    <h3>1. Set Your Goals</h3>
+                                    <ul>
+                                        <li>Choose your primary focus (Speed, Strength, Agility)</li>
+                                        <li>Set timeframes for achievement</li>
+                                        <li>Define measurable targets</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="step">
+                                    <h3>2. Select Training Types</h3>
+                                    <ul>
+                                        <li>Rugby-specific drills</li>
+                                        <li>Strength training exercises</li>
+                                        <li>Cardio workouts</li>
+                                        <li>Recovery sessions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'academic-performance-tracking': {
+                title: 'Academic Performance',
+                content: `
+                    <div class="article-content">
+                        <h1>Academic Performance Tracking</h1>
+                        <div class="guide-content">
+                            <h2>Managing Your Academic Success</h2>
+                            <p>Track and improve your academic performance while balancing sports.</p>
+                            
+                            <div class="features-grid">
+                                <div class="feature">
+                                    <h3>Grade Tracking</h3>
+                                    <ul>
+                                        <li>Input and monitor grades</li>
+                                        <li>Track progress over time</li>
+                                        <li>Set grade goals</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="feature">
+                                    <h3>Study Planning</h3>
+                                    <ul>
+                                        <li>Create study schedules</li>
+                                        <li>Set reminders for assignments</li>
+                                        <li>Track study hours</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'getting-started-with-ai-chat': {
+                title: 'AI Chat Guide',
+                content: `
+                    <div class="article-content">
+                        <h1>Getting Started with AI Chat</h1>
+                        <div class="guide-content">
+                            <h2>Using the AI Assistant</h2>
+                            <p>Learn how to leverage our AI chat for personalized support.</p>
+                            
+                            <div class="features-list">
+                                <div class="feature">
+                                    <h3>Key Features</h3>
+                                    <ul>
+                                        <li>24/7 training advice</li>
+                                        <li>Academic support</li>
+                                        <li>Performance analysis</li>
+                                        <li>Nutrition guidance</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="feature">
+                                    <h3>Common Commands</h3>
+                                    <ul>
+                                        <li>/analyze - Analyze your performance</li>
+                                        <li>/plan - Create training plan</li>
+                                        <li>/help - Get command list</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'profile-settings': {
+                title: 'Account Settings',
+                content: `
+                    <div class="article-content">
+                        <h1>Managing Your Account</h1>
+                        <div class="guide-content">
+                            <h2>Account Settings & Preferences</h2>
+                            <p>Customize your GandiHub experience and manage your account settings.</p>
+                            
+                            <div class="settings-grid">
+                                <div class="setting-group">
+                                    <h3>Profile Settings</h3>
+                                    <ul>
+                                        <li>Update personal information</li>
+                                        <li>Change profile picture</li>
+                                        <li>Modify privacy settings</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="setting-group">
+                                    <h3>Notification Preferences</h3>
+                                    <ul>
+                                        <li>Email notifications</li>
+                                        <li>Training reminders</li>
+                                        <li>Academic alerts</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="setting-group">
+                                    <h3>Security Settings</h3>
+                                    <ul>
+                                        <li>Change password</li>
+                                        <li>Two-factor authentication</li>
+                                        <li>Login history</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            'progress-tracking': {
+                title: 'Progress Tracking',
+                content: `
+                    <div class="article-content">
+                        <h1>Tracking Your Training Progress</h1>
+                        <p>Monitor your progress and performance over time.</p>
+                        
+                        <div class="tracking-features">
+                            <div class="feature">
+                                <h3>Performance Metrics</h3>
+                                <ul>
+                                    <li>Track speed, strength, and agility</li>
+                                    <li>View historical data</li>
+                                    <li>Compare performance against goals</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Visual Charts</h3>
+                                <ul>
+                                    <li>Line graphs for trends</li>
+                                    <li>Bar charts for comparisons</li>
+                                    <li>Customizable timeframes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'rugby-drills-library': {
+                title: 'Rugby Drills Library',
+                content: `
+                    <div class="article-content">
+                        <h1>Accessing the Rugby Drills Library</h1>
+                        <p>Explore a wide range of rugby-specific drills to enhance your training.</p>
+                        
+                        <div class="drill-categories">
+                            <div class="category">
+                                <h3>Passing Drills</h3>
+                                <ul>
+                                    <li>Short passing</li>
+                                    <li>Long passing</li>
+                                    <li>Spiral passing</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="category">
+                                <h3>Tackling Drills</h3>
+                                <ul>
+                                    <li>Form tackling</li>
+                                    <li>Scrum tackling</li>
+                                    <li>Open-field tackling</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'academic-goals-setting': {
+                title: 'Academic Goals Setting',
+                content: `
+                    <div class="article-content">
+                        <h1>Setting Academic Goals</h1>
+                        <p>Define and track your academic goals to achieve success.</p>
+                        
+                        <div class="goal-setting-steps">
+                            <div class="step">
+                                <h3>1. Define Your Goals</h3>
+                                <ul>
+                                    <li>Set specific grade targets</li>
+                                    <li>Choose subjects to focus on</li>
+                                    <li>Establish study habits</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>2. Track Your Progress</h3>
+                                <ul>
+                                    <li>Monitor grades and scores</li>
+                                    <li>Adjust goals as needed</li>
+                                    <li>Celebrate achievements</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'school-sports-balance-guide': {
+                title: 'School-Sports Balance Guide',
+                content: `
+                    <div class="article-content">
+                        <h1>Balancing School and Sports</h1>
+                        <p>Strategies for managing your time and energy effectively.</p>
+                        
+                        <div class="balance-tips">
+                            <div class="tip">
+                                <h3>Time Management</h3>
+                                <ul>
+                                    <li>Create a schedule</li>
+                                    <li>Prioritize tasks</li>
+                                    <li>Avoid procrastination</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tip">
+                                <h3>Energy Management</h3>
+                                <ul>
+                                    <li>Get enough sleep</li>
+                                    <li>Eat healthy meals</li>
+                                    <li>Stay hydrated</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'academic-support-programs': {
+                title: 'Academic Support Programs',
+                content: `
+                    <div class="article-content">
+                        <h1>Accessing Academic Support</h1>
+                        <p>Find resources and programs to support your academic journey.</p>
+                        
+                        <div class="support-options">
+                            <div class="option">
+                                <h3>Tutoring Services</h3>
+                                <ul>
+                                    <li>One-on-one tutoring</li>
+                                    <li>Group study sessions</li>
+                                    <li>Online resources</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="option">
+                                <h3>Study Groups</h3>
+                                <ul>
+                                    <li>Peer-led study groups</li>
+                                    <li>Collaborative learning</li>
+                                    <li>Shared resources</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'training-analysis-ai': {
+                title: 'Training Analysis AI',
+                content: `
+                    <div class="article-content">
+                        <h1>Using AI for Training Analysis</h1>
+                        <p>Leverage AI to analyze your training and improve performance.</p>
+                        
+                        <div class="ai-features">
+                            <div class="feature">
+                                <h3>Performance Metrics</h3>
+                                <ul>
+                                    <li>Speed analysis</li>
+                                    <li>Strength assessment</li>
+                                    <li>Agility tracking</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Personalized Recommendations</h3>
+                                <ul>
+                                    <li>Customized workout plans</li>
+                                    <li>Targeted drills</li>
+                                    <li>Recovery strategies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'performance-predictions': {
+                title: 'Performance Predictions',
+                content: `
+                    <div class="article-content">
+                        <h1>Predicting Your Performance</h1>
+                        <p>Use AI to forecast your performance and identify areas for improvement.</p>
+                        
+                        <div class="prediction-features">
+                            <div class="feature">
+                                <h3>Performance Forecasts</h3>
+                                <ul>
+                                    <li>Predict future performance</li>
+                                    <li>Identify potential issues</li>
+                                    <li>Optimize training strategies</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Trend Analysis</h3>
+                                <ul>
+                                    <li>Track performance trends</li>
+                                    <li>Identify patterns</li>
+                                    <li>Adjust training accordingly</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'ai-personalized-tips': {
+                title: 'AI Personalized Tips',
+                content: `
+                    <div class="article-content">
+                        <h1>Getting Personalized Tips</h1>
+                        <p>Receive AI-driven tips tailored to your specific needs and goals.</p>
+                        
+                        <div class="tip-categories">
+                            <div class="category">
+                                <h3>Training Tips</h3>
+                                <ul>
+                                    <li>Workout recommendations</li>
+                                    <li>Drill suggestions</li>
+                                    <li>Recovery advice</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="category">
+                                <h3>Academic Tips</h3>
+                                <ul>
+                                    <li>Study strategies</li>
+                                    <li>Time management tips</li>
+                                    <li>Stress reduction techniques</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'chatbot-commands-guide': {
+                title: 'Chatbot Commands Guide',
+                content: `
+                    <div class="article-content">
+                        <h1>Using Chatbot Commands</h1>
+                        <p>Learn how to interact with the AI chatbot using specific commands.</p>
+                        
+                        <div class="command-list">
+                            <div class="command">
+                                <h3>/analyze</h3>
+                                <p>Analyze your performance data</p>
+                            </div>
+                            
+                            <div class="command">
+                                <h3>/plan</h3>
+                                <p>Create a personalized training plan</p>
+                            </div>
+                            
+                            <div class="command">
+                                <h3>/help</h3>
+                                <p>Get a list of available commands</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'profile-settings': {
+                title: 'Profile Settings',
+                content: `
+                    <div class="article-content">
+                        <h1>Managing Your Profile Settings</h1>
+                        <p>Customize your profile and manage your account preferences.</p>
+                        
+                        <div class="setting-options">
+                            <div class="option">
+                                <h3>Update Information</h3>
+                                <ul>
+                                    <li>Change your name</li>
+                                    <li>Update contact details</li>
+                                    <li>Add a profile picture</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="option">
+                                <h3>Privacy Settings</h3>
+                                <ul>
+                                    <li>Control who can see your profile</li>
+                                    <li>Manage data sharing preferences</li>
+                                    <li>Set notification preferences</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'privacy-controls': {
+                title: 'Privacy Controls',
+                content: `
+                    <div class="article-content">
+                        <h1>Understanding Privacy Controls</h1>
+                        <p>Manage your privacy settings to control your data and visibility.</p>
+                        
+                        <div class="privacy-options">
+                            <div class="option">
+                                <h3>Data Sharing</h3>
+                                <ul>
+                                    <li>Control data sharing with third parties</li>
+                                    <li>Opt-out of data collection</li>
+                                    <li>Review data usage policies</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="option">
+                                <h3>Visibility Settings</h3>
+                                <ul>
+                                    <li>Control who can see your profile</li>
+                                    <li>Manage friend requests</li>
+                                    <li>Block unwanted users</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'notification-settings': {
+                title: 'Notification Settings',
+                content: `
+                    <div class="article-content">
+                        <h1>Managing Notifications</h1>
+                        <p>Customize your notification preferences to stay informed.</p>
+                        
+                        <div class="notification-options">
+                            <div class="option">
+                                <h3>Email Notifications</h3>
+                                <ul>
+                                    <li>Receive updates via email</li>
+                                    <li>Customize notification frequency</li>
+                                    <li>Opt-out of specific notifications</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="option">
+                                <h3>In-App Notifications</h3>
+                                <ul>
+                                    <li>Receive real-time updates</li>
+                                    <li>Customize notification types</li>
+                                    <li>Set notification preferences</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'data-management': {
+                title: 'Data Management',
+                content: `
+                    <div class="article-content">
+                        <h1>Managing Your Data</h1>
+                        <p>Understand how your data is stored and managed on GandiHub.</p>
+                        
+                        <div class="data-management-options">
+                            <div class="option">
+                                <h3>Data Storage</h3>
+                                <ul>
+                                    <li>Learn about data storage policies</li>
+                                    <li>Understand data security measures</li>
+                                    <li>Request data deletion</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="option">
+                                <h3>Data Usage</h3>
+                                <ul>
+                                    <li>Review how your data is used</li>
+                                    <li>Control data sharing preferences</li>
+                                    <li>Opt-out of data collection</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'account-security': {
+                title: 'Account Security',
+                content: `
+                    <div class="article-content">
+                        <h1>Securing Your Account</h1>
+                        <p>Learn how to protect your account and personal information.</p>
+                        
+                        <div class="security-tips">
+                            <div class="tip">
+                                <h3>Strong Passwords</h3>
+                                <ul>
+                                    <li>Use a unique password</li>
+                                    <li>Avoid common words and phrases</li>
+                                    <li>Update your password regularly</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tip">
+                                <h3>Two-Factor Authentication</h3>
+                                <ul>
+                                    <li>Enable two-factor authentication</li>
+                                    <li>Use a trusted authentication app</li>
+                                    <li>Keep your recovery codes safe</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'data-protection-policy': {
+                title: 'Data Protection Policy',
+                content: `
+                    <div class="article-content">
+                        <h1>Understanding Our Data Protection Policy</h1>
+                        <p>Learn about our commitment to protecting your data and privacy.</p>
+                        
+                        <div class="policy-summary">
+                            <div class="section">
+                                <h3>Data Collection</h3>
+                                <p>We collect data to improve your experience and provide personalized services.</p>
+                            </div>
+                            
+                            <div class="section">
+                                <h3>Data Usage</h3>
+                                <p>We use your data to provide relevant content and recommendations.</p>
+                            </div>
+                            
+                            <div class="section">
+                                <h3>Data Security</h3>
+                                <p>We take measures to protect your data from unauthorized access.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'privacy-settings-guide': {
+                title: 'Privacy Settings Guide',
+                content: `
+                    <div class="article-content">
+                        <h1>Managing Your Privacy Settings</h1>
+                        <p>Customize your privacy settings to control your data and visibility.</p>
+                        
+                        <div class="settings-options">
+                            <div class="option">
+                                <h3>Profile Visibility</h3>
+                                <ul>
+                                    <li>Control who can see your profile</li>
+                                    <li>Manage friend requests</li>
+                                    <li>Block unwanted users</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="option">
+                                <h3>Data Sharing</h3>
+                                <ul>
+                                    <li>Control data sharing with third parties</li>
+                                    <li>Opt-out of data collection</li>
+                                    <li>Review data usage policies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'information-sharing': {
+                title: 'Information Sharing',
+                content: `
+                    <div class="article-content">
+                        <h1>Understanding Information Sharing</h1>
+                        <p>Learn about how your information is shared with third parties.</p>
+                        
+                        <div class="sharing-details">
+                            <div class="detail">
+                                <h3>Third-Party Services</h3>
+                                <p>We may share data with trusted third-party services to provide certain features.</p>
+                            </div>
+                            
+                            <div class="detail">
+                                <h3>Data Aggregation</h3>
+                                <p>We may aggregate data for analytical purposes.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'security-best-practices': {
+                title: 'Security Best Practices',
+                content: `
+                    <div class="article-content">
+                        <h1>Following Security Best Practices</h1>
+                        <p>Learn how to protect your account and personal information.</p>
+                        
+                        <div class="best-practices">
+                            <div class="practice">
+                                <h3>Strong Passwords</h3>
+                                <ul>
+                                    <li>Use a unique password</li>
+                                    <li>Avoid common words and phrases</li>
+                                    <li>Update your password regularly</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="practice">
+                                <h3>Two-Factor Authentication</h3>
+                                <ul>
+                                    <li>Enable two-factor authentication</li>
+                                    <li>Use a trusted authentication app</li>
+                                    <li>Keep your recovery codes safe</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            'third-party-access': {
+                title: 'Third-Party Access',
+                content: `
+                    <div class="article-content">
+                        <h1>Managing Third-Party Access</h1>
+                        <p>Control which third-party applications have access to your account.</p>
+                        
+                        <div class="access-options">
+                            <div class="option">
+                                <h3>Review Permissions</h3>
+                                <ul>
+                                    <li>See which apps have access</li>
+                                    <li>Revoke access as needed</li>
+                                    <li>Manage data sharing preferences</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="option">
+                                <h3>Secure Connections</h3>
+                                <ul>
+                                    <li>Use secure connections</li>
+                                    <li>Avoid suspicious apps</li>
+                                    <li>Report unauthorized access</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function loadContent(category) {
+            const data = contentData[category];
+            const contentSection = document.querySelector('.content-sections');
+            
+            contentSection.innerHTML = `
+                <div class="category-header">
+                    <h2>${data.title}</h2>
+                </div>
+                <div class="articles-grid">
+                    ${data.articles.map(article => createArticleCard(article)).join('')}
+                </div>
+            `;
+
+            // Add click handlers for articles
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const articleId = this.dataset.article;
+                    const article = articleContent[articleId];
+                    if (article) {
+                        const contentArea = document.querySelector('.content-sections');
+                        contentArea.innerHTML = article.content;
+                        
+                        // Add active state to clicked article
+                        document.querySelectorAll('.article-card').forEach(c => c.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Update the search functions
+        function searchArticles(searchTerm) {
+            searchTerm = searchTerm.toLowerCase();
+            let results = [];
+            
+            for (let categoryKey in contentData) {
+                const category = contentData[categoryKey];
+                category.articles.forEach(article => {
+                    const content = articleContent[article.id];
+                    if (
+                        article.title.toLowerCase().includes(searchTerm) || 
+                        (content && content.content.toLowerCase().includes(searchTerm))
+                    ) {
+                        results.push({
+                            ...article,
+                            category: category.title
+                        });
+                    }
+                });
+            }
+            return results;
+        }
+
+        function displaySearchResults(results) {
+            const contentSection = document.querySelector('.content-sections');
+            
+            if (results.length === 0) {
+                contentSection.innerHTML = `
+                    <div class="search-results">
+                        <h2>Search Results</h2>
+                        <div class="no-results">
+                            <p>No results found. Try different keywords.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            contentSection.innerHTML = `
+                <div class="search-results">
+                    <h2>Search Results (${results.length} found)</h2>
+                    <div class="articles-grid">
+                        ${results.map(article => `
+                            <div class="article-card" data-article="${article.id}">
+                                <i class="${article.icon}"></i>
+                                <h3>${article.title}</h3>
+                                <span class="category-tag">${article.category}</span>
+                                <span class="read-more">Read more <i class="fas fa-arrow-right"></i></span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Add click handlers for search results
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const articleId = this.dataset.article;
+                    showArticle(articleId);
+                });
+            });
+        }
+
+        function showArticle(articleId) {
+            const article = articleContent[articleId];
+            if (article) {
+                document.querySelector('.content-sections').innerHTML = article.content;
+            }
+        }
+
+        // Initialize search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            let searchTimeout;
+
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                const searchTerm = e.target.value.trim();
+
+                searchTimeout = setTimeout(() => {
+                    if (searchTerm.length >= 2) {
+                        const results = searchArticles(searchTerm);
+                        displaySearchResults(results);
+                    } else if (searchTerm.length === 0) {
+                        loadContent('getting-started');
+                    }
+                }, 300);
+            });
+
+            // Initial content load
+            loadContent('getting-started');
+        });
+
+        // Event listeners
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                loadContent(item.dataset.category);
+            });
+        });
+
+        // Update article card template
+        function createArticleCard(article) {
+            return `
+                <div class="article-card" data-article="${article.id}">
+                    <i class="${article.icon}"></i>
+                    <h3>${article.title}</h3>
+                    <span class="read-more">Read more <i class="fas fa-arrow-right"></i></span>
+                </div>
+            `;
+        }
+    </script>
+
+    <style>
+        .article-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .article-content h1 {
+            color: #007BFF;
+            margin-bottom: 1.5rem;
+        }
+
+        .setup-steps .step {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 3px solid #007BFF;
+        }
+
+        .nav-sections section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-sections ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .nav-sections li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .nav-sections li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #007BFF;
+        }
+
+        .quick-links {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+        }
+
+        .quick-links a {
+            display: block;
+            margin: 0.5rem 0;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .quick-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Update existing styles */
+        .article-card {
+            background: var(--card-bg) !important;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+
+        .article-card:hover {
+            background: var(--dark-bg) !important;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: var(--primary-color);
+        }
+
+        .article-card h3 {
+            color: var(--text-color);
+            margin: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover h3 {
+            color: var(--primary-color);
+        }
+
+        .article-card i {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover i {
+            color: var(--primary-color);
+        }
+
+        .read-more {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .article-card:hover .read-more {
+            color: var(--primary-color);
+        }
+
+        /* Update category styles */
+        .category-item {
+            background: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            background: var(--card-bg);
+            color: var(--primary-color);
+        }
+
+        .category-item.active {
+            background: #007BFF;
+            color: #ffffff;
+        }
+
+        /* Add new styles for article content */
+        .guide-content {
+            margin-top: 2rem;
+        }
+
+        .steps-container, .features-grid, .settings-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .step, .feature, .setting-group {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid #007BFF;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .step h3, .feature h3, .setting-group h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .step:hover h3, .feature:hover h3, .setting-group:hover h3 {
+            color: var(--primary-color);
+        }
+
+        .step ul, .feature ul, .setting-group ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .step ul li, .feature ul li, .setting-group ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        .step ul li::before, .feature ul li::before, .setting-group ul li::before {
+            content: '→';
+            position: absolute;
+            left: -1.5rem;
+            color: #007BFF;
+        }
+
+        .step:hover ul li, .feature:hover ul li, .setting-group:hover ul li {
+            color: var(--text-color);
+        }
+
+        .quick-links {
+            background: var(--card-bg);
+        }
+
+        .quick-links a {
+            color: var(--text-color);
+        }
+
+        .quick-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Transitions */
+        .article-card, .category-item, .step, .feature, .setting-group, 
+        h3, .read-more, a, i {
+            transition: all 0.3s ease;
+        }
+    </style>
+</body>
+</html>

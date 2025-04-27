@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - GandiHub Sports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0f1d, #1a1f2d);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 2rem;
+        }
+
+        .privacy-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            color: #007BFF;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .privacy-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .privacy-section:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #007BFF;
+        }
+
+        .privacy-section h2 {
+            color: #007BFF;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .privacy-section h2 i {
+            font-size: 1.4rem;
+        }
+
+        .highlight-box {
+            background: rgba(0, 123, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #007BFF;
+        }
+
+        .data-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .data-list li {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .data-list li i {
+            color: #007BFF;
+            font-size: 1.2rem;
+        }
+
+        .navigation-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: #007BFF;
+            transform: scale(1.2);
+        }
+
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #007BFF;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .contact-button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .navigation-dots {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="privacy-header">
+            <h1><i class="fas fa-shield-alt"></i> Privacy Policy</h1>
+            <p>Last updated: January 2024</p>
+        </div>
+
+        <div class="privacy-section" id="data-collection">
+            <h2><i class="fas fa-database"></i> Data Collection</h2>
+            <div class="highlight-box">
+                We collect only the data necessary to provide you with the best possible sports training experience.
+            </div>
+            <ul class="data-list">
+                <li><i class="fas fa-user"></i> Personal Information</li>
+                <li><i class="fas fa-running"></i> Training Data</li>
+                <li><i class="fas fa-graduation-cap"></i> Academic Records</li>
+                <li><i class="fas fa-chart-line"></i> Performance Metrics</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section" id="data-usage">
+            <h2><i class="fas fa-tasks"></i> How We Use Your Data</h2>
+            <div class="highlight-box">
+                Your data helps us personalize your training experience and improve our services.
+            </div>
+            <!-- Content -->
+        </div>
+
+        <div class="privacy-section" id="data-protection">
+            <h2><i class="fas fa-lock"></i> Data Protection</h2>
+            <div class="highlight-box">
+                We employ industry-standard security measures to protect your information.
+            </div>
+            <!-- Content -->
+        </div>
+
+        <div class="privacy-section" id="contact">
+            <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+            <p>Have questions about our privacy policy?</p>
+            <a href="contact.html" class="contact-button">
+                <i class="fas fa-paper-plane"></i>
+                Contact Our Privacy Team
+            </a>
+        </div>
+    </div>
+
+    <div class="navigation-dots">
+        <!-- Dots will be added via JavaScript -->
+    </div>
+
+    <script>
+        // Add navigation dots
+        const sections = document.querySelectorAll('.privacy-section');
+        const nav = document.querySelector('.navigation-dots');
+
+        sections.forEach((section) => {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot';
+            dot.addEventListener('click', () => {
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+            nav.appendChild(dot);
+        });
+
+        // Highlight active section on scroll
+        window.addEventListener('scroll', () => {
+            const dots = document.querySelectorAll('.nav-dot');
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= window.innerHeight/2 && rect.bottom >= window.innerHeight/2) {
+                    dots[index].classList.add('active');
+                } else {
+                    dots[index].classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

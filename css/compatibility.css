@@ -1,0 +1,52 @@
+/* CSS Compatibility Fixes */
+body {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Print color adjustments for form elements */
+@media print {
+    .form-check-input {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* Progress bars */
+.progress-bar[aria-valuenow="85"] {
+    width: 85%;
+}
+
+.progress-bar[aria-valuenow="75"] {
+    width: 75%;
+}
+
+.progress-bar[aria-valuenow="82"] {
+    width: 82%;
+}
+
+.progress-bar[aria-valuenow="78"] {
+    width: 78%;
+}
+
+.progress-bar[aria-valuenow="80"] {
+    width: 80%;
+}
+
+/* Add cache busting query parameters to external resources */
+[data-aos] {
+    pointer-events: none;
+}
+
+[data-aos].aos-animate {
+    pointer-events: auto;
+}
+
+/* Ensure proper text rendering */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}

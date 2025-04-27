@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#007BFF">
+    <meta name="description" content="Gandi-Hub - Rugby Sports Management Platform. Empowering athletes to excel in sports and academics through AI-powered tools.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <title>Gandi-Hub - Rugby Sports Management</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="../css/common.css" as="style">
+    <link rel="preload" href="../css/index.css" as="style">
+    <link rel="preload" href="../images/rugbylogo.png" as="image">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../images/icon-192x192.png">
+    
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 2rem;
+            border-radius: 20px;
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            margin: auto;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 123, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: scale(0.7);
+            transition: all 0.3s ease;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%
+            );
+            z-index: -1;
+        }
+
+        .modal-content.show {
+            transform: scale(1);
+        }
+
+        .modal-logo {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 1.5rem;
+            animation: spin 2s infinite ease-in-out alternate;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0, 123, 255, 0.3));
+            -webkit-filter: drop-shadow(0 0 10px rgba(0, 123, 255, 0.3));
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        .modal-logo.pause {
+            animation-play-state: paused;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg) scale(1);
+                filter: drop-shadow(0 0 15px rgba(0, 123, 255, 0.4));
+            }
+            to {
+                transform: rotate(360deg) scale(1.05);
+                filter: drop-shadow(0 0 20px rgba(0, 123, 255, 0.5));
+            }
+        }
+
+        .modal-title {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .modal-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+            background: #006994; /* Ocean blue */
+            color: white;
+        }
+
+        .modal-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-button:hover::before {
+            transform: translateY(0);
+        }
+
+        .modal-button.signin {
+            background: #006994; /* Ocean blue */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-button.cancel {
+            background: #004d6b; /* Darker ocean blue */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            opacity: 0.95;
+        }
+
+        .modal-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        @media screen and (max-width: 768px) {
+            .modal-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .modal-button {
+                padding: 0.9rem 1.8rem;
+                font-size: 1rem;
+                min-width: 120px;
+            }
+        }
+
+        /* Add Hero overlay styles */
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                rgba(0, 43, 123, 0.4),
+                rgba(0, 83, 178, 0.3)
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Mobile menu modal styles */
+        @media screen and (max-width: 768px) {
+            .nav-wrapper {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: linear-gradient(135deg, rgba(203, 206, 211, 0.98), rgba(196, 203, 211, 0.98));
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                padding: 2rem;
+                z-index: 1000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s ease;
+            }
+
+            .nav-wrapper.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .nav {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .nav a, .auth-button {
+                color: white;
+                padding: 1rem;
+                text-align: center;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                font-size: 1.1rem;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                text-decoration: none;
+                backdrop-filter: blur(5px);
+            }
+
+            .nav a:hover, .auth-button:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
+            }
+
+            .auth-buttons {
+                margin-top: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .mobile-menu-toggle {
+                z-index: 1001;
+            }
+
+            .mobile-menu-toggle.active {
+                position: fixed;
+                right: 1rem;
+                top: 1rem;
+                color: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="header">
+        <div class="header-content">
+            <div class="brand">
+                <img src="../images/rugbylogo.png" alt="Rugby Logo">
+                <a href="./index.html" class="brand-text">Gandi-Hub</a>
+            </div>
+            <div class="nav-wrapper">
+                <nav class="nav">
+                    <a href="#about">About</a>
+                    <a href="#features">Features</a>
+                    <a href="#reviews">Reviews</a>
+                    <a href="creator.html">Dev</a>
+                </nav>
+                <div class="auth-buttons">
+                    <a href="../html/login.html" class="auth-button signin">Log In</a>
+                    <a href="../html/signup.html" class="auth-button signup">Sign Up</a>
+                </div>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-slideshow">
+                <div class="hero-slide active" style="background-image: url('../images/rugbyai.png');"></div>
+                <div class="hero-slide" style="background-image: url('../images/rugbyai1.png');"></div>
+                <div class="hero-slide" style="background-image: url('../images/rugbyai2.png');"></div>
+                <div class="hero-slide" style="background-image: url('../images/rugbyai3.png');"></div>
+                <div class="hero-slide" style="background-image: url('../images/rugbyai4.png');"></div>
+                <div class="hero-slide" style="background-image: url('../images/rugbyai5.png');"></div>
+            </div>
+            <div class="hero-content">
+                <h1>Empowering Rugby Athletes to Excel</h1>
+                <p>Enhance your game with AI-powered training and analytics</p>
+                <button class="cta-button primary" onclick="showModal()">
+                    <i class="bi bi-robot"></i>
+                    <span>Try AI Chatbot</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Transform Your Rugby Game</h2>
+                        <p class="lead">Experience the future of rugby training with our cutting-edge AI technology</p>
+                        <div class="about-features">
+                            <div class="about-feature">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                <h3>Performance Analytics</h3>
+                                <p>Get detailed insights into your game performance and progress tracking</p>
+                            </div>
+                            <div class="about-feature">
+                                <i class="bi bi-book"></i>
+                                <h3>Academic Excellence</h3>
+                                <p>Track your academic progress, set study goals, and maintain a balanced student-athlete life</p>
+                            </div>
+                            <div class="about-feature">
+                                <i class="bi bi-lightning"></i>
+                                <h3>Real-time Feedback</h3>
+                                <p>Instant feedback on your training sessions and matches</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="../images/rugby15.jpg" alt="Student Athlete Success">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features" onclick="event.stopPropagation(); window.scrollTo({ top: this.offsetTop, behavior: 'smooth' })">
+            <div class="features-content">
+                <h2>Our Main Targets</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Enhance Athletic Performance</h3>
+                        <p>Through personalized training plans tailored to each athlete's needs.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Support Academic Success</h3>
+                        <p>With time management tools to balance studies and sports commitments.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Provide AI-Driven Insights</h3>
+                        <p>To optimize schedules, track progress, and foster a balanced lifestyle.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials" id="reviews" onclick="event.stopPropagation(); window.scrollTo({ top: this.offsetTop, behavior: 'smooth' })">
+            <div class="testimonials-content">
+                <h2>What People Say About Gandi-Hub</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <img src="../images/rugby2.jpg" alt="Musa Mgandi" class="testimonial-image">
+                        <p>"Gandi-Hub has transformed the way I manage my rugby and academic life. The AI chatbot is a game-changer!"</p>
+                        <span>Musa Mgandi, Rugby Player</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="../images/rugby1.jpg" alt="Vincent Onyala" class="testimonial-image">
+                        <p>"The progress tracking feature keeps me motivated and on top of my goals. Highly recommend it!"</p>
+                        <span>Vincent Onyala, Student Athlete</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="../images/rugby01.jpg" alt="Mike Johnson" class="testimonial-image">
+                        <p>"The reminders and notes feature is a lifesaver. I never miss a training session or assignment deadline."</p>
+                        <span>Mike Johnson, Coach</span>
+                    </div>
+                </div>
+                <div class="reviews-footer">
+                    <a href="reviews.html" class="see-more-reviews">
+                        See More Reviews
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Chatbot Section -->
+        <section class="ai-chatbot" id="ai-chatbot">
+            <div class="container">
+                <div class="chatbot-content">
+                    <div class="chatbot-demo">
+                        <div class="chat-window">
+                            <div class="chat-header">
+                                <i class="bi bi-robot"></i>
+                                <h3>Rugby AI Assistant</h3>
+                            </div>
+                            <div class="chat-messages">
+                                <div class="message bot">
+                                    <i class="bi bi-robot"></i>
+                                    <p>Hello! I'm your Rugby AI assistant. I can help analyze your game and provide personalized training recommendations.</p>
+                                </div>
+                                <div class="message user">
+                                    <p>Can you help improve my tackling technique?</p>
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                <div class="message bot">
+                                    <i class="bi bi-robot"></i>
+                                    <p>Of course! Let's analyze your current technique and create a customized training plan. Would you like to start with the basics or advanced techniques?</p>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <button class="try-now-btn" onclick="showModal()">
+                                    Try it Now
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbot-info">
+                        <h2>Your Personal Rugby AI Coach</h2>
+                        <p>Get instant answers to your training questions, technique analysis, and personalized recommendations.</p>
+                        <ul class="chatbot-features">
+                            <li><i class="bi bi-check-circle"></i> 24/7 Training Support</li>
+                            <li><i class="bi bi-check-circle"></i> Technique Analysis</li>
+                            <li><i class="bi bi-check-circle"></i> Custom Training Plans</li>
+                            <li><i class="bi bi-check-circle"></i> Performance Tracking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="chatbotModal">
+        <div class="modal-content">
+            <img src="../images/rugbylogo.png" alt="Logo" class="modal-logo" id="modalLogo" loading="eager" decoding="sync">
+            <h2 class="modal-title">Sign in to use chatbot</h2>
+            <div class="modal-buttons">
+                <button class="modal-button signin" onclick="window.location.href='../html/login.html'">
+                    <span>Sign In</span>
+                </button>
+                <button class="modal-button cancel" onclick="closeModal()">
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Revolutionizing rugby training with cutting-edge AI technology to help athletes reach their full potential.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                        <li><a href="../html/login.html">Sign In</a></li>
+                        <li><a href="creator.html">Dev</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="bi bi-envelope"></i> gandihubgo@gmail.com</li>
+                        <li><i class="bi bi-telephone"></i> +254 708 993 909</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1B6tFdMcNV/" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.threads.net/@gandi_hub" target="_blank" rel="noopener" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="https://www.instagram.com/gandi_hub" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-bar">
+            <p>&copy; 2025 Gandi-Hub. All rights reserved. <a href="../pages/support/privacy.html">Privacy Policy</a> | <a href="../pages/support/terms.html">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-toggle');
+        const navWrapper = document.querySelector('.nav-wrapper');
+        
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navWrapper.classList.toggle('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 
+                navWrapper.classList.contains('active'));
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navWrapper.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                navWrapper.classList.remove('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Smooth scroll functionality
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu after clicking
+                    navWrapper.classList.remove('active');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // Chatbot popup functions
+        function showModal() {
+            const modal = document.getElementById('chatbotModal');
+            modal.classList.add('show');
+            
+            // Start logo animation
+            const logo = document.getElementById('modalLogo');
+            logo.classList.remove('pause');
+            
+            // Pause animation after 2 spins (4 seconds)
+            setTimeout(() => {
+                logo.classList.add('pause');
+                // Resume spinning after 1 second pause
+                setTimeout(() => {
+                    logo.classList.remove('pause');
+                }, 1000);
+            }, 4000);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('chatbotModal');
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('chatbotModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('chatbotModal')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Rugby Training Platform</title>
+    <link rel="icon" type="image/png" href="../images/rugbylogo.png">
+    <link rel="apple-touch-icon" href="../images/rugbylogo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add cache-control headers through meta tags -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js" as="script" crossorigin="anonymous">
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js" as="script" crossorigin="anonymous">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" crossorigin="anonymous">
+    
+    <!-- Add integrity checks for enhanced security -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
+          integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" 
+          crossorigin="anonymous" 
+          referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/login.css">
+
+    <!-- Add Firebase scripts first -->
+    <script type="module">
+        // Import all required Firebase components
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, initializeAuth, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDb7Rw9gf3k3OqUjpImv03oBJbDdAzsGpM",
+            authDomain: "gandi-hub-474d2.firebaseapp.com",
+            projectId: "gandi-hub-474d2",
+            storageBucket: "gandi-hub-474d2.appspot.com",
+            messagingSenderId: "877278458127",
+            appId: "1:877278458127:web:22728337144c770a4b8e7a"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Initialize Auth with persistence
+        const auth = initializeAuth(app, {
+            persistence: browserLocalPersistence
+        });
+
+        // Add login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const button = document.querySelector('button[type="submit"]');
+            const loader = document.querySelector('.loader');
+            const errorMessage = document.querySelector('.error-message');
+
+            try {
+                button.disabled = true;
+                loader.style.display = 'block';
+                
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log('Login successful:', userCredential.user);
+                window.location.href = 'homepage.html';
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Invalid email or password';
+                errorMessage.style.display = 'block';
+            } finally {
+                button.disabled = false;
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</head>
+<body class="auth-page">
+    <div class="login-container">
+        <img src="../images/rugbylogo.png" alt="Gandi-Hub Logo" class="logo">
+        <h2>Welcome Back!</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div id="errorMessage" class="error-message"></div>
+            <button type="submit" id="loginButton">
+                <span>Sign In</span>
+                <div class="loader"></div>
+            </button>
+        </form>
+        
+        <!-- Updated account links section -->
+        <div class="account-options">
+            <a href="forgot-password.html" class="forgot-password">
+                <i class="fas fa-lock"></i> Forgot Password?
+            </a>
+            <div class="signup-prompt">
+                <span>Don't have an account?</span>
+                <a href="signup.html" class="signup-link">
+                    Sign Up <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="debug" class="debug-console"></div>
+</body>
+</html>

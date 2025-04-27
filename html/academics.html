@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0077be">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Academic Performance Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/academics.css">
+    <link rel="stylesheet" href="../css/academics-layout-fix.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <style>
+        /* Mobile Responsive Improvements */
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+            
+            .dashboard-subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-content {
+                padding: 15px;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            
+            .card {
+                margin-bottom: 20px;
+            }
+            
+            /* Improved task cards for mobile */
+            .assignments-board {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            
+            .todo-card, .progress-card, .completed-card {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                border-radius: 12px;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .todo-card:hover, .progress-card:hover, .completed-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            }
+            
+            .first-content {
+                padding: 15px;
+                border-bottom: 1px solid rgba(0,0,0,0.1);
+            }
+            
+            .task-count {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+            
+            .second-content {
+                padding: 15px;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+            
+            /* Scrollbar styling for task lists */
+            .tasks-list::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            .tasks-list::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+            
+            .tasks-list::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+            
+            .tasks-list::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            
+            /* Adjust main content padding for mobile header */
+            .main-content {
+                padding-top: 70px !important;
+                padding-left: 10px !important;
+                padding-right: 10px !important;
+                width: 100% !important;
+                overflow-x: hidden !important;
+                max-width: 100vw !important;
+            }
+            
+            /* Container adjustments */
+            .container-fluid {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                overflow-x: hidden !important;
+            }
+            
+            /* Row adjustments */
+            .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+            }
+            
+            /* Responsive table adjustments */
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Improved form elements for mobile */
+            .form-control, .form-select, .btn {
+                font-size: 16px; /* Prevents iOS zoom on focus */
+                height: auto;
+                padding: 10px 15px;
+            }
+            
+            /* Better spacing for mobile */
+            .col, [class*="col-"] {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            /* Adjust section headers for mobile */
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            
+            /* Make charts responsive */
+            canvas {
+                max-width: 100%;
+                height: auto !important;
+            }
+            
+            /* Adjust modal size for mobile */
+            .modal-dialog {
+                margin: 10px;
+                width: calc(100% - 20px);
+                max-width: none;
+            }
+            
+            /* Stats grid adjustments */
+            .stats-grid {
+                display: grid;
+                grid-template-columns: 1fr !important;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            /* Assignment board adjustments */
+            .assignments-board {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .calendar-floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+        
+        .calendar-floating-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .event-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header d-md-none" style="display: flex; justify-content: space-between; align-items: center; padding: 0 15px; height: 60px; background-color: #1a2634; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: fixed; top: 0; left: 0; right: 0; z-index: 999;">
+        <div class="logo-container" style="display: flex; align-items: center;">
+            <img src="../images/rugbylogo.png" alt="Academic Logo" class="dashboard-logo" style="height: 40px; width: auto;">
+        </div>
+        <button id="menuBtn" style="background: none; border: none; font-size: 28px; color: white; cursor: pointer; padding: 5px; transition: color 0.2s ease;">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+    
+    <!-- Mobile Sidebar -->
+    <div id="mobileSidebar" style="position: fixed; top: 60px; left: -250px; width: 250px; height: calc(100vh - 60px); background: #1a2634; color: white; transition: left 0.3s ease; z-index: 1000; overflow-y: auto; box-shadow: 3px 0 10px rgba(0,0,0,0.2);">
+        <div class="sidebar-header" style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px;">
+            <img src="../images/rugbylogo.png" alt="Gandi-Hub Logo" class="sidebar-logo" style="height: 30px; width: auto;">
+            <h4 style="margin: 0; color: white; font-size: 18px;">Academics</h4>
+        </div>
+
+        <nav class="sidebar-nav" style="padding: 15px 0;">
+            <ul class="nav-list" style="list-style: none; padding: 0; margin: 0;">
+                <li class="nav-item" style="margin-bottom: 5px;">
+                    <a href="#overview" class="nav-link active" data-section="overview" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease; border-left: 3px solid transparent;">
+                        <i class="bi bi-house-door" style="font-size: 18px;"></i>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-bottom: 5px;">
+                    <a href="#grades" class="nav-link" data-section="grades" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease; border-left: 3px solid transparent;">
+                        <i class="bi bi-award" style="font-size: 18px;"></i>
+                        <span>Grades</span>
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-bottom: 5px;">
+                    <a href="#assignments" class="nav-link" data-section="assignments" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease; border-left: 3px solid transparent;">
+                        <i class="bi bi-clipboard-check" style="font-size: 18px;"></i>
+                        <span>Assignments</span>
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-bottom: 5px;">
+                    <a href="#calendar" class="nav-link" data-section="calendar" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease; border-left: 3px solid transparent;">
+                        <i class="bi bi-calendar-event" style="font-size: 18px;"></i>
+                        <span>Calendar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" style="position: fixed; top: 60px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 999; display: none; backdrop-filter: blur(2px); transition: opacity 0.3s ease;"></div>
+    
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-12 col-md-9 col-lg-10 main-content order-1 order-md-2" style="padding-top: 70px; overflow-x: hidden;">
+               
+                
+                <!-- Overview Section -->
+                <div id="overview" class="section-content active">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid" data-aos="fade-up">
+                        <div class="stat-card primary">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-main">
+                                        <h4 data-stat="gpa">0.0</h4>
+                                        <p>Current GPA</p>
+                                    </div>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-award"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-card success">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-main">
+                                        <h4 data-stat="semesterCount">0</h4>
+                                        <p>Semesters Completed</p>
+                                    </div>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-card warning">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-main">
+                                        <h4 data-stat="assignmentCount">0</h4>
+                                        <p>Active Assignments</p>
+                                    </div>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-clipboard-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-card info">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-main">
+                                        <h4 data-stat="completedAssignments">0</h4>
+                                        <p>Completed Assignments</p>
+                                    </div>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GPA Trend Chart -->
+                    <div class="chart-container mt-4" data-aos="fade-up">
+                        <h5 class="section-title mb-3">GPA Trend</h5>
+                        <canvas id="gpaChart"></canvas>
+                    </div>
+
+                    <!-- Subject Performance and Study Strategies -->
+                    <div class="row mt-4 g-4">
+                        <!-- To-Do Assignments Card - Modern Design -->
+                        <div class="col-12 col-lg-5" data-aos="fade-up">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-gradient-primary text-white p-3 d-flex justify-content-between align-items-center" style="background: linear-gradient(45deg, #4776E6, #8E54E9); border-radius: 10px 10px 0 0;">
+                                    <h5 class="card-title mb-0 d-flex align-items-center">
+                                        <i class="bi bi-clipboard-check me-2"></i>
+                                        To-Do Assignments
+                                    </h5>
+                                    <span class="badge rounded-pill bg-light text-dark" id="overview-todo-count">0</span>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="todo-assignments-list" id="overview-todo-list">
+                                        <!-- To-do assignments will be loaded here dynamically -->
+                                        <div class="empty-state p-4 text-center">
+                                            <i class="bi bi-clipboard text-muted fs-1 mb-2"></i>
+                                            <p class="text-muted mb-0">No pending assignments</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Study Strategies div -->
+                        <div class="col-12 col-lg-7" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Study Strategies</h5>
+                                    <div class="row g-3 mt-2">
+                                        <div class="col-md-6">
+                                            <div class="strategy-card p-3 h-100 rounded bg-light">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="strategy-icon me-2">
+                                                        <i class="bi bi-lightning-charge"></i>
+                                                    </div>
+                                                    <h6 class="mb-0">Active Recall</h6>
+                                                </div>
+                                                <p class="small mb-0">Test yourself frequently. Write down what you remember before reviewing notes.</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="strategy-card p-3 h-100 rounded bg-light">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="strategy-icon me-2">
+                                                        <i class="bi bi-hourglass-split"></i>
+                                                    </div>
+                                                    <h6 class="mb-0">Spaced Repetition</h6>
+                                                </div>
+                                                <p class="small mb-0">Review material at increasing intervals to strengthen memory retention.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="quote-container mt-3 p-3 rounded bg-light">
+                                        <blockquote class="blockquote mb-0">
+                                            <p class="small fst-italic">"Success is the sum of small efforts, repeated day in and day out."</p>
+                                            <footer class="blockquote-footer mt-1">Robert Collier</footer>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grades Section -->
+                <div id="grades" class="section-content">
+                    <div class="section-header d-flex justify-content-between align-items-center mb-4">
+                        <div class="section-title-group" data-aos="fade-right">
+                            <h1 class="dashboard-title">My Grades</h1>
+                            <p class="dashboard-subtitle">Track your academic performance</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <!-- Add New Grade Form -->
+                            <div class="card add-grade-card" data-aos="fade-up">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4">Add New Grade</h5>
+                                    <form id="addGradeForm">
+                                        <div class="mb-3">
+                                            <label for="yearOfStudy" class="form-label">Year of Study</label>
+                                            <select class="form-select" id="yearOfStudy" required>
+                                                <option value="" selected disabled>Select Year</option>
+                                                <option value="1">Year 1</option>
+                                                <option value="2">Year 2</option>
+                                                <option value="3">Year 3</option>
+                                                <option value="4">Year 4</option>
+                                                <option value="5">Year 5</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="semester" class="form-label">Semester</label>
+                                            <select class="form-select" id="semester" required>
+                                                <option value="" selected disabled>Select Semester</option>
+                                                <option value="1">Semester 1</option>
+                                                <option value="2">Semester 2</option>
+                                                <option value="3">Summer</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="gpaInput" class="form-label">GPA (0.0 - 4.0)</label>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <input type="number" class="form-control" id="gpaInput" min="0" max="4" step="0.1" required>
+                                                <button type="button" class="btn btn-link text-primary p-0" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#gpaInfoModal" 
+                                                        title="Learn about GPA">
+                                                    <i class="bi bi-question-circle-fill"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="gradeDate" class="form-label">Date</label>
+                                            <input type="date" class="form-control" id="gradeDate" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="gradeNotes" class="form-label">Notes</label>
+                                            <textarea class="form-control" id="gradeNotes" rows="3" placeholder="Add any additional notes here..."></textarea>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" class="btn btn-primary">Save Grade</button>
+                                            <button type="reset" class="btn btn-outline-secondary">Clear Form</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <!-- Grade Analytics Card -->
+                            <div class="card grade-analytics-card" data-aos="fade-up" data-aos-delay="100">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-4">Grade Analytics</h5>
+                                    <div class="analytics-stats mb-4">
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <div class="analytics-stat-item">
+                                                    <span class="stat-label">Highest GPA</span>
+                                                    <h4 class="stat-value" id="highestGpa">0.0</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="analytics-stat-item">
+                                                    <span class="stat-label">Lowest GPA</span>
+                                                    <h4 class="stat-value" id="lowestGpa">0.0</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="analytics-stat-item">
+                                                    <span class="stat-label">Average GPA</span>
+                                                    <h4 class="stat-value" id="averageGpa">0.0</h4>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="analytics-stat-item">
+                                                    <span class="stat-label">GPA Trend</span>
+                                                    <h4 class="stat-value" id="gpaTrend">
+                                                        <i class="bi bi-dash"></i>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grade-distribution mb-4">
+                                        <h6 class="mb-3">GPA Distribution</h6>
+                                        <canvas id="gradeDistributionChart" height="150"></canvas>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <button class="btn btn-sm btn-outline-primary" id="exportGradesBtn">
+                                            <i class="bi bi-download me-1"></i> Export Grades
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grade History -->
+                    <div class="card mt-4" data-aos="fade-up">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Grade History</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th>Semester</th>
+                                            <th>GPA</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gradeHistoryTable">
+                                        <!-- Empty state message -->
+                                        <tr class="grades-empty-state">
+                                            <td colspan="5" class="text-center py-5">
+                                                <i class="bi bi-journal-x d-block mb-3 fs-1 text-muted"></i>
+                                                <h6>No Grades Added Yet</h6>
+                                                <p class="text-muted mb-3">Add your first grade to start tracking your academic progress</p>
+                                            </td>
+                                        </tr>
+                                        <!-- Grade entries will be dynamically added here -->
+                                        <!-- Template for grade entries:
+                                        <tr>
+                                            <td>{Year}</td>
+                                            <td>{Semester}</td>
+                                            <td><span class="badge bg-primary">{GPA}</span></td>
+                                            <td>{Date}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary me-1" onclick="viewGradeDetails(this)">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="deleteGrade(this)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assignments Section -->
+                <div id="assignments" class="section-content">
+                    <!-- Add Mobile Add Task Button -->
+                    <button class="mobile-add-task-btn d-md-none" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                        <i class="bi bi-plus-lg"></i>
+                        Add Task
+                    </button>
+                    
+                    <div class="row">
+                        <!-- Task Board -->
+                        <div class="col-md-8">
+                            <div class="assignments-board d-flex flex-column flex-md-row gap-4 justify-content-center">
+                                <div class="card todo-card mb-4 mb-md-0" style="min-width: 280px; min-height: 300px; max-width: 100%;" id="todoCard">
+                                    <div class="first-content">
+                                        <div class="task-count-wrapper">
+                                            <span class="task-count">0</span>
+                                            <h3>To Do</h3>
+                                        </div>
+                                    </div>
+                                    <div class="second-content">
+                                        <div class="tasks-list" id="todoTasks">
+                                            <!-- Tasks will be dynamically added here -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- In Progress Card -->
+                                <div class="card progress-card mb-4 mb-md-0" style="min-width: 280px; min-height: 300px; max-width: 100%;" id="progressCard">
+                                    <div class="first-content">
+                                        <div class="task-count-wrapper">
+                                            <span class="task-count">0</span>
+                                            <h3>In Progress</h3>
+                                        </div>
+                                    </div>
+                                    <div class="second-content">
+                                        <div class="tasks-list" id="inProgressTasks">
+                                            <!-- Tasks will be dynamically added here -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Completed Card -->
+                                <div class="card completed-card" style="min-width: 280px; min-height: 300px; max-width: 100%;" id="completedCard">
+                                    <div class="first-content">
+                                        <div class="task-count-wrapper">
+                                            <span class="task-count">0</span>
+                                            <h3>Completed</h3>
+                                        </div>
+                                    </div>
+                                    <div class="second-content">
+                                        <div class="tasks-list" id="completedTasks">
+                                            <!-- Tasks will be dynamically added here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Add Task Form (Desktop) -->
+                        <div class="col-md-4 d-none d-md-block">
+                            <div class="quick-add-task card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Add New Task</h5>
+                                    <form id="quickAddTaskForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Title</label>
+                                            <input type="text" class="form-control" id="quickTaskTitle" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Due Date</label>
+                                            <input type="date" class="form-control" id="quickTaskDue" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Priority</label>
+                                            <select class="form-select" id="quickTaskPriority">
+                                                <option value="low">Low</option>
+                                                <option value="medium" selected>Medium</option>
+                                                <option value="high">High</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Notes</label>
+                                            <textarea class="form-control" id="quickTaskNotes" rows="3" 
+                                                placeholder="Add any additional notes or details..."></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Add Task</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Section -->
+                <div id="analytics" class="section-content">
+                    <div class="section-header mb-4">
+                        <div class="section-title-group" data-aos="fade-right">
+                            <h1 class="dashboard-title">Analytics</h1>
+                            <p class="dashboard-subtitle">Visualize your academic performance</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Performance by Subject -->
+                        <div class="col-md-6">
+                            <div class="analytics-card" data-aos="fade-up">
+                                <h5 class="card-title mb-4">Performance by Subject</h5>
+                                <canvas id="subjectChart" height="250"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Study Time Distribution -->
+                        <div class="col-md-6">
+                            <div class="analytics-card" data-aos="fade-up" data-aos-delay="100">
+                                <h5 class="card-title mb-4">Study Time Distribution</h5>
+                                <canvas id="studyTimeChart" height="250"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Grade Distribution -->
+                        <div class="col-md-6">
+                            <div class="analytics-card" data-aos="fade-up" data-aos-delay="200">
+                                <h5 class="card-title mb-4">Grade Distribution</h5>
+                                <canvas id="gradeChart" height="250"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Assignment Completion Rate -->
+                        <div class="col-md-6">
+                            <div class="analytics-card" data-aos="fade-up" data-aos-delay="300">
+                                <h5 class="card-title mb-4">Assignment Completion Rate</h5>
+                                <canvas id="completionChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Section -->
+                <div id="calendar" class="section-content">
+                    <div class="calendar-container">
+                        <div class="calendar-toolbar d-flex justify-content-between align-items-center mb-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="calendar-nav">
+                                    <button class="btn btn-icon" id="prevMonthBtn" title="Previous month">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
+                                    <div class="current-month-display">
+                                        <span class="month fw-bold" id="currentMonthText">March</span>
+                                        <span class="year text-muted" id="currentYearText">2025</span>
+                                    </div>
+                                    <button class="btn btn-icon" id="nextMonthBtn" title="Next month">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary" id="todayBtn">Today</button>
+                            </div>
+                            <button class="btn btn-primary calendar-add-event-btn" id="addEventBtn" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                                <i class="bi bi-plus-lg me-2"></i>Add Event
+                            </button>
+                        </div>
+                        
+                        <!-- Enhanced Floating Button for Mobile -->
+                        <button class="calendar-floating-btn d-md-none" id="mobileAddEventBtn" data-bs-toggle="modal" data-bs-target="#addEventModal" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #4dabf7 0%, #2c3e50 100%); color: white; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 1000; transition: all 0.3s ease;">
+                            <i class="bi bi-plus-lg" style="font-size: 24px;"></i>
+                        </button>
+                        
+                        <div class="calendar-body">
+                            <div class="calendar-weekdays">
+                                <div class="weekday">Sun</div>
+                                <div class="weekday">Mon</div>
+                                <div class="weekday">Tue</div>
+                                <div class="weekday">Wed</div>
+                                <div class="weekday">Thu</div>
+                                <div class="weekday">Fri</div>
+                                <div class="weekday">Sat</div>
+                            </div>
+                            
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar days will be generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- New Upcoming Events Card -->
+                    <div class="upcoming-events-card mt-4" style="background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden;">
+                        <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #4dabf7 0%, #2c3e50 100%); color: white; padding: 15px 20px;">
+                            <div>
+                                <h5 class="mb-0"><i class="bi bi-calendar-event me-2"></i> Upcoming Events</h5>
+                            </div>
+                            <div>
+                                <span class="badge bg-light text-dark" id="eventCount">0</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div id="upcomingEventsList" class="p-0">
+                                <!-- Events will be dynamically added here -->
+                                <div class="empty-state text-center py-5 px-3">
+                                    <img src="../images/empty-calendar.svg" alt="No events" style="width: 120px; height: auto; opacity: 0.6; margin-bottom: 15px;" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNFOUVDRUYiLz48cGF0aCBkPSJNMzAgMzBIOTBWOTBIMzBWMzBaIiBzdHJva2U9IiM2Qzc1N0QiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zMCA0MEg5MCIgc3Ryb2tlPSIjNkM3NTdEIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI0NSIgY3k9IjU1IiByPSIzIiBmaWxsPSIjNkM3NTdEIi8+PGNpcmNsZSBjeD0iNjAiIGN5PSI1NSIgcj0iMyIgZmlsbD0iIzZDNzU3RCIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iNTUiIHI9IjMiIGZpbGw9IiM2Qzc1N0QiLz48Y2lyY2xlIGN4PSI0NSIgY3k9IjcwIiByPSIzIiBmaWxsPSIjNkM3NTdEIi8+PGNpcmNsZSBjeD0iNjAiIGN5PSI3MCIgcj0iMyIgZmlsbD0iIzZDNzU3RCIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iNzAiIHI9IjMiIGZpbGw9IiM2Qzc1N0QiLz48L3N2Zz4=';">
+                                    <h6 class="mb-2">No Events Yet</h6>
+                                    <p class="text-muted mb-3">Events you add will appear here</p>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                                        <i class="bi bi-plus-lg me-1"></i> Add Event
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-12 col-md-3 col-lg-2 sidebar order-2 order-md-1" id="mobileSidebar">
+                    <button class="btn btn-icon close-sidebar d-md-none" id="closeSidebar">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                    <div class="logo-container mb-4">
+                        <img src="../images/rugbylogo.png" alt="Academic Logo" class="dashboard-logo">
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a class="nav-link active" href="#overview" data-section="overview">
+                            <i class="bi bi-house-door"></i> Overview
+                        </a>
+                        <a class="nav-link" href="#grades" data-section="grades">
+                            <i class="bi bi-award"></i> Grades
+                        </a>
+                        <a class="nav-link" href="#assignments" data-section="assignments">
+                            <i class="bi bi-clipboard-check"></i> Assignments
+                        </a>
+                        <a class="nav-link" href="#calendar" data-section="calendar">
+                            <i class="bi bi-calendar-week"></i> Calendar
+                        </a>
+                    </nav>
+                    <div class="sidebar-footer mt-auto">
+                        <button class="btn btn-sm btn-outline-secondary w-100" id="sidebarHelpBtn">
+                            <i class="bi bi-question-circle me-2"></i> Help
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignment Card Overlay -->
+    <div id="assignmentOverlay" class="assignment-overlay">
+        <div class="assignment-overlay-content">
+            <div class="overlay-header">
+                <h3 id="overlayTitle">Assignment Title</h3>
+                <button id="closeOverlay" class="btn-close" aria-label="Close"></button>
+            </div>
+            <div class="overlay-body">
+                <div id="overlayTasks" class="overlay-tasks">
+                    <!-- Tasks will be displayed here -->
+                </div>
+                <div class="overlay-empty-state text-center py-5 d-none" id="overlayEmptyState">
+                    <i class="bi bi-clipboard-x d-block mb-3 fs-1 text-muted"></i>
+                    <h5>No Tasks Found</h5>
+                    <p class="text-muted">There are no tasks in this category yet.</p>
+                </div>
+            </div>
+            <div class="overlay-footer">
+                <button id="overlayAddTaskBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                    <i class="bi bi-plus-lg me-1"></i> Add Task
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTaskModalTitle">Add New Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="mobileAddTaskForm">
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" id="mobileTaskTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="mobileTaskDue" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Priority</label>
+                            <select class="form-select" id="mobileTaskPriority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Notes</label>
+                            <textarea class="form-control" id="mobileTaskNotes" rows="3" 
+                                placeholder="Add any additional notes or details..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveMobileTaskBtn" tabindex="0">Add Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Grade Modal -->
+    <div class="modal fade" id="addGradeModal" tabindex="-1" role="dialog" aria-labelledby="addGradeModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addGradeModalTitle">Add New Grade</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addGradeModalForm">
+                        <div class="mb-3">
+                            <label for="modalYearOfStudy" class="form-label">Year of Study</label>
+                            <select class="form-select" id="modalYearOfStudy" required>
+                                <option value="" selected disabled>Select Year</option>
+                                <option value="1">Year 1</option>
+                                <option value="2">Year 2</option>
+                                <option value="3">Year 3</option>
+                                <option value="4">Year 4</option>
+                                <option value="5">Year 5</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalSemester" class="form-label">Semester</label>
+                            <select class="form-select" id="modalSemester" required>
+                                <option value="" selected disabled>Select Semester</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Summer</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalGpaInput" class="form-label">GPA</label>
+                            <input type="number" class="form-control" id="modalGpaInput" min="0" max="4.0" step="0.1" placeholder="Enter GPA (0-4.0)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalGradeDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="modalGradeDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modalGradeNotes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="modalGradeNotes" rows="3" placeholder="Add any additional notes here"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveGradeBtn" tabindex="0">Save Grade</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Assignment Modal -->
+    <div class="modal fade" id="addAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="addAssignmentModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addAssignmentModalTitle">Add New Assignment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAssignmentForm">
+                        <div class="mb-3">
+                            <label for="assignmentTitle" class="form-label">Assignment Title</label>
+                            <input type="text" class="form-control" id="assignmentTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assignmentSubject" class="form-label">Subject</label>
+                            <select class="form-select" id="assignmentSubject">
+                                <option value="">Select a subject</option>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="science">Science</option>
+                                <option value="literature">Literature</option>
+                                <option value="history">History</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dueDate" class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="dueDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="priority" class="form-label">Priority</label>
+                            <select class="form-select" id="priority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveAssignmentBtn" tabindex="0">Save Assignment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Details Modal -->
+    <div class="modal fade" id="gradeDetailsModal" tabindex="-1" role="dialog" aria-labelledby="gradeDetailsModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gradeDetailsModalTitle">Grade Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="grade-details-container">
+                        <div class="grade-badge mb-4">
+                            <span id="gradeDetailGpa">0.0</span>
+                        </div>
+                        <div class="details-list">
+                            <div class="detail-item">
+                                <span class="detail-label">Year of Study:</span>
+                                <span class="detail-value" id="gradeDetailYear">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Semester:</span>
+                                <span class="detail-value" id="gradeDetailSemester">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Date Recorded:</span>
+                                <span class="detail-value" id="gradeDetailDate">-</span>
+                            </div>
+                            <div class="detail-item notes-item">
+                                <span class="detail-label">Notes:</span>
+                                <div class="notes-content" id="gradeDetailNotes">No notes available</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEventModalTitle">Add New Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addEventForm">
+                        <div class="mb-3">
+                            <label for="eventTitle" class="form-label">Event Title</label>
+                            <input type="text" class="form-control" id="eventTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="eventDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventTime" class="form-label">Time</label>
+                            <input type="time" class="form-control" id="eventTime">
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="eventLocation">
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveEventBtn" tabindex="0">Save Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Notes Modal -->
+    <div class="modal fade" id="taskNotesModal" tabindex="-1" role="dialog" aria-labelledby="taskNotesModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskNotesModalTitle">Task Notes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 id="taskNotesTitle" class="mb-3"></h6>
+                    <p id="taskNotesContent" class="text-secondary"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Day Events Modal -->
+    <div class="modal fade" 
+         id="dayEventsModal" 
+         tabindex="-1" 
+         role="dialog" 
+         aria-labelledby="dayEventsModalTitle"
+         aria-modal="true"
+         data-bs-backdrop="static"
+         data-bs-keyboard="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dayEventsModalTitle">Events & Tasks</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="0"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Events and tasks will be dynamically inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" tabindex="0">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- GPA Info Modal -->
+    <div class="modal fade" id="gpaInfoModal" tabindex="-1" aria-labelledby="gpaInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gpaInfoModalLabel">Understanding GPA</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="mb-3">What is GPA?</h6>
+                    <p>GPA (Grade Point Average) is a standard way of measuring academic achievement. It ranges from 0.0 to 4.0.</p>
+                    
+                    <h6 class="mt-4 mb-3">Common GPA Scale:</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Letter Grade</th>
+                                    <th>Percentage</th>
+                                    <th>GPA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>A</td>
+                                    <td>93-100%</td>
+                                    <td>4.0</td>
+                                </tr>
+                                <tr>
+                                    <td>A-</td>
+                                    <td>90-92%</td>
+                                    <td>3.7</td>
+                                </tr>
+                                <tr>
+                                    <td>B+</td>
+                                    <td>87-89%</td>
+                                    <td>3.3</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td>83-86%</td>
+                                    <td>3.0</td>
+                                </tr>
+                                <tr>
+                                    <td>B-</td>
+                                    <td>80-82%</td>
+                                    <td>2.7</td>
+                                </tr>
+                                <tr>
+                                    <td>C+</td>
+                                    <td>77-79%</td>
+                                    <td>2.3</td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td>73-76%</td>
+                                    <td>2.0</td>
+                                </tr>
+                                <tr>
+                                    <td>C-</td>
+                                    <td>70-72%</td>
+                                    <td>1.7</td>
+                                </tr>
+                                <tr>
+                                    <td>D+</td>
+                                    <td>67-69%</td>
+                                    <td>1.3</td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td>63-66%</td>
+                                    <td>1.0</td>
+                                </tr>
+                                <tr>
+                                    <td>D-</td>
+                                    <td>60-62%</td>
+                                    <td>0.7</td>
+                                </tr>
+                                <tr>
+                                    <td>F</td>
+                                    <td>0-59%</td>
+                                    <td>0.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Most universities require a minimum GPA of 2.0 to maintain good academic standing.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script src="../js/firebase-config.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="../js/calendarManager.js"></script>
+    <script src="../js/chartManager.js"></script>
+    <script src="../js/academics.js"></script>
+    <script src="../js/academics-fix.js"></script>
+    
+    <!-- Notification System Scripts -->
+    <link rel="stylesheet" href="../css/enhanced-notifications.css">
+    <link rel="stylesheet" href="../css/notification-settings.css">
+    <script src="../js/notification-sounds.js"></script>
+    <script src="../js/enhanced-notifications.js"></script>
+    <script src="../js/notification-settings.js"></script>
+    <script src="../js/notification-integration.js"></script>
+    <script src="../js/academics-integration.js"></script>
+    
+    <!-- Calendar Fix Script -->
+    <script src="../js/calendar-fix.js"></script>
+    
+    <!-- Mobile menu toggle script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Academics mobile menu script loaded');
+            
+            // Get elements
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const navLinks = document.querySelectorAll('#mobileSidebar .nav-link');
+            
+            // Add hover effect to menu button
+            if (menuBtn) {
+                menuBtn.addEventListener('mouseover', function() {
+                    this.style.color = '#4dabf7';
+                });
+                
+                menuBtn.addEventListener('mouseout', function() {
+                    this.style.color = 'white';
+                });
+            }
+            
+            // Add hover and active effects to nav links
+            navLinks.forEach(function(link) {
+                // Hover effect
+                link.addEventListener('mouseover', function() {
+                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                });
+                
+                link.addEventListener('mouseout', function() {
+                    this.style.backgroundColor = 'transparent';
+                });
+                
+                // Set active link
+                link.addEventListener('click', function() {
+                    // Remove active class from all links
+                    navLinks.forEach(l => {
+                        l.classList.remove('active');
+                        l.style.borderLeftColor = 'transparent';
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    this.style.borderLeftColor = '#4dabf7';
+                });
+            });
+            
+            // Set initial active link based on URL hash
+            function setActiveLink() {
+                const hash = window.location.hash || '#overview';
+                const activeLink = document.querySelector(`.nav-link[href="${hash}"]`);
+                
+                if (activeLink) {
+                    navLinks.forEach(l => {
+                        l.classList.remove('active');
+                        l.style.borderLeftColor = 'transparent';
+                    });
+                    
+                    activeLink.classList.add('active');
+                    activeLink.style.borderLeftColor = '#4dabf7';
+                }
+            }
+            
+            // Set active link on page load
+            setActiveLink();
+            
+            // Set active link when hash changes
+            window.addEventListener('hashchange', setActiveLink);
+            
+            // Toggle menu when button is clicked
+            if (menuBtn && mobileSidebar && mobileOverlay) {
+                menuBtn.addEventListener('click', function() {
+                    const isOpen = mobileSidebar.style.left === '0px';
+                    
+                    // Toggle sidebar
+                    mobileSidebar.style.left = isOpen ? '-250px' : '0px';
+                    
+                    // Toggle overlay with fade effect
+                    if (isOpen) {
+                        mobileOverlay.style.opacity = '0';
+                        setTimeout(function() {
+                            mobileOverlay.style.display = 'none';
+                        }, 300);
+                    } else {
+                        mobileOverlay.style.display = 'block';
+                        // Force reflow to ensure transition works
+                        mobileOverlay.offsetHeight;
+                        mobileOverlay.style.opacity = '1';
+                    }
+                    
+                    // Toggle menu icon
+                    const icon = menuBtn.querySelector('i');
+                    icon.className = isOpen ? 'bi bi-list' : 'bi bi-x-lg';
+                });
+                
+                // Close menu when overlay is clicked
+                mobileOverlay.addEventListener('click', function() {
+                    mobileSidebar.style.left = '-250px';
+                    mobileOverlay.style.opacity = '0';
+                    
+                    setTimeout(function() {
+                        mobileOverlay.style.display = 'none';
+                    }, 300);
+                    
+                    // Reset menu icon
+                    const icon = menuBtn.querySelector('i');
+                    icon.className = 'bi bi-list';
+                });
+                
+                // Close menu when links are clicked
+                navLinks.forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        mobileSidebar.style.left = '-250px';
+                        mobileOverlay.style.opacity = '0';
+                        
+                        setTimeout(function() {
+                            mobileOverlay.style.display = 'none';
+                        }, 300);
+                        
+                        // Reset menu icon
+                        const icon = menuBtn.querySelector('i');
+                        icon.className = 'bi bi-list';
+                    });
+                });
+            }
+            
+            // Fix main content padding to account for fixed header
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent && window.innerWidth < 768) {
+                mainContent.style.paddingTop = '70px';
+            }
+            
+            // Adjust padding on resize
+            window.addEventListener('resize', function() {
+                if (mainContent) {
+                    mainContent.style.paddingTop = window.innerWidth < 768 ? '70px' : '20px';
+                }
+            });
+        });
+    </script>
+    
+    <!-- Calendar Enhancement Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Floating button hover effect
+            const floatingBtn = document.getElementById('mobileAddEventBtn');
+            if (floatingBtn) {
+                floatingBtn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                });
+                
+                floatingBtn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                // Add touch pulse effect
+                floatingBtn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                }, { passive: true });
+                
+                floatingBtn.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                }, { passive: true });
+            }
+            
+            // Event added success feedback
+            const addEventForm = document.querySelector('#addEventModal form');
+            if (addEventForm) {
+                addEventForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const eventTitle = document.getElementById('eventTitle').value;
+                    const eventDate = document.getElementById('eventDate').value;
+                    const eventTime = document.getElementById('eventTime').value;
+                    const eventCategory = document.getElementById('eventCategory').value;
+                    const eventLocation = document.getElementById('eventLocation').value;
+                    
+                    // Add event to the upcoming events list
+                    addEventToList(eventTitle, eventDate, eventTime, eventCategory, eventLocation);
+                    
+                    // Close the modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                    modal.hide();
+                    
+                    // Show success toast notification
+                    showToast('Event added successfully!', 'success');
+                    
+                    // Reset form
+                    addEventForm.reset();
+                    
+                    // Pulse animation on the calendar
+                    const calendarGrid = document.getElementById('calendarGrid');
+                    if (calendarGrid) {
+                        calendarGrid.style.animation = 'pulse 0.5s';
+                        setTimeout(() => {
+                            calendarGrid.style.animation = '';
+                        }, 500);
+                    }
+                });
+            }
+            
+            // Function to add event to the upcoming events list
+            function addEventToList(title, date, time, category, location) {
+                // Get the upcoming events list
+                const eventsList = document.getElementById('upcomingEventsList');
+                
+                // Remove empty state if it exists
+                const emptyState = eventsList.querySelector('.empty-state');
+                if (emptyState) {
+                    emptyState.remove();
+                }
+                
+                // Create event item
+                const eventItem = document.createElement('div');
+                eventItem.className = 'event-item';
+                eventItem.style.padding = '15px';
+                eventItem.style.borderLeft = '3px solid #4dabf7';
+                eventItem.style.margin = '0';
+                eventItem.style.borderBottom = '1px solid rgba(0,0,0,0.1)';
+                eventItem.style.transition = 'background-color 0.2s ease';
+                
+                // Format date
+                const eventDate = new Date(date);
+                const formattedDate = eventDate.toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                // Set category color
+                let categoryColor = '#4dabf7'; // Default blue
+                let categoryBadgeClass = 'bg-primary';
+                
+                switch(category.toLowerCase()) {
+                    case 'academic':
+                        categoryColor = '#4dabf7';
+                        categoryBadgeClass = 'bg-primary';
+                        break;
+                    case 'personal':
+                        categoryColor = '#66bb6a';
+                        categoryBadgeClass = 'bg-success';
+                        break;
+                    case 'exam':
+                        categoryColor = '#ff7043';
+                        categoryBadgeClass = 'bg-danger';
+                        break;
+                    case 'assignment':
+                        categoryColor = '#ffa726';
+                        categoryBadgeClass = 'bg-warning';
+                        break;
+                }
+                
+                eventItem.style.borderLeftColor = categoryColor;
+                
+                // Create event item HTML
+                eventItem.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="d-flex align-items-center mb-1">
+                                <span class="badge ${categoryBadgeClass} me-2">${category}</span>
+                                <span class="text-muted small">${formattedDate}</span>
+                            </div>
+                            <h6 class="mb-1">${title}</h6>
+                            <div class="d-flex align-items-center text-muted small">
+                                <div class="me-3">
+                                    <i class="bi bi-clock me-1"></i> ${time}
+                                </div>
+                                ${location ? `<div><i class="bi bi-geo-alt me-1"></i> ${location}</div>` : ''}
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-link text-muted p-0" onclick="removeEvent(this)" title="Remove event">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add event item to the list
+                eventsList.appendChild(eventItem);
+                
+                // Update event count
+                updateEventCount();
+                
+                // Show success toast
+                showToast('Event added successfully!', 'success');
+                
+                // Add notification for the event
+                addEventNotification(title, date, time);
+            }
+            
+            // Function to update event count
+            function updateEventCount() {
+                const eventCount = document.getElementById('eventCount');
+                const eventItems = document.querySelectorAll('#upcomingEventsList .event-item');
+                eventCount.textContent = eventItems.length;
+            }
+            
+            // Function to remove event
+            window.removeEvent = function(button) {
+                const eventItem = button.closest('.event-item');
+                
+                // Add fade-out animation
+                eventItem.style.opacity = '0';
+                eventItem.style.height = eventItem.offsetHeight + 'px';
+                eventItem.style.transition = 'opacity 0.3s ease, height 0.3s ease 0.3s';
+                
+                setTimeout(() => {
+                    eventItem.style.height = '0';
+                    eventItem.style.padding = '0';
+                    eventItem.style.margin = '0';
+                    eventItem.style.overflow = 'hidden';
+                    
+                    setTimeout(() => {
+                        eventItem.remove();
+                        updateEventCount();
+                        
+                        // Show empty state if no events
+                        const eventsList = document.getElementById('upcomingEventsList');
+                        if (eventsList.children.length === 0) {
+                            eventsList.innerHTML = `
+                                <div class="empty-state text-center py-5 px-3">
+                                    <img src="../images/empty-calendar.svg" alt="No events" style="width: 120px; height: auto; opacity: 0.6; margin-bottom: 15px;" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiNFOUVDRUYiLz48cGF0aCBkPSJNMzAgMzBIOTBWOTBIMzBWMzBaIiBzdHJva2U9IiM2Qzc1N0QiIHN0cm9rZS13aWR0aD0iMiIvPjxwYXRoIGQ9Ik0zMCA0MEg5MCIgc3Ryb2tlPSIjNkM3NTdEIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSI0NSIgY3k9IjU1IiByPSIzIiBmaWxsPSIjNkM3NTdEIi8+PGNpcmNsZSBjeD0iNjAiIGN5PSI1NSIgcj0iMyIgZmlsbD0iIzZDNzU3RCIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iNTUiIHI9IjMiIGZpbGw9IiM2Qzc1N0QiLz48Y2lyY2xlIGN4PSI0NSIgY3k9IjcwIiByPSIzIiBmaWxsPSIjNkM3NTdEIi8+PGNpcmNsZSBjeD0iNjAiIGN5PSI3MCIgcj0iMyIgZmlsbD0iIzZDNzU3RCIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iNzAiIHI9IjMiIGZpbGw9IiM2Qzc1N0QiLz48L3N2Zz4=';">
+                                    <h6 class="mb-2">No Events Yet</h6>
+                                    <p class="text-muted mb-3">Events you add will appear here</p>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                                        <i class="bi bi-plus-lg me-1"></i> Add Event
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }, 300);
+                }, 300);
+                
+                // Show toast notification
+                showToast('Event removed', 'danger');
+            };
+            
+            // Toast notification function
+            function showToast(message, type = 'info') {
+                // Create toast container if it doesn't exist
+                let toastContainer = document.querySelector('.toast-container');
+                if (!toastContainer) {
+                    toastContainer = document.createElement('div');
+                    toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                    document.body.appendChild(toastContainer);
+                }
+                
+                // Create toast element
+                const toastEl = document.createElement('div');
+                toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
+                toastEl.setAttribute('role', 'alert');
+                toastEl.setAttribute('aria-live', 'assertive');
+                toastEl.setAttribute('aria-atomic', 'true');
+                
+                // Create toast content
+                toastEl.innerHTML = `
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                `;
+                
+                // Add toast to container
+                toastContainer.appendChild(toastEl);
+                
+                // Initialize and show toast
+                const toast = new bootstrap.Toast(toastEl, {
+                    autohide: true,
+                    delay: 3000
+                });
+                toast.show();
+                
+                // Remove toast after it's hidden
+                toastEl.addEventListener('hidden.bs.toast', function() {
+                    toastEl.remove();
+                });
+            }
+            
+            // Function to add a notification for the event
+            function addEventNotification(title, date, time) {
+                // Check if notification functions exist in homepage
+                try {
+                    // Create notification data
+                    const notificationData = {
+                        type: 'event',
+                        title: 'New Event Added',
+                        message: `${title} on ${date} at ${time}`,
+                        time: 'Just now'
+                    };
+                    
+                    // Save to localStorage for homepage to pick up
+                    let notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+                    notifications.push(notificationData);
+                    localStorage.setItem('notifications', JSON.stringify(notifications));
+                    
+                    // If we're on the same page as the homepage, we can directly call the function
+                    if (typeof addNotification === 'function') {
+                        addNotification(
+                            notificationData.type,
+                            notificationData.title,
+                            notificationData.message,
+                            notificationData.time
+                        );
+                    }
+                } catch (error) {
+                    console.log('Notification system not available');
+                }
+            }
+        });
+    </script>
+    <!-- Toast Container for popup notifications -->
+    <div class="toast-container"></div>
+    
+    <!-- Direct Event Handler for Save Event Button -->
+    <script>
+        // Ensure the Save Event button works properly
+        document.addEventListener('DOMContentLoaded', function() {
+            const saveEventBtn = document.getElementById('saveEventBtn');
+            
+            if (saveEventBtn) {
+                saveEventBtn.addEventListener('click', function() {
+                    const title = document.getElementById('eventTitle').value;
+                    const date = document.getElementById('eventDate').value;
+                    const time = document.getElementById('eventTime').value;
+                    const location = document.getElementById('eventLocation').value;
+                    const description = document.getElementById('eventDescription').value;
+                    
+                    // Validate required fields
+                    if (!title) {
+                        showToast('Please enter an event title', 'warning');
+                        return;
+                    }
+                    
+                    if (!date) {
+                        showToast('Please select a date for the event', 'warning');
+                        return;
+                    }
+                    
+                    // Create new event object
+                    const newEvent = {
+                        title: title,
+                        date: new Date(`${date}${time ? 'T' + time : ''}`),
+                        location: location || '',
+                        description: description || '',
+                        className: 'calendar-event',
+                        createdAt: new Date()
+                    };
+                    
+                    // Save to localStorage
+                    let events = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+                    events.push(newEvent);
+                    localStorage.setItem('calendarEvents', JSON.stringify(events));
+                    
+                    // Save to Firestore if available
+                    if (typeof saveEventsToFirestore === 'function') {
+                        saveEventsToFirestore(events)
+                            .then(() => {
+                                console.log('Calendar events saved to Firestore');
+                            })
+                            .catch(error => {
+                                console.error('Error saving events to Firestore:', error);
+                            });
+                    }
+                    
+                    // Show success notification
+                    showToast(`Event "${title}" added to calendar`, 'success', 5000);
+                    
+                    // Close modal and reset form
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                    modal.hide();
+                    document.getElementById('addEventForm').reset();
+                    
+                    // Refresh the page to show the new event
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                });
+                
+                console.log('Direct event handler added to Save Event button');
+            }
+        });
+    </script>
+    <!-- Direct Event Handler for Save Event Button -->
+    <script>
+        // Ensure the Save Event button works properly
+        document.addEventListener('DOMContentLoaded', function() {
+            const saveEventBtn = document.getElementById('saveEventBtn');
+            
+            if (saveEventBtn) {
+                saveEventBtn.addEventListener('click', function() {
+                    const title = document.getElementById('eventTitle').value;
+                    const date = document.getElementById('eventDate').value;
+                    const time = document.getElementById('eventTime').value;
+                    const location = document.getElementById('eventLocation').value;
+                    const description = document.getElementById('eventDescription').value;
+                    
+                    // Validate required fields
+                    if (!title) {
+                        showToast('Please enter an event title', 'warning');
+                        return;
+                    }
+                    
+                    if (!date) {
+                        showToast('Please select a date for the event', 'warning');
+                        return;
+                    }
+                    
+                    // Create new event object with serializable date (string format)
+                    const newEvent = {
+                        title: title,
+                        date: date, // Store as string for serialization
+                        time: time || '',
+                        location: location || '',
+                        description: description || '',
+                        className: 'calendar-event',
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    // Save to localStorage
+                    let events = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+                    events.push(newEvent);
+                    localStorage.setItem('calendarEvents', JSON.stringify(events));
+                    
+                    // Save to Firestore if available
+                    if (typeof saveEventsToFirestore === 'function') {
+                        saveEventsToFirestore(events)
+                            .then(() => {
+                                console.log('Events saved to Firestore');
+                            })
+                            .catch(error => {
+                                console.error('Error saving events to Firestore:', error);
+                            });
+                    }
+                    
+                    // Show success notification
+                    showToast(`Event "${title}" added to calendar`, 'success', 5000);
+                    
+                    // Close modal and reset form
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+                    modal.hide();
+                    document.getElementById('addEventForm').reset();
+                    
+                    // Add event to calendar display directly
+                    addEventToCalendarDisplay(newEvent);
+                });
+                
+                console.log('Direct event handler added to Save Event button');
+            }
+            
+            // Load and display events immediately
+            displayCalendarEvents();
+        });
+        
+        // Function to display all calendar events
+        function displayCalendarEvents() {
+            // Get events from localStorage
+            const events = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+            
+            // Display each event on the calendar
+            events.forEach(event => {
+                addEventToCalendarDisplay(event);
+            });
+            
+            console.log(`Displayed ${events.length} events on calendar`);
+        }
+        
+        // Function to add an event to the calendar display
+        function addEventToCalendarDisplay(event) {
+            try {
+                // Parse the event date
+                const eventDate = new Date(event.date + (event.time ? 'T' + event.time : ''));
+                
+                // Find the calendar day element for this date
+                const dateString = eventDate.toISOString().split('T')[0];
+                const dayElements = document.querySelectorAll('.calendar-day');
+                
+                // Find the matching day element
+                let matchingDayElement = null;
+                dayElements.forEach(dayElement => {
+                    const dayDate = dayElement.getAttribute('data-date');
+                    if (dayDate === dateString) {
+                        matchingDayElement = dayElement;
+                    }
+                });
+                
+                if (matchingDayElement) {
+                    // Check if this day already has events
+                    let eventsPreview = matchingDayElement.querySelector('.events-preview');
+                    
+                    // If no events preview container exists, create one
+                    if (!eventsPreview) {
+                        eventsPreview = document.createElement('div');
+                        eventsPreview.className = 'events-preview';
+                        matchingDayElement.appendChild(eventsPreview);
+                        
+                        // Add has-events class to the day element
+                        matchingDayElement.classList.add('has-events');
+                    }
+                    
+                    // Create event preview element
+                    const eventPreview = document.createElement('div');
+                    eventPreview.className = 'event-preview-item ' + (event.className || '');
+                    eventPreview.textContent = event.title;
+                    
+                    // Add event preview to the events preview container
+                    // Only show up to 2 events directly
+                    const existingPreviews = eventsPreview.querySelectorAll('.event-preview-item');
+                    if (existingPreviews.length < 2) {
+                        eventsPreview.appendChild(eventPreview);
+                    } else {
+                        // If there are already 2 or more events, show a count
+                        let moreEvents = eventsPreview.querySelector('.more-events');
+                        if (!moreEvents) {
+                            moreEvents = document.createElement('div');
+                            moreEvents.className = 'more-events';
+                            moreEvents.textContent = '+1 more';
+                            eventsPreview.appendChild(moreEvents);
+                        } else {
+                            // Update the count
+                            const currentCount = parseInt(moreEvents.textContent.replace(/\D/g, ''));
+                            moreEvents.textContent = `+${currentCount + 1} more`;
+                        }
+                    }
+                    
+                    console.log(`Added event "${event.title}" to calendar display for ${dateString}`);
+                } else {
+                    console.log(`No matching day element found for date ${dateString}`);
+                }
+            } catch (error) {
+                console.error('Error adding event to calendar display:', error);
+            }
+        }
+    </script>
+</body>
+</html>

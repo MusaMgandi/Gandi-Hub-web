@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportMind AI - Student Athlete Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/ai-chat.css">
+    <link rel="stylesheet" href="../css/chat-interface.css">
+    <link rel="stylesheet" href="../css/sidebar-styles.css">
+    <link rel="icon" href="../images/rugbylogo.png" type="image/png">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header d-lg-none">
+            <button class="menu-button" aria-label="Toggle Menu">
+                <i class="bi bi-list"></i>
+            </button>
+            <h1 class="app-title">SportMind AI</h1>
+            <button class="new-chat-button" aria-label="New Chat">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </header>
+
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay"></div>
+
+        <!-- Side Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/rugbylogo.png" alt="SportMind AI Logo" class="logo">
+                <h2>SportMind AI</h2>
+                <p class="tagline">Your Personal Athlete Assistant</p>
+            </div>
+
+            <div class="sidebar-content">
+                <button class="btn btn-primary new-chat-btn">
+                    <i class="bi bi-plus-circle"></i> New Chat
+                </button>
+
+                <div class="sidebar-section">
+                    <h3 class="collapsed"><i class="bi bi-clock-history"></i> Recent Chats</h3>
+                    <div class="chat-history collapsible" id="chatHistory">
+                        <!-- Dynamic content will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="collapsed"><i class="bi bi-gear"></i> Settings</h3>
+                    <div class="settings-container collapsible">
+                        <div class="settings-option">
+                            <label for="textToSpeech" class="d-flex align-items-center mb-2">
+                                <input type="checkbox" id="textToSpeech" class="me-2">
+                                <span>Text-to-Speech</span>
+                            </label>
+                        </div>
+                        <div class="settings-option">
+                            <label for="autoSendVoice" class="d-flex align-items-center mb-2">
+                                <input type="checkbox" id="autoSendVoice" class="me-2">
+                                <span>Auto-send voice messages</span>
+                            </label>
+                        </div>
+                        <div class="settings-option mb-3">
+                            <label for="position" class="d-block mb-1">Rugby Position:</label>
+                            <select id="position" class="form-select form-select-sm">
+                                <option value="">Select your position</option>
+                                <option value="prop">Prop</option>
+                                <option value="hooker">Hooker</option>
+                                <option value="lock">Lock</option>
+                                <option value="flanker">Flanker</option>
+                                <option value="number 8">Number 8</option>
+                                <option value="scrum half">Scrum Half</option>
+                                <option value="fly half">Fly Half</option>
+                                <option value="center">Center</option>
+                                <option value="wing">Wing</option>
+                                <option value="fullback">Fullback</option>
+                            </select>
+                        </div>
+                        <button id="saveSettings" class="btn btn-primary btn-sm w-100">Save Settings</button>
+                    </div>
+                </div>
+
+                <div class="user-profile">
+                    <img src="../images/rugby16.jpg" alt="User" class="user-avatar">
+                    <div class="user-info">
+                        <strong>Athlete User</strong>
+                        <small>Student Athlete</small>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Chat Header -->
+            <div class="chat-header d-none d-lg-flex">
+                <h2>SportMind Assistant</h2>
+                <div class="chat-actions">
+                    <button class="btn btn-outline-secondary" id="clearChatBtn">
+                        <i class="bi bi-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="chat-container" id="chatContainer">
+                <!-- Welcome Message -->
+                <div class="message ai-message welcome-message">
+                    <div class="avatar ai-avatar">
+                        <i class="bi bi-robot"></i>
+                       
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            <h3>Welcome to SportMind AI!</h3>
+                            <p>I'm your personal assistant for athletic and academic success. I can help with:</p>
+                            <ul>
+                                <li><i class="bi bi-journal-bookmark"></i> Study strategies & time management</li>
+                                <li><i class="bi bi-speedometer2"></i> Training optimization & recovery</li>
+                                <li><i class="bi bi-egg-fried"></i> Sports nutrition & meal planning</li>
+                                <li><i class="bi bi-heart-pulse"></i> Mental health & performance psychology</li>
+                            </ul>
+                            <p>How can I assist you today?</p>
+                        </div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <textarea id="messageInput" placeholder="Type your message here..." rows="1"></textarea>
+                <div class="action-buttons">
+                    <button class="voice-input-button" aria-label="Voice Input">
+                        <i class="bi bi-mic"></i>
+                    </button>
+                    <button id="sendButton" class="send-btn" aria-label="Send Message">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/ai-knowledge.js" type="module"></script>
+    <script src="../js/chat-responses.js" type="module"></script>
+    <script src="../js/ai-chat.js" type="module"></script>
+</body>
+</html>

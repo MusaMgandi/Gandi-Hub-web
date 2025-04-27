@@ -1,0 +1,65 @@
+/* Mobile First Approach */
+:root {
+    --header-height: 60px;
+    --footer-height: 80px;
+}
+
+/* Adjust main content for fixed header */
+main {
+    padding-top: var(--header-height);
+}
+
+/* Base mobile styles */
+.container {
+    width: 100%;
+    padding: 0 15px;
+}
+
+/* Tablets (768px and up) */
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Laptops (1024px and up) */
+@media screen and (min-width: 1024px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Desktops (1200px and up) */
+@media screen and (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+    display: block;
+}
+
+@media screen and (min-width: 768px) {
+    .mobile-nav {
+        display: none;
+    }
+    
+    .desktop-nav {
+        display: block;
+    }
+}

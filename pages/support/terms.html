@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions - GandiHub Sports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0f1d, #1a1f2d);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 2rem;
+        }
+
+        .terms-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            color: #007BFF;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .last-updated {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .terms-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .terms-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .terms-section h2 {
+            color: #007BFF;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            justify-content: space-between;
+        }
+
+        .terms-section h2 i {
+            font-size: 1.4rem;
+        }
+
+        .terms-section h2::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: transform 0.3s ease;
+        }
+
+        .terms-section.active h2::after {
+            transform: rotate(180deg);
+        }
+
+        .terms-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .terms-section ul li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .terms-section ul li::before {
+            content: '•';
+            color: #007BFF;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+        }
+
+        .highlight {
+            background: rgba(0, 123, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #007BFF;
+            margin: 1.5rem 0;
+        }
+
+        .navigation {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: #007BFF;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .navigation {
+                display: none;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .terms-section {
+                padding: 1.5rem;
+            }
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .section-content.visible {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <!-- Navigation dots will be added via JavaScript -->
+    </div>
+
+    <div class="container">
+        <div class="terms-header">
+            <h1><i class="fas fa-file-contract"></i> Terms & Conditions</h1>
+            <p class="last-updated">Last updated: January 2024</p>
+        </div>
+
+        <div class="terms-section" id="section1">
+            <h2><i class="fas fa-user-shield"></i> Privacy & Security</h2>
+            <div class="section-content hidden">
+                <p class="highlight">Your privacy and data security are our top priorities at GandiHub Sports.</p>
+                <ul>
+                    <li>All personal data is encrypted using industry-standard protocols</li>
+                    <li>Training videos and performance data are stored securely</li>
+                    <li>We never share your information with third parties without consent</li>
+                    <li>You have full control over your data and can request deletion at any time</li>
+                    <li>Regular security audits are conducted to ensure data protection</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="terms-section" id="section2">
+            <h2><i class="fas fa-dumbbell"></i> Training Services</h2>
+            <div class="section-content hidden">
+                <p class="highlight">Our training services are designed to help you achieve your athletic goals safely and effectively.</p>
+                <ul>
+                    <li>All training plans are customized to your skill level</li>
+                    <li>Virtual coaching sessions must be scheduled 24 hours in advance</li>
+                    <li>Cancellations require 12-hour notice for full refund</li>
+                    <li>Training content may not be shared or redistributed</li>
+                    <li>Users must follow safety guidelines during training sessions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="terms-section" id="section3">
+            <h2><i class="fas fa-robot"></i> AI Features Usage</h2>
+            <div class="section-content hidden">
+                <p class="highlight">Our AI features are designed to enhance your training experience while maintaining ethical standards.</p>
+                <ul>
+                    <li>AI analysis is supplementary to professional coaching</li>
+                    <li>Training data is used to improve AI recommendations</li>
+                    <li>AI chatbot conversations are not stored permanently</li>
+                    <li>Users can opt-out of AI features at any time</li>
+                    <li>AI recommendations should be validated by certified coaches</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Add more sections as needed -->
+    </div>
+
+    <script>
+        // Add navigation dots
+        const sections = document.querySelectorAll('.terms-section');
+        const nav = document.querySelector('.navigation');
+
+        sections.forEach((section, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot';
+            dot.addEventListener('click', () => {
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+            nav.appendChild(dot);
+        });
+
+        // Highlight active section on scroll
+        window.addEventListener('scroll', () => {
+            const dots = document.querySelectorAll('.nav-dot');
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= window.innerHeight/2 && rect.bottom >= window.innerHeight/2) {
+                    dots[index].classList.add('active');
+                } else {
+                    dots[index].classList.remove('active');
+                }
+            });
+        });
+
+        // Toggle section content visibility
+        document.querySelectorAll('.terms-section').forEach(section => {
+            section.addEventListener('click', () => {
+                const content = section.querySelector('.section-content');
+                const isActive = section.classList.contains('active');
+                
+                // Close all sections
+                document.querySelectorAll('.terms-section').forEach(s => {
+                    s.classList.remove('active');
+                    s.querySelector('.section-content').classList.remove('visible');
+                });
+                
+                // Open clicked section if it wasn't active
+                if (!isActive) {
+                    section.classList.add('active');
+                    content.classList.add('visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

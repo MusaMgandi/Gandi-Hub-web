@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - GandiHub Sports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/support-shared.css">
+    <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #0056b3;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0f1d, #1a1f2d);
+            color: white;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            -webkit-backdrop-filter: blur(10px);
+             backdrop-filter: blur(10px);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(77, 171, 247, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #007BFF;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #007BFF;
+        }
+
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(77, 171, 247, 0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            color: white; /* Changed from blue to white */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            border-color: #007BFF;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2);
+            color: #4dabf7; /* Light blue on hover */
+        }
+
+        .category-btn.active {
+            background: #007BFF;
+            color: white;
+            border-color: transparent;
+        }
+
+        .faq-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(77, 171, 247, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+            border-color: #007BFF;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            color: white; /* Changed from blue to white */
+            font-weight: 600; /* Increased font weight */
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: 0.3px;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.9); /* Increased opacity for better visibility */
+            font-size: 1rem;
+            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            height: auto;
+            opacity: 1;
+        }
+
+        .faq-item.active {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-item.active .faq-question {
+            color: #4dabf7; /* Light blue when active */
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6); /* More visible placeholder text */
+        }
+
+        .highlight {
+            background-color: rgba(0, 123, 255, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Frequently Asked Questions</h1>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search FAQs...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </div>
+
+        <div class="faq-categories">
+            <button class="category-btn active">
+                <i class="fas fa-globe"></i>General
+            </button>
+            <button class="category-btn">
+                <i class="fas fa-running"></i>Training
+            </button>
+            <button class="category-btn">
+                <i class="fas fa-graduation-cap"></i>Academics
+            </button>
+            <button class="category-btn">
+                <i class="fas fa-robot"></i>AI Features
+            </button>
+        </div>
+
+        <div class="faq-list">
+            <!-- FAQ items will be populated dynamically -->
+        </div>
+    </div>
+
+    <script>
+        // FAQ Data structure
+        const faqData = {
+            general: [
+                {
+                    question: "What is Gandi-Hub?",
+                    answer: "Gandi-Hub is a comprehensive platform designed to help student-athletes balance their sports training and academic commitments through smart scheduling, progress tracking, and AI-powered assistance."
+                },
+                {
+                    question: "How much does it cost?",
+                    answer: "We offer different subscription tiers. The basic features are free, while premium features are available through our monthly or annual subscription plans."
+                }
+            ],
+            training: [
+                {
+                    question: "Can I create custom training plans?",
+                    answer: "Yes! You can create and customize your training plans, or use our pre-built templates designed by professional coaches."
+                },
+                {
+                    question: "How does progress tracking work?",
+                    answer: "Our platform tracks your training sessions, records achievements, and provides visual progress reports through charts and statistics."
+                }
+            ],
+            academics: [
+                {
+                    question: "How does the study scheduler work?",
+                    answer: "The study scheduler helps you organize your study sessions around your training schedule, ensuring optimal time management."
+                },
+                {
+                    question: "Can I track my academic performance?",
+                    answer: "Yes, you can log grades, set academic goals, and monitor your progress through our academic dashboard."
+                }
+            ],
+            ai: [
+                {
+                    question: "What is the AI Chat Assistant?",
+                    answer: "The AI Chat Assistant is our intelligent virtual coach that provides 24/7 support for both your sports training and academic needs. It uses advanced natural language processing to understand and respond to your questions, provide personalized advice, and help optimize your training and study schedules."
+                },
+                {
+                    question: "How does the Training Analysis AI work?",
+                    answer: "Our Training Analysis AI uses computer vision and machine learning to analyze your training videos, providing real-time feedback on your technique, posture, and movement patterns. It can identify areas for improvement and suggest specific drills to enhance your performance."
+                },
+                {
+                    question: "Can the AI help with academic planning?",
+                    answer: "Yes! The AI analyses your academic schedule, training commitments, and study patterns to create optimized study plans. It can recommend the best times for focused study sessions, break intervals, and even suggest specific study techniques based on your learning style."
+                },
+                {
+                    question: "What kind of performance predictions can the AI make?",
+                    answer: "Using historical data from your training sessions and matches, the AI can predict performance trends, identify potential areas of fatigue, and suggest optimal training intensities. It also helps prevent overtraining by monitoring your recovery patterns."
+                },
+                {
+                    question: "How personalized are the AI recommendations?",
+                    answer: "The AI continuously learns from your individual data, including training preferences, academic performance, and recovery patterns. This allows it to provide highly personalized recommendations that become more accurate over time."
+                },
+                {
+                    question: "Is my data safe with the AI features?",
+                    answer: "Absolutely. We employ state-of-the-art encryption and security measures to protect your data. All AI interactions are anonymized, and you have complete control over what data you share. We comply with international data protection standards and never share your personal information with third parties."
+                }
+            ]
+        };
+
+        // Modified initialization function to show General by default
+        function initializeFAQs() {
+            const faqList = document.querySelector('.faq-list');
+            
+            // Set General button as active by default
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.textContent.trim().toLowerCase() === 'general') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Load General content first
+            faqData.general.forEach(faq => {
+                faqList.appendChild(createFAQItem(faq));
+            });
+        }
+
+        // Create FAQ Item
+        function createFAQItem(faq) {
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.innerHTML = `
+                <div class="faq-question">
+                    ${faq.question}
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    ${faq.answer}
+                    ${faq.category ? `<br><small style="color: rgba(255,255,255,0.5);">Category: ${faq.category}</small>` : ''}
+                </div>
+            `;
+
+            faqItem.querySelector('.faq-question').addEventListener('click', () => {
+                faqItem.classList.toggle('active');
+            });
+
+            return faqItem;
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', initializeFAQs);
+
+        // Category switching
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update FAQ list
+                const category = btn.textContent.trim().toLowerCase();
+                const faqList = document.querySelector('.faq-list');
+                faqList.innerHTML = '';
+                faqData[category].forEach(faq => {
+                    faqList.appendChild(createFAQItem(faq));
+                });
+            });
+        });
+
+        // Add click handler specifically for AI Features
+        document.querySelector('.category-btn:has(i.fa-robot)').addEventListener('click', () => {
+            const faqList = document.querySelector('.faq-list');
+            faqList.innerHTML = '';
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.category-btn:has(i.fa-robot)').classList.add('active');
+            
+            // Load AI Features content with a slight animation delay
+            setTimeout(() => {
+                faqData.ai.forEach(faq => {
+                    faqList.appendChild(createFAQItem(faq));
+                });
+            }, 100);
+        });
+
+        // Update search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const faqList = document.querySelector('.faq-list');
+            faqList.innerHTML = '';
+
+            if (!searchTerm) {
+                // Show default category (General) when search is empty
+                const activeCategory = document.querySelector('.category-btn.active').textContent.trim().toLowerCase();
+                faqData[activeCategory].forEach(faq => faqList.appendChild(createFAQItem(faq)));
+                return;
+            }
+
+            let results = [];
+            Object.entries(faqData).forEach(([category, faqs]) => {
+                faqs.forEach(faq => {
+                    if (
+                        category.toLowerCase().includes(searchTerm) ||
+                        faq.question.toLowerCase().includes(searchTerm) ||
+                        faq.answer.toLowerCase().includes(searchTerm)
+                    ) {
+                        results.push({
+                            ...faq,
+                            question: highlightText(faq.question, searchTerm),
+                            answer: highlightText(faq.answer, searchTerm),
+                            category
+                        });
+                    }
+                });
+            });
+
+            if (results.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.textContent = 'No matching FAQs found. Try different keywords.';
+                faqList.appendChild(noResults);
+            } else {
+                results.forEach(faq => faqList.appendChild(createFAQItem(faq)));
+            }
+        });
+
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+    </script>
+</body>
+</html>

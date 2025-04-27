@@ -1,0 +1,108 @@
+<section id="grades" class="content-section">
+    <h2 class="section-title mb-4">Course Grades</h2>
+    
+    <!-- Top Row: Add Grade & Motivation -->
+    <div class="row g-4 mb-4">
+        <!-- Add Grade Card -->
+        <div class="col-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Add New Grade</h5>
+                    <form id="addGradeForm">
+                        <div class="mb-3">
+                            <label for="courseName" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="courseName" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="grade" class="form-label">Grade</label>
+                                <select class="form-select" id="grade" required>
+                                    <option value="">Select Grade</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                    <option value="F">F</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="credits" class="form-label">Credits</label>
+                                <input type="number" class="form-control" id="credits" min="1" max="6" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gradeNotes" class="form-label">Notes (Optional)</label>
+                            <textarea class="form-control" id="gradeNotes" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Grade</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivation Card -->
+        <div class="col-12 col-lg-6">
+            <div class="card bg-gradient">
+                <div class="card-body text-center">
+                    <i class="bi bi-stars display-4 mb-3 text-warning"></i>
+                    <h5 class="card-title">Keep Going!</h5>
+                    <p class="card-text quote-text">"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
+                    <small class="text-muted">- Winston Churchill</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Progress Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Grade Progress</h5>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <canvas id="gradeDistributionChart"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <div class="grade-stats">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Current GPA</span>
+                            <strong>3.8</strong>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" style="width: 95%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Completed Credits</span>
+                            <strong>45/120</strong>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" style="width: 37.5%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade History Table -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Grade History</h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>Grade</th>
+                            <th>Credits</th>
+                            <th>Term</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradeHistoryTable">
+                        <!-- Grades will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

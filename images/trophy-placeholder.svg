@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Trophy Base -->
+    <path d="M40 90h40v10H40z" fill="#E0E0E0"/>
+    <!-- Trophy Cup -->
+    <path d="M45 30h30v60H45z" fill="#F5F5F5"/>
+    <path d="M35 20h50v15c0 13.807-11.193 25-25 25S35 48.807 35 35V20z" fill="#FFD700"/>
+    <!-- Trophy Handles -->
+    <path d="M85 25c10 0 15 5 15 15s-5 15-15 15V25z" fill="#FFD700"/>
+    <path d="M35 25c-10 0-15 5-15 15s5 15 15 15V25z" fill="#FFD700"/>
+    <!-- Shine Effect -->
+    <path d="M45 20h10l-5 40h-5V20z" fill="#FFF" fill-opacity="0.3"/>
+    <!-- Star -->
+    <path d="M60 10l3.09 9.5h10l-8.09 5.89 3.09 9.5L60 29l-8.09 5.89 3.09-9.5L47 19.5h10L60 10z" fill="#FFD700"/>
+</svg>

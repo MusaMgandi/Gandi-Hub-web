@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GandiHub Sports</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/enhanced-notifications.css">
+    <link rel="stylesheet" href="../css/notification-settings.css">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --light-text: #fff;
+            --border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Header styles */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: #fff;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Logo and icons styling */
+        .logo-link {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .header-icons a {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .header-icons a:hover {
+            color: #003d7a;
+            transform: scale(1.1);
+        }
+
+        /* Notification Badge */
+        .notification-icon {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff3b30;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* Notification Modal */
+        .notification-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 80px;
+        }
+
+        .notification-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 1;
+        }
+
+        .notification-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .close-notification {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s ease;
+        }
+
+        .close-notification:hover {
+            color: #333;
+        }
+
+        .notification-list {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .notification-item.unread {
+            border-left: 3px solid var(--primary-color);
+            background-color: rgba(0, 86, 179, 0.05);
+        }
+
+        .notification-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .notification-icon-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .notification-icon-wrapper.academic {
+            background-color: #4dabf7;
+        }
+
+        .notification-icon-wrapper.training {
+            background-color: #ff7043;
+        }
+
+        .notification-icon-wrapper.event {
+            background-color: #66bb6a;
+        }
+
+        .notification-icon-wrapper.achievement {
+            background-color: #ffc107;
+        }
+
+        .notification-icon-wrapper.profile {
+            background-color: #007bff;
+        }
+
+        .notification-icon-wrapper i {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .notification-content-wrapper {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+
+        .notification-message {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .notification-empty {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        .notification-empty i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .notification-empty p {
+            margin: 10px 0 0;
+        }
+
+        /* For desktop layout, adjust header */
+        @media (min-width: 1024px) {
+            .header-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                background-color: transparent;
+                box-shadow: none;
+            }
+            
+            .header-logo {
+                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            }
+            
+            .header-icons a {
+                color: var(--light-text);
+                filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            }
+            
+            .header-icons a:hover {
+                color: #fff;
+            }
+        }
+
+        /* Main container */
+        .main-container {
+            flex: 1;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Category grid - Default for mobile (2x2 grid) */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 12px;
+            margin: 0;
+            padding: 12px;
+            width: 100%;
+            height: calc(100vh - 60px); /* Subtract header height */
+        }
+
+        /* For desktop layout, adjust positions and show overlay elements */
+        @media (min-width: 1024px) {
+            .category-grid {
+                display: flex;
+                flex-direction: row;
+                height: 100vh; /* Full height on desktop */
+                gap: 0;
+                padding: 0;
+            }
+            
+            .category {
+                flex: 1;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+
+        /* Category styles */
+        .category {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            background-color: #fff;
+            width: 100%;
+            height: 100%;
+        }
+
+        .category:active {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .category img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            color: var(--light-text);
+        }
+
+        .category-content h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Responsive image support */
+        .responsive-img, .category img.slide {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category:hover .responsive-img,
+        .category:hover img.slide {
+            transform: scale(1.05);
+        }
+
+        /* Media query for desktop */
+        @media (min-width: 768px) {
+            .category-grid {
+                height: calc(100vh - 70px); /* Slightly larger header on desktop */
+            }
+            
+            .main-container {
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+            
+            .category-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Large screens - horizontal row */
+        @media (min-width: 1024px) {
+            .category-grid {
+                display: flex;
+                flex-direction: row;
+                height: calc(100vh - 70px);
+                gap: 0;
+                padding: 0;
+            }
+            
+            .category {
+                flex: 1;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+
+        /* Footer styles */
+        .footer-container {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 24px 16px;
+        }
+
+        .footer-section {
+            margin-bottom: 16px;
+        }
+
+        .footer-section h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+        }
+
+        .footer-section h4::after {
+            content: '+';
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section.active h4::after {
+            transform: rotate(45deg);
+        }
+
+        .footer-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .footer-section.active .footer-content {
+            max-height: 500px;
+        }
+
+        .footer-content ul {
+            list-style: none;
+            padding: 8px 0;
+        }
+
+        .footer-content ul li {
+            padding: 6px 0;
+        }
+
+        .footer-content ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .footer-content ul li a:hover {
+            color: #fff;
+        }
+
+        .copyright-bar {
+            text-align: center;
+            padding-top: 16px;
+            color: #777;
+            font-size: 0.8rem;
+            border-top: 1px solid #333;
+            margin-top: 16px;
+        }
+
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            .footer-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+                padding: 48px 24px;
+            }
+
+            .footer-section h4 {
+                cursor: default;
+                border-bottom: none;
+            }
+
+            .footer-section h4::after {
+                display: none;
+            }
+
+            .footer-content {
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo-link">
+            <img src="../images/rugbylogo.png" alt="GandiHub Logo" class="header-logo">
+        </div>
+        <div class="header-icons">
+            <a href="#" class="notification-icon">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </a>
+            <a href="profile.html" class="profile-icon">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Notification Modal -->
+    <div class="notification-modal">
+        <div class="notification-content">
+            <div class="notification-header">
+                <h3>Notifications</h3>
+                <button class="close-notification" aria-label="Close notifications">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="notification-list" aria-live="polite">
+                <!-- Dynamic notifications will be added here by the enhanced notification system -->
+            </ul>
+            <div class="notification-empty" style="display: none;">
+                <i class="fas fa-bell-slash"></i>
+                <p>No new notifications</p>
+            </div>
+            <!-- Notification actions will be added by the enhanced notification system -->
+        </div>
+    </div>
+    
+    <!-- Toast Container for popup notifications -->
+    <div class="toast-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Categories Grid -->
+        <div class="category-grid">
+            <div class="category" onclick="window.location.href='events.html';" style="cursor: pointer;">
+                <picture>
+                    <source media="(min-width: 1024px)" srcset="../images/events/event1-large.jpg">
+                    <source media="(min-width: 768px)" srcset="../images/events/event1-medium.jpg">
+                    <img src="../images/events/event1-small.jpg" alt="Events" class="slide responsive-img">
+                </picture>
+                <div class="category-content">
+                    <h2>Events</h2>
+                </div>
+            </div>
+            <div class="category" onclick="window.location.href='training.html';" style="cursor: pointer;">
+                <img src="../images/rugby1.jpg" alt="Training" class="slide responsive-img">
+                <div class="category-content">
+                    <h2>Training</h2>
+                </div>
+            </div>
+            <div class="category" onclick="window.location.href='academics.html';" style="cursor: pointer;">
+                <img src="../images/edu1.jpg" alt="Education" class="slide responsive-img">
+                <div class="category-content">
+                    <h2>Education</h2>
+                </div>
+            </div>
+            <div class="category" onclick="window.location.href='ai-chat.html';" style="cursor: pointer;">
+                <img src="../images/rugbyai3.png" alt="AI Chat" class="slide responsive-img">
+                <div class="category-content">
+                    <h2>AI Chat</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Support</h4>
+                <div class="footer-content">
+                    <ul>
+                        <li><a href="../pages/support/help-center.html"><i class="fas fa-question-circle"></i>Help Center</a></li>
+                        <li><a href="../pages/support/faqs.html"><i class="fas fa-info-circle"></i>FAQs</a></li>
+                        <li><a href="../pages/support/contact.html"><i class="fas fa-envelope"></i>Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <div class="footer-content">
+                    <ul>
+                        <li><a href="../pages/support/terms.html"><i class="fas fa-file-contract"></i>Terms of Use</a></li>
+                        <li><a href="../pages/support/privacy.html"><i class="fas fa-shield-alt"></i>Privacy Policy</a></li>
+                        <li><a href="../pages/support/cookies.html"><i class="fas fa-cookie"></i>Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <div class="footer-content">
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i>Kenya, Africa</a></li>
+                        <li><a href="tel:+254708993909"><i class="fas fa-phone"></i>+254 708 993 909</a></li>
+                        <li><a href="mailto:gandihubgo@fmail.com"><i class="fas fa-envelope"></i>gandihubgo@fmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright-bar">
+                <p>&copy; 2025 Gandi-Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add before the Firebase SDKs -->
+    <script>
+        // Footer mobile functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const footerSections = document.querySelectorAll('.footer-section');
+            
+            footerSections.forEach(section => {
+                const heading = section.querySelector('h4');
+                const content = section.querySelector('.footer-content');
+                
+                // Only add click handlers on mobile
+                if (window.innerWidth < 1024) {
+                    heading.addEventListener('click', () => {
+                        const wasActive = section.classList.contains('active');
+                        
+                        // Close all sections
+                        footerSections.forEach(s => {
+                            s.classList.remove('active');
+                            s.querySelector('.footer-content').style.maxHeight = '0px';
+                        });
+                        
+                        // Toggle clicked section
+                        if (!wasActive) {
+                            section.classList.add('active');
+                            content.style.maxHeight = content.scrollHeight + 'px';
+                        }
+                    });
+                }
+            });
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1024) {
+                    footerSections.forEach(section => {
+                        section.classList.remove('active');
+                        section.querySelector('.footer-content').style.maxHeight = 'none';
+                    });
+                } else {
+                    footerSections.forEach(section => {
+                        section.querySelector('.footer-content').style.maxHeight = '0px';
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDb7Rw9gf3k3OqUjpImv03oBJbDdAzsGpM",
+            authDomain: "gandi-hub-474d2.firebaseapp.com",
+            projectId: "gandi-hub-474d2",
+            storageBucket: "gandi-hub-474d2.appspot.com",
+            messagingSenderId: "877278458127",
+            appId: "1:877278458127:web:22728337144c770a4b8e7a"
+        };
+
+        // Initialize Firebase with modern configuration
+        async function initializeFirebase() {
+            try {
+                // Initialize Firebase app
+                firebase.initializeApp(firebaseConfig);
+                
+                // Get Firestore instance
+                const db = firebase.firestore();
+                
+                // Configure Firestore settings with cache and merge
+                db.settings({
+                    merge: true,
+                    cache: {
+                        persist: true,
+                        synchronizeTabs: true,
+                        size: firebase.firestore.CACHE_SIZE_UNLIMITED
+                    }
+                });
+                
+                console.log('Firebase initialized with persistence enabled');
+                window.firebaseInitialized = true;
+                window.db = db; // Make db instance globally available
+            } catch (err) {
+                console.error('Firebase initialization error:', err);
+                window.firebaseInitialized = true;
+            }
+        }
+
+        // Start initialization
+        initializeFirebase().catch(console.error);
+        
+        // Make config available globally
+        window.firebaseConfig = firebaseConfig;
+    </script>
+
+    <!-- Include the notification system scripts -->
+    <script src="../js/notification-sounds.js"></script>
+    <script src="../js/enhanced-notifications.js"></script>
+    <script src="../js/notification-settings.js"></script>
+    <script src="../js/notification-integration.js"></script>
+
+    <!-- Initialize notification system -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add cookie check and warning
+            if (!navigator.cookieEnabled) {
+                console.warn('Cookies are disabled. Some features may not work properly.');
+                if (window.showToast) {
+                    window.showToast('Please enable cookies for full functionality', 'warning', 5000);
+                }
+            }
+            
+            // Rest of your initialization code
+            // ...existing notification system initialization code...
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+/* Sidebar Styles */
+.sidebar-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.sidebar-content {
+    height: calc(100% - 120px); /* Account for header */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.sidebar-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-section h3:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-section h3::after {
+    content: '\F282'; /* Bootstrap icon for chevron-down */
+    font-family: 'Bootstrap Icons';
+    margin-left: auto;
+    font-size: 0.875rem;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-section h3.collapsed::after {
+    transform: rotate(-90deg);
+}
+
+.sidebar-section h3.collapsed i {
+    transform: rotate(-90deg);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-section h3:not(.collapsed) i {
+    transform: rotate(0);
+}
+
+.sidebar-section h3 i {
+    color: var(--primary);
+    transition: transform 0.3s ease;
+}
+
+.collapsible {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    opacity: 0;
+    padding: 0 15px;
+}
+
+.collapsible.show {
+    max-height: 500px;
+    opacity: 1;
+    padding: 15px;
+    transition: max-height 0.3s ease-in, opacity 0.2s ease-in;
+}
+
+/* Chat Items */
+.chat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.chat-item:hover {
+    background-color: var(--gray-200);
+}
+
+.chat-item-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow: hidden;
+}
+
+.chat-item i {
+    color: var(--primary);
+    font-size: 0.875rem;
+}
+
+.chat-title {
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.chat-item-date {
+    font-size: 0.75rem;
+    color: var(--gray-600);
+}
+
+.no-chats {
+    color: var(--gray-500);
+    font-size: 0.875rem;
+    font-style: italic;
+    padding: 0.5rem 0;
+}
+
+/* Settings */
+.settings-container {
+    display: none;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.settings-container.show {
+    display: block;
+}
+
+.chat-history, .saved-chats {
+    display: none; /* Hidden by default */
+}
+
+.chat-history.show, .saved-chats.show {
+    display: block;
+}
+
+.settings-option {
+    margin-bottom: 0.75rem;
+}
+
+.settings-option label {
+    font-size: 0.875rem;
+    color: var(--gray-700);
+}
+
+.settings-option select {
+    font-size: 0.875rem;
+}
+
+/* Animation for listening state */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.voice-input-button.listening {
+    animation: pulse 1.5s infinite;
+    background-color: #dc3545;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chat-title {
+        max-width: 120px;
+    }
+    
+    .sidebar {
+        padding-top: 60px; /* Account for mobile header */
+    }
+    
+    .sidebar-content {
+        height: calc(100% - 180px); /* Account for header and padding */
+    }
+    
+    /* Ensure sidebar sections are properly spaced */
+    .sidebar-section {
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+    }
+    
+    /* Make clickable areas larger for touch */
+    .sidebar-section h3 {
+        padding: 0.75rem 0;
+    }
+    
+    .chat-item {
+        padding: 0.75rem;
+    }
+}

@@ -1,0 +1,55 @@
+<div class="container-fluid py-4">
+    <!-- Grade Statistics Section -->
+    <section class="mb-4">
+        <h4 class="mb-3">Grade Analytics</h4>
+        <div id="gradeStats" class="mb-4">
+            <!-- Grade statistics cards will be dynamically inserted here -->
+        </div>
+        
+        <!-- Grade Charts -->
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <canvas id="gpaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <canvas id="gradeDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grade History Section -->
+    <section>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4>Grade History</h4>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGradeModal">
+                <i class="bi bi-plus-lg"></i> Add Grade
+            </button>
+        </div>
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Semester</th>
+                            <th>GPA</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gradeHistoryTable">
+                        <!-- Grade history will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>

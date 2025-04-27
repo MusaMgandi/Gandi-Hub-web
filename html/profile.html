@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rugby Player Profile</title>
+    <link rel="icon" type="image/png" href="../images/rugbylogo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <h1>Rugby Player Profile</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="active">Profile</a>
+                    <a href="#" class="logout-btn">Logout</a>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="profile-header">
+                <div class="profile-image">
+                    <img src="../images/default-avatar.png" alt="Profile Image" id="profile-img">
+                    <div class="edit-overlay">
+                        <i class="bi bi-camera-fill"></i>
+                    </div>
+                </div>
+                <h2 id="player-name">Player Name</h2>
+                <p id="player-tagline">@username</p>
+            </div>
+
+            <div class="profile-tabs">
+                <button class="tab-btn active" data-tab="basic-info">Basic Information</button>
+                <button class="tab-btn" data-tab="player-details">Player Details</button>
+                <button class="tab-btn" data-tab="experience">Experience</button>
+            </div>
+
+            <div class="profile-content">
+                <!-- Basic Information Section -->
+                <div class="tab-content active" id="basic-info">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3>Personal Information</h3>
+                            <button class="edit-btn" id="edit-personal-info"><i class="bi bi-pencil"></i> Edit</button>
+                        </div>
+                        
+                        <!-- View Mode -->
+                        <div class="info-group view-mode" id="personal-info-view">
+                            <div class="info-item">
+                                <span class="info-label">First Name:</span>
+                                <span class="info-value" id="first-name"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Last Name:</span>
+                                <span class="info-value" id="last-name"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Username:</span>
+                                <span class="info-value" id="username"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Date of Birth:</span>
+                                <span class="info-value" id="date-of-birth"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Occupation:</span>
+                                <span class="info-value" id="occupation"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Email:</span>
+                                <span class="info-value" id="email"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Phone:</span>
+                                <span class="info-value" id="phone"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Edit Mode -->
+                        <div class="info-group edit-mode" id="personal-info-edit" style="display: none;">
+                            <form id="personal-info-form">
+                                <div class="form-group">
+                                    <label for="edit-first-name">First Name:</label>
+                                    <input type="text" id="edit-first-name" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-last-name">Last Name:</label>
+                                    <input type="text" id="edit-last-name" name="lastName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-username">Username:</label>
+                                    <input type="text" id="edit-username" name="username" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-date-of-birth">Date of Birth:</label>
+                                    <input type="date" id="edit-date-of-birth" name="dateOfBirth" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-occupation">Occupation:</label>
+                                    <input type="text" id="edit-occupation" name="occupation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-email">Email:</label>
+                                    <input type="email" id="edit-email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-phone">Phone:</label>
+                                    <input type="tel" id="edit-phone" name="phone" required>
+                                </div>
+                                <div class="form-buttons">
+                                    <button type="button" class="cancel-edit-btn">Cancel</button>
+                                    <button type="submit" class="save-btn">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Details Section -->
+                <div class="tab-content" id="player-details">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3>Rugby Details</h3>
+                            <button class="edit-btn" id="edit-rugby-details"><i class="bi bi-pencil"></i> Edit</button>
+                        </div>
+                        
+                        <!-- View Mode -->
+                        <div class="info-group view-mode" id="rugby-details-view">
+                            <div class="info-item">
+                                <span class="info-label">Preferred Position:</span>
+                                <span class="info-value" id="position"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Edit Mode -->
+                        <div class="info-group edit-mode" id="rugby-details-edit" style="display: none;">
+                            <form id="rugby-details-form">
+                                <div class="form-group">
+                                    <label for="edit-position">Preferred Position:</label>
+                                    <select id="edit-position" name="rugbyPosition" required>
+                                        <option value="">Select your position</option>
+                                        <option value="prop">Prop</option>
+                                        <option value="hooker">Hooker</option>
+                                        <option value="lock">Lock</option>
+                                        <option value="flanker">Flanker</option>
+                                        <option value="number8">Number 8</option>
+                                        <option value="scrumhalf">Scrum-half</option>
+                                        <option value="flyhalf">Fly-half</option>
+                                        <option value="center">Center</option>
+                                        <option value="wing">Wing</option>
+                                        <option value="fullback">Fullback</option>
+                                    </select>
+                                </div>
+                                <div class="form-buttons">
+                                    <button type="button" class="cancel-edit-btn">Cancel</button>
+                                    <button type="submit" class="save-btn">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Section -->
+                <div class="tab-content" id="experience">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3>Experience Level</h3>
+                            <button class="edit-btn" id="edit-experience"><i class="bi bi-pencil"></i> Edit</button>
+                        </div>
+                        
+                        <!-- View Mode -->
+                        <div class="info-group view-mode" id="experience-view">
+                            <div class="info-item">
+                                <span class="info-label">Rugby Experience:</span>
+                                <span class="info-value" id="experience-level"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Edit Mode -->
+                        <div class="info-group edit-mode" id="experience-edit" style="display: none;">
+                            <form id="experience-form">
+                                <div class="form-group">
+                                    <label for="edit-experience-level">Rugby Experience:</label>
+                                    <select id="edit-experience-level" name="experienceLevel" required>
+                                        <option value="">Select your experience</option>
+                                        <option value="beginner">Beginner (0-2 years)</option>
+                                        <option value="intermediate">Intermediate (3-5 years)</option>
+                                        <option value="advanced">Advanced (5+ years)</option>
+                                        <option value="professional">Professional</option>
+                                    </select>
+                                </div>
+                                <div class="form-buttons">
+                                    <button type="button" class="cancel-edit-btn">Cancel</button>
+                                    <button type="submit" class="save-btn">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Gandi-Hub. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Modals Container -->
+    <div class="modals-container">
+        <!-- Logout Confirmation Modal -->
+        <div class="modal" id="logoutModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Logout Confirmation</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelLogout" class="modal-btn cancel-btn">Cancel</button>
+                    <button id="confirmLogout" class="modal-btn confirm-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rating Modal -->
+        <div class="modal" id="ratingModal">
+            <div class="modal-content rating-modal-content">
+                <div class="modal-header">
+                    <h3>Rate Your Experience</h3>
+                    <span class="close-modal" id="closeRatingModal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p>How would you rate your experience with Gandi-Hub?</p>
+                    <div class="rating-container">
+                        <div class="stars">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                        <p class="rating-text">Click to rate</p>
+                    </div>
+                    <div class="comment-container">
+                        <label for="rating-comment">Share your thoughts (optional):</label>
+                        <textarea id="rating-comment" rows="4" placeholder="Tell us what you think about our platform..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="skipRating" class="modal-btn cancel-btn">Skip</button>
+                    <button id="submitRating" class="modal-btn confirm-btn" disabled>Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer">
+        <!-- Toast notifications will be inserted here dynamically -->
+    </div>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/profile.js"></script>
+    
+    <script>
+        // Logout functionality
+        document.querySelector('.logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('logoutModal').style.display = 'block';
+        });
+
+        document.getElementById('confirmLogout').addEventListener('click', function() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+
+            firebase.auth().signOut()
+                .then(() => {
+                    window.location.href = '../index.html';
+                })
+                .catch((error) => {
+                    showToast('Error logging out. Please try again.', 'error');
+                })
+                .finally(() => {
+                    loadingOverlay.style.display = 'none';
+                    document.getElementById('logoutModal').style.display = 'none';
+                });
+        });
+
+        document.getElementById('cancelLogout').addEventListener('click', function() {
+            document.getElementById('logoutModal').style.display = 'none';
+        });
+
+        // Close modal when clicking on X or outside the modal
+        document.querySelectorAll('.close-modal').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Helper function to show toast messages
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            
+            const container = document.getElementById('toastContainer');
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => container.removeChild(toast), 500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
