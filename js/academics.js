@@ -77,79 +77,80 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function updateOverviewTodoList() {
-        const overviewTodoList = document.getElementById('overview-todo-list');
-        const todoTasks = document.getElementById('todoTasks');
+    function updateOverviewTodoList(assignments) {
+        const todoList = document.getElementById('overview-todo-list');
+        const emptyState = document.getElementById('empty-todo-state');
+        const todoCount = document.getElementById('overview-todo-count');
+        const template = document.querySelector('.todo-assignments-template .assignment-item');
+
+        // Clear existing assignments
+        todoList.innerHTML = '';
         
-        if (!overviewTodoList || !todoTasks) return;
+        // Filter for todo assignments
+        const todoAssignments = assignments.filter(a => a.status === 'todo');
         
-        const tasks = todoTasks.querySelectorAll('.task-item');
-        const overviewTodoCount = document.getElementById('overview-todo-count');
-        
-        // Update count
-        if (overviewTodoCount) {
-            overviewTodoCount.textContent = tasks.length;
-        }
-        
-        // Clear current content
-        overviewTodoList.innerHTML = '';
-        
-        // Check if there are tasks
-        if (tasks.length === 0) {
-            overviewTodoList.innerHTML = `
-                <div class="empty-state p-4 text-center">
-                    <i class="bi bi-clipboard text-muted fs-1 mb-2"></i>
-                    <p class="text-muted mb-0">No pending assignments</p>
-                </div>
-            `;
+        // Update counter
+        todoCount.textContent = todoAssignments.length;
+
+        if (todoAssignments.length === 0) {
+            // Show empty state
+            todoList.appendChild(emptyState);
             return;
         }
-        
-        // Add tasks to the overview list
-        tasks.forEach(task => {
-            const taskId = task.dataset.taskId;
-            const title = task.querySelector('.task-title')?.textContent;
-            const dueDate = task.querySelector('.task-due')?.textContent;
-            const priority = task.querySelector('.task-priority')?.textContent;
-            const priorityClass = task.querySelector('.task-priority')?.className.split(' ')[1] || '';
+
+        // Add assignments
+        todoAssignments.forEach(assignment => {
+            const item = template.cloneNode(true);
             
-            if (title && dueDate) {
-                const priorityColors = {
-                    high: 'danger',
-                    medium: 'warning',
-                    low: 'success'
-                };
-                
-                const priorityColor = priorityColors[priority.toLowerCase()] || 'secondary';
-                
-                const taskHtml = `
-                    <div class="overview-task-item p-3 border-bottom position-relative" data-task-id="${taskId}" style="transition: all 0.3s ease;">
-                        <div class="d-flex align-items-center">
-                            <div class="task-icon me-3 p-2 rounded-circle text-white d-flex align-items-center justify-content-center" 
-                                 style="width: 40px; height: 40px; background: linear-gradient(45deg, var(--bs-${priorityColor}), var(--bs-${priorityColor}-rgb));">
-                                <i class="bi bi-clipboard-check"></i>
-                            </div>
-                            <div class="task-info flex-grow-1">
-                                <h6 class="mb-1 fw-bold">${title}</h6>
-                                <div class="d-flex align-items-center text-muted" style="font-size: 0.85rem;">
-                                    <i class="bi bi-calendar3 me-2"></i>
-                                    <span>${dueDate}</span>
-                                    <span class="badge bg-${priorityColor} ms-2 text-white">${priority}</span>
-                                </div>
-                            </div>
-                            <button class="btn btn-sm btn-primary overview-task-action-btn rounded-pill" 
-                                    style="background: linear-gradient(45deg, #4776E6, #8E54E9); border: none;">
-                                <i class="bi bi-play-fill me-1"></i>Start
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-                overviewTodoList.insertAdjacentHTML('beforeend', taskHtml);
-            }
+            // Set assignment title
+            item.querySelector('.assignment-title').textContent = assignment.title;
+            
+            // Set due date
+            const dueDate = new Date(assignment.dueDate).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric'
+            });
+            item.querySelector('.due-date').textContent = dueDate;
+            
+            // Set priority badge
+            const priorityBadge = item.querySelector('.priority-badge');
+            priorityBadge.className = `priority-badge badge ${getPriorityClass(assignment.priority)}`;
+            priorityBadge.textContent = assignment.priority;
+            
+            // Add event listeners
+            item.querySelector('.view-btn').addEventListener('click', () => {
+                viewAssignmentDetails(assignment);
+            });
+            
+            item.querySelector('.complete-btn').addEventListener('click', () => {
+                completeAssignment(assignment.id);
+                item.remove();
+                updateOverviewTodoCount();
+            });
+            
+            todoList.appendChild(item);
         });
     }
-    
+
+    function getPriorityClass(priority) {
+        switch (priority.toLowerCase()) {
+            case 'high':
+                return 'bg-danger';
+            case 'medium':
+                return 'bg-warning';
+            case 'low':
+                return 'bg-info';
+            default:
+                return 'bg-secondary';
+        }
+    }
+
+    function updateOverviewTodoCount() {
+        const todoCount = document.getElementById('overview-todo-count');
+        const assignmentItems = document.querySelectorAll('#overview-todo-list .assignment-item');
+        todoCount.textContent = assignmentItems.length;
+    }
+
     // Initialize AOS animations
     AOS.init({
         duration: 800,
@@ -510,6 +511,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    // Initialize with some sample assignments (replace with your actual data source)
+    const sampleAssignments = [
+        {
+            id: 1,
+            title: 'Mathematics Assignment 1',
+            dueDate: '2024-02-20',
+            priority: 'high',
+            status: 'todo'
+        },
+        {
+            id: 2,
+            title: 'Physics Lab Report',
+            dueDate: '2024-02-22',
+            priority: 'medium',
+            status: 'todo'
+        }
+    ];
+    
+    updateOverviewTodoList(sampleAssignments);
 });
 
 // Navigation between sections

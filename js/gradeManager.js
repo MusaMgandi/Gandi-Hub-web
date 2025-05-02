@@ -29,18 +29,30 @@ class GradeManager {
             semester: document.getElementById(`${prefix}Semester`).value,
             gpa: parseFloat(document.getElementById(`${prefix}GpaInput`).value),
             date: document.getElementById(`${prefix}GradeDate`).value,
-            notes: document.getElementById(`${prefix}GradeNotes`).value
+            notes: document.getElementById(`${prefix}GradeNotes`).value,
+            timestamp: Date.now() // Add timestamp for accurate sorting
         };
 
         if (this.validateGrade(grade)) {
-            this.grades.push(grade);
+            // Sort grades by date before adding new grade
+            this.grades = [...this.grades]
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            this.grades.unshift(grade); // Add new grade at the beginning
             this.persistGrades();
             this.updateGradeHistory();
             this.updateAnalytics();
             this.resetForm(isRegularForm);
+            
             if (!isRegularForm) {
                 bootstrap.Modal.getInstance(document.getElementById('addGradeModal')).hide();
             }
+            
+            // Update charts with sorted grades
+            if (window.chartManager) {
+                window.chartManager.updateCharts(this.grades);
+            }
+            
             this.showToast('Grade added successfully!');
         }
     }
@@ -106,17 +118,22 @@ class GradeManager {
     updateAnalytics() {
         if (this.grades.length === 0) return;
 
-        const gpas = this.grades.map(g => g.gpa);
-        document.getElementById('highestGpa').textContent = Math.max(...gpas).toFixed(1);
-        document.getElementById('lowestGpa').textContent = Math.min(...gpas).toFixed(1);
-        document.getElementById('averageGpa').textContent = (gpas.reduce((a, b) => a + b) / gpas.length).toFixed(1);
+        const sortedGrades = [...this.grades].sort((a, b) => new Date(b.date) - new Date(a.date));
+        const gpas = sortedGrades.map(g => g.gpa);
         
-        const trend = gpas[gpas.length - 1] > gpas[gpas.length - 2] ? 
+        // Update analytics displays
+        document.getElementById('highestGpa').textContent = Math.max(...gpas).toFixed(2);
+        document.getElementById('lowestGpa').textContent = Math.min(...gpas).toFixed(2);
+        document.getElementById('averageGpa').textContent = (gpas.reduce((a, b) => a + b) / gpas.length).toFixed(2);
+        
+        // Calculate trend based on most recent grades
+        const currentGpa = gpas[0];
+        const previousGpa = gpas[1] || gpas[0];
+        const trend = currentGpa >= previousGpa ? 
             '<i class="bi bi-arrow-up-circle text-success"></i>' : 
             '<i class="bi bi-arrow-down-circle text-danger"></i>';
+        
         document.getElementById('gpaTrend').innerHTML = trend;
-
-        this.updateCharts();
     }
 
     updateCharts() {

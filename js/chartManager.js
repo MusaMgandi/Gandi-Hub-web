@@ -235,6 +235,12 @@ class ChartManager {
             this.analyticsData.predictions[t.subject]?.expectedGrade || t.averageGrade
         );
 
+        // Calculate if each point represents an improvement
+        const gradientColors = currentGrades.map((grade, index) => {
+            if (index === 0) return '#3498db'; // Default color for first point
+            return grade > currentGrades[index - 1] ? '#2ecc71' : '#e74c3c'; // Green for improvement, Red for decline
+        });
+
         this.charts.performanceTrendChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -243,12 +249,15 @@ class ChartManager {
                     label: 'Current Performance',
                     data: currentGrades,
                     borderColor: '#3498db',
+                    pointBackgroundColor: gradientColors,
+                    pointRadius: 6,
                     fill: false
                 }, {
                     label: 'Predicted Performance',
                     data: predictedGrades,
                     borderColor: '#2ecc71',
                     borderDash: [5, 5],
+                    pointRadius: 4,
                     fill: false
                 }]
             },
@@ -258,16 +267,27 @@ class ChartManager {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 4.0
+                        max: 4.0,
+                        title: {
+                            display: true,
+                            text: 'Grade Point Average'
+                        }
                     }
                 },
                 plugins: {
                     tooltip: {
                         callbacks: {
                             afterBody: (context) => {
-                                const subject = labels[context[0].dataIndex];
-                                const actions = this.analyticsData.predictions[subject]?.recommendedActions || [];
-                                return actions.length ? '\nRecommended Actions:\n- ' + actions.join('\n- ') : '';
+                                const index = context[0].dataIndex;
+                                const currGrade = currentGrades[index];
+                                const prevGrade = index > 0 ? currentGrades[index - 1] : null;
+                                
+                                if (prevGrade !== null) {
+                                    const diff = (currGrade - prevGrade).toFixed(2);
+                                    const trend = diff > 0 ? 'Improvement' : diff < 0 ? 'Decline' : 'No change';
+                                    return `\nTrend: ${trend} (${diff > 0 ? '+' : ''}${diff})`;
+                                }
+                                return '';
                             }
                         }
                     }
@@ -407,33 +427,43 @@ class ChartManager {
             this.charts.gpaChart.destroy();
         }
 
+        // Initialize as a doughnut chart showing completed semesters instead of GPA trend
         this.charts.gpaChart = new Chart(ctx, {
-            type: 'line',
+            type: 'doughnut',
             data: {
-                labels: [],
+                labels: ['Completed', 'Remaining'],
                 datasets: [{
-                    label: 'GPA',
-                    data: [],
-                    borderColor: '#0077BE',
-                    backgroundColor: 'rgba(0, 119, 190, 0.1)',
-                    tension: 0.3,
-                    fill: true
+                    data: [0, 1], // Default values, will be updated
+                    backgroundColor: [
+                        'rgba(46, 204, 113, 0.8)', // Green for completed
+                        'rgba(189, 195, 199, 0.4)'  // Light gray for remaining
+                    ],
+                    borderColor: [
+                        'rgb(46, 204, 113)',
+                        'rgb(189, 195, 199)'
+                    ],
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                cutout: '70%',
                 plugins: {
                     legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 4.0,
-                        ticks: {
-                            stepSize: 1.0
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                if (label === 'Completed') {
+                                    return `Completed Semesters: ${value}`;
+                                } else {
+                                    return `Remaining Semesters: ${value}`;
+                                }
+                            }
                         }
                     }
                 }
@@ -452,17 +482,17 @@ class ChartManager {
         this.charts.gradeDistributionChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Previous', 'Current'],
+                labels: ['Current', 'Previous'],
                 datasets: [{
                     label: 'GPA',
                     data: [0, 0],
                     backgroundColor: [
-                        'rgba(52, 152, 219, 0.6)',
-                        'rgba(46, 204, 113, 0.6)'
+                        'rgba(52, 152, 219, 0.6)', // Blue for current (consistent blue color)
+                        'rgba(149, 165, 166, 0.6)' // Gray for previous
                     ],
                     borderColor: [
-                        'rgb(52, 152, 219)',
-                        'rgb(46, 204, 113)'
+                        'rgb(52, 152, 219)', // Blue for current
+                        'rgb(149, 165, 166)' // Gray for previous
                     ],
                     borderWidth: 1
                 }]
@@ -473,6 +503,14 @@ class ChartManager {
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const value = context.raw;
+                                return `GPA: ${value.toFixed(2)}`;
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -816,40 +854,177 @@ class ChartManager {
     }
 
     updateCharts(grades) {
-        if (!this.initialized) {
-            this.init();
-        }
-
-        if (!grades || !Array.isArray(grades)) {
-            console.warn('Invalid grades data provided to updateCharts');
+        if (!this.initialized || !grades || !Array.isArray(grades)) {
+            console.warn('Invalid grades data or charts not initialized');
             return;
         }
 
         try {
-            // Sort grades by date
-            const sortedGrades = [...grades].sort((a, b) => new Date(a.date) - new Date(b.date));
-            
-            // Update GPA chart
+            // First sort by year and semester (ascending)
+            const sortedByYear = [...grades].sort((a, b) => {
+                // First compare by year
+                if (a.year !== b.year) {
+                    return a.year - b.year;
+                }
+                // If same year, compare by semester
+                return a.semester - b.semester;
+            });
+
+            // Update GPA chart to show completed semesters instead of GPA trend
             if (this.charts.gpaChart) {
-                const labels = sortedGrades.map(grade => `${grade.yearText} ${grade.semesterText}`);
-                const data = sortedGrades.map(grade => grade.gpa);
+                // Count unique semesters completed
+                const uniqueSemesters = new Set();
+                sortedByYear.forEach(grade => {
+                    uniqueSemesters.add(`${grade.year}-${grade.semester}`);
+                });
                 
-                this.charts.gpaChart.data.labels = labels.reverse();
-                this.charts.gpaChart.data.datasets[0].data = data.reverse();
-                this.charts.gpaChart.update();
+                const completedSemesters = uniqueSemesters.size;
+                // Assuming a standard 8 semesters in a 4-year program
+                const totalSemesters = 8; 
+                const remainingSemesters = Math.max(0, totalSemesters - completedSemesters);
+                
+                // Update the chart data
+                this.charts.gpaChart.data.datasets[0].data = [completedSemesters, remainingSemesters];
+                
+                // Add center text showing completion percentage
+                const completionPercentage = Math.round((completedSemesters / totalSemesters) * 100);
+                
+                // Add afterDraw plugin to show completion percentage in the center
+                this.charts.gpaChart.options.plugins.afterDraw = (chart) => {
+                    const ctx = chart.ctx;
+                    const width = chart.width;
+                    const height = chart.height;
+                    
+                    ctx.restore();
+                    const fontSize = (height / 114).toFixed(2);
+                    ctx.font = fontSize + 'em sans-serif';
+                    ctx.textBaseline = 'middle';
+                    
+                    const text = `${completionPercentage}%`;
+                    const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                    const textY = height / 2;
+                    
+                    ctx.fillStyle = '#333';
+                    ctx.fillText(text, textX, textY);
+                    
+                    // Add smaller text below showing the fraction
+                    ctx.font = (fontSize * 0.5) + 'em sans-serif';
+                    const subText = `${completedSemesters}/${totalSemesters} Semesters`;
+                    const subTextX = Math.round((width - ctx.measureText(subText).width) / 2);
+                    const subTextY = height / 2 + 20;
+                    
+                    ctx.fillText(subText, subTextX, subTextY);
+                    ctx.save();
+                };
+                
+                this.charts.gpaChart.update('none');
             }
 
-            // Update grade distribution chart
-            if (this.charts.gradeDistributionChart && grades.length > 0) {
-                const currentGPA = grades[0].gpa;
-                const previousGPA = grades.length > 1 ? grades[1].gpa : 0;
+            // Update grade distribution chart comparing sequential semesters
+            if (this.charts.gradeDistributionChart && sortedByYear.length > 0) {
+                // Get the current (latest) semester data
+                const currentSemester = sortedByYear[sortedByYear.length - 1];
+                const currentGPA = currentSemester.gpa;
                 
-                this.charts.gradeDistributionChart.data.datasets[0].data = [previousGPA, currentGPA];
-                this.charts.gradeDistributionChart.update();
+                // Get the previous semester data (if it exists)
+                // This will compare across years if needed (e.g., Year 1 Sem 2 to Year 2 Sem 1)
+                const previousSemester = sortedByYear.length > 1 ? 
+                    sortedByYear[sortedByYear.length - 2] : null;
+                const previousGPA = previousSemester ? previousSemester.gpa : currentGPA;
+
+                // Update chart data
+                this.charts.gradeDistributionChart.data.datasets[0].data = [currentGPA, previousGPA];
+                
+                // Update chart labels to show semester information
+                const currentLabel = `Sem ${currentSemester.semester} (${currentSemester.year})`;
+                const previousLabel = previousSemester ? 
+                    `Sem ${previousSemester.semester} (${previousSemester.year})` : 'No Previous';
+                this.charts.gradeDistributionChart.data.labels = [currentLabel, previousLabel];
+                
+                // Calculate improvement - ensure we're comparing correctly
+                const diff = (currentGPA - previousGPA).toFixed(2);
+                // Make sure we're correctly identifying improvement (when current > previous)
+                const isImprovement = currentGPA > previousGPA;
+                
+                // Set colors based on improvement
+                if (isImprovement) {
+                    // Green for improvement
+                    this.charts.gradeDistributionChart.data.datasets[0].backgroundColor[0] = 'rgba(46, 204, 113, 0.6)';
+                    this.charts.gradeDistributionChart.data.datasets[0].borderColor[0] = 'rgb(46, 204, 113)';
+                } else {
+                    // Blue for no change or decline
+                    this.charts.gradeDistributionChart.data.datasets[0].backgroundColor[0] = 'rgba(52, 152, 219, 0.6)';
+                    this.charts.gradeDistributionChart.data.datasets[0].borderColor[0] = 'rgb(52, 152, 219)';
+                }
+                
+                // Set tooltip to show the difference between current and previous with arrow indicators
+                this.charts.gradeDistributionChart.options.plugins.tooltip = {
+                    callbacks: {
+                        label: (context) => {
+                            const value = context.raw;
+                            if (context.dataIndex === 0) { // Current GPA
+                                const diffText = diff !== '0.00' ? 
+                                    ` (${diff > 0 ? '+' : ''}${diff})` : '';
+                                const arrowIndicator = isImprovement ? 
+                                    ' <span style="color: #2ecc71;">▲</span>' : // Green up arrow
+                                    (diff < 0 ? ' <span style="color: #e74c3c;">▼</span>' : ' ='); // Red down arrow or equals
+                                return `Current GPA: ${value.toFixed(2)}${diffText}${arrowIndicator}`;
+                            } else { // Previous GPA
+                                return `Previous GPA: ${value.toFixed(2)}`;
+                            }
+                        }
+                    }
+                };
+                
+                // Add an afterDraw plugin to draw the arrow indicator on the chart
+                this.charts.gradeDistributionChart.options.plugins.afterDraw = (chart) => {
+                    const ctx = chart.ctx;
+                    const meta = chart.getDatasetMeta(0);
+                    
+                    if (isImprovement && meta.data.length > 0) {
+                        const currentBar = meta.data[0];
+                        const x = currentBar.x;
+                        const y = currentBar.y - 20; // Position above the bar
+                        
+                        // Draw green up arrow
+                        ctx.save();
+                        ctx.fillStyle = '#2ecc71';
+                        ctx.font = 'bold 24px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('▲', x, y);
+                        ctx.restore();
+                    }
+                };
+                
+                // Update the chart
+                this.charts.gradeDistributionChart.update('none');
             }
+
         } catch (error) {
             console.error('Error updating charts:', error);
         }
+    }
+
+    getGradeComparisonColors(currentGPA, previousGPA) {
+        // This method is kept for compatibility but is no longer used for the grade distribution chart
+        // The current grade is always blue, and the previous grade is always gray
+        const diff = currentGPA - previousGPA;
+        if (Math.abs(diff) < 0.001) {
+            return {
+                background: ['rgba(52, 152, 219, 0.6)', 'rgba(149, 165, 166, 0.6)'],
+                border: ['rgb(52, 152, 219)', 'rgb(149, 165, 166)']
+            };
+        }
+        return {
+            background: [
+                'rgba(52, 152, 219, 0.6)', // Always blue for current
+                'rgba(149, 165, 166, 0.6)'  // Always gray for previous
+            ],
+            border: [
+                'rgb(52, 152, 219)', // Always blue for current
+                'rgb(149, 165, 166)'  // Always gray for previous
+            ]
+        };
     }
 
     updateTrainingStats(data) {
