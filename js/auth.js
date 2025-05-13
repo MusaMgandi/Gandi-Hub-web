@@ -1,7 +1,10 @@
+// Import Firebase modules
+import { auth, db } from './firebase-init.js';
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider, fetchSignInMethodsForEmail, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { doc, setDoc, serverTimestamp, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
 // Wait for Firebase to be ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Get Firebase Auth instance
-    const auth = firebase.auth();
     
     // Initialize password strength meter
     const passwordInput = document.getElementById('password');
@@ -91,32 +94,34 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Attempting to create user with email:', email);
             try {
                 // First check if email exists
-                const signInMethods = await firebase.auth().fetchSignInMethodsForEmail(email);
+                const signInMethods = await fetchSignInMethodsForEmail(auth, email);
                 if (signInMethods.length > 0) {
                     throw new Error('This email is already registered. Please try signing in.');
                 }
 
-                const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
                 if (!user) {
                     throw new Error('Failed to create user account');
                 }
 
-                // Send email verification with relative URL
-                await user.sendEmailVerification({
+                // Send email verification with actionCodeSettings
+                const actionCodeSettings = {
                     url: window.location.origin + '/html/login.html?verified=true',
-                    handleCodeInApp: false
-                });
+                    // This must be true for production apps after Dynamic Links sunset
+                    handleCodeInApp: true
+                };
+                await sendEmailVerification(user, actionCodeSettings);
 
                 // Update user profile
-                await user.updateProfile({
+                await updateProfile(user, {
                     displayName: `${firstName} ${lastName}`
                 });
 
                 // Save user data to Firestore
-                const db = firebase.firestore();
-                await db.collection('users').doc(user.uid).set({
+                const userDocRef = doc(db, 'users', user.uid);
+                await setDoc(userDocRef, {
                     firstName: firstName,
                     lastName: lastName,
                     username: username,
@@ -127,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     position: position,
                     experience: experience,
                     emailVerified: false,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
                 });
 
                 // Show verification modal
@@ -195,14 +200,16 @@ document.addEventListener('DOMContentLoaded', () => {
     window.resendVerificationEmail = async function(email) {
         try {
             // Need to reauthenticate to get the current user
-            const currentUser = firebase.auth().currentUser;
+            const currentUser = auth.currentUser;
             
             if (currentUser) {
-                // Send with relative URL
-                await currentUser.sendEmailVerification({
+                // Send with actionCodeSettings
+                const actionCodeSettings = {
                     url: window.location.origin + '/html/login.html?verified=true',
-                    handleCodeInApp: false
-                });
+                    // This must be true for production apps after Dynamic Links sunset
+                    handleCodeInApp: true
+                };
+                await sendEmailVerification(currentUser, actionCodeSettings);
                 
                 const modalMessage = document.getElementById('modalMessage');
                 if (modalMessage) {
@@ -243,8 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Logout
     window.handleLogout = async () => {
         try {
-            await firebase.auth().signOut();
-            window.location.href = 'signin.html'; // Fix: Updated path
+            await signOut(auth);
+            window.location.href = '../html/login.html';
         } catch (error) {
             console.error('Logout error:', error);
         }
@@ -270,7 +277,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
         
         try {
-            await firebase.auth().sendPasswordResetEmail(email);
+            // Use actionCodeSettings for password reset
+            const actionCodeSettings = {
+                url: window.location.origin + '/html/login.html',
+                // This must be true for production apps after Dynamic Links sunset
+                handleCodeInApp: true
+            };
+            await sendPasswordResetEmail(auth, email, actionCodeSettings);
             showSuccess('Password reset email sent!');
         } catch (error) {
             showError('Failed to send reset email');
@@ -296,7 +309,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Sign In
     async function handleSignIn(email, password) {
         try {
-            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+            // Attempt to sign in with email and password
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             
             // Check if email is verified
@@ -308,15 +322,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const errorMessage = document.getElementById('errorMessage');
                 if (errorMessage) {
                     const resendButton = document.createElement('button');
-                    resendButton.className = 'btn btn-sm btn-primary mt-2';
-                    resendButton.textContent = 'Resend Verification Email';
+                    resendButton.className = 'btn btn-link p-0 text-primary';
+                    resendButton.textContent = 'Resend verification email';
                     resendButton.onclick = async () => {
                         try {
-                            // Send with relative URL
-                            await user.sendEmailVerification({
+                            // Send verification email with actionCodeSettings
+                            const actionCodeSettings = {
                                 url: window.location.origin + '/html/login.html?verified=true',
-                                handleCodeInApp: false
-                            });
+                                // This must be true for production apps after Dynamic Links sunset
+                                handleCodeInApp: true
+                            };
+                            await sendEmailVerification(user, actionCodeSettings);
                             displayMessage('success', 'Verification email sent! Please check your inbox.');
                         } catch (err) {
                             displayMessage('error', 'Failed to send verification email. Please try again later.');
@@ -326,23 +342,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 // Sign out the user since they're not verified
-                await firebase.auth().signOut();
+                await signOut(auth);
                 return false;
             }
             
             // Update user's emailVerified status in Firestore if needed
-            const db = firebase.firestore();
-            const userDoc = await db.collection('users').doc(user.uid).get();
+            const userDocRef = doc(db, 'users', user.uid);
+            const userDoc = await getDoc(userDocRef);
             
-            if (userDoc.exists && userDoc.data().emailVerified === false) {
-                await db.collection('users').doc(user.uid).update({
+            if (userDoc.exists() && userDoc.data().emailVerified === false) {
+                await updateDoc(userDocRef, {
                     emailVerified: true,
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                    lastLogin: serverTimestamp()
                 });
             }
             
             // Check if charts should be initialized
-            if (userDoc.exists && userDoc.data().preferences?.charts?.enabled) {
+            if (userDoc.exists() && userDoc.data().preferences?.charts?.enabled) {
                 window.dispatchEvent(new CustomEvent('chartInit', {
                     detail: userDoc.data().preferences.charts
                 }));
@@ -448,22 +464,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loginWithGoogle() {
         console.log('Attempting Google login...');
-        // Add your Google login logic here
-        // This is just a simulation
+        const provider = new GoogleAuthProvider();
         showLoginLoader();
-        setTimeout(() => {
-            window.location.href = 'dashboard.html';
-        }, 1500);
+        
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info
+                const user = result.user;
+                window.location.href = 'dashboard.html';
+            })
+            .catch((error) => {
+                console.error('Google login error:', error);
+                // Handle Errors here
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                showMessage('error', errorMessage || 'Failed to login with Google');
+            });
     }
 
     function loginWithFacebook() {
         console.log('Attempting Facebook login...');
-        // Add your Facebook login logic here
-        // This is just a simulation
+        const provider = new FacebookAuthProvider();
         showLoginLoader();
-        setTimeout(() => {
-            window.location.href = 'dashboard.html';
-        }, 1500);
+        
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Facebook Access Token
+                const credential = FacebookAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info
+                const user = result.user;
+                window.location.href = 'dashboard.html';
+            })
+            .catch((error) => {
+                console.error('Facebook login error:', error);
+                // Handle Errors here
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                showMessage('error', errorMessage || 'Failed to login with Facebook');
+            });
     }
 
     function showLoginLoader() {

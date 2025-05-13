@@ -25,27 +25,9 @@
 
     <!-- Add Firebase scripts first -->
     <script type="module">
-        // Import all required Firebase components
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, initializeAuth, browserLocalPersistence } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-
-        // Your Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDb7Rw9gf3k3OqUjpImv03oBJbDdAzsGpM",
-            authDomain: "gandi-hub-474d2.firebaseapp.com",
-            projectId: "gandi-hub-474d2",
-            storageBucket: "gandi-hub-474d2.appspot.com",
-            messagingSenderId: "877278458127",
-            appId: "1:877278458127:web:22728337144c770a4b8e7a"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-
-        // Initialize Auth with persistence
-        const auth = initializeAuth(app, {
-            persistence: browserLocalPersistence
-        });
+        // Import Firebase auth from our init file
+        import { auth } from '../js/firebase-init.js';
+        import { signInWithEmailAndPassword, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 
         // Add login form handler
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -61,11 +43,50 @@
                 loader.style.display = 'block';
                 
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                console.log('Login successful:', userCredential.user);
+                const user = userCredential.user;
+                
+                // Check if email is verified
+                if (!user.emailVerified) {
+                    errorMessage.innerHTML = 'Please verify your email before logging in. <button id="resendButton" class="btn-link">Resend verification email</button>';
+                    errorMessage.style.display = 'block';
+                    
+                    // Add event listener for resend button
+                    document.getElementById('resendButton').addEventListener('click', async () => {
+                        try {
+                            // Send verification email with actionCodeSettings
+                            const actionCodeSettings = {
+                                url: window.location.origin + '/html/login.html?verified=true',
+                                // This must be true for production apps after Dynamic Links sunset
+                                handleCodeInApp: true
+                            };
+                            await sendEmailVerification(user, actionCodeSettings);
+                            errorMessage.textContent = 'Verification email sent! Please check your inbox.';
+                        } catch (err) {
+                            errorMessage.textContent = 'Failed to send verification email. Please try again later.';
+                        }
+                    });
+                    
+                    button.disabled = false;
+                    loader.style.display = 'none';
+                    return;
+                }
+                
+                console.log('Login successful:', user);
                 window.location.href = 'homepage.html';
             } catch (error) {
                 console.error('Login error:', error);
-                errorMessage.textContent = 'Invalid email or password';
+                let errorText = 'Invalid email or password';
+                
+                // Handle specific error codes
+                if (error.code === 'auth/user-not-found') {
+                    errorText = 'No account found with this email';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorText = 'Incorrect password';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorText = 'Too many failed login attempts. Please try again later.';
+                }
+                
+                errorMessage.textContent = errorText;
                 errorMessage.style.display = 'block';
             } finally {
                 button.disabled = false;
