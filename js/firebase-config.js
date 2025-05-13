@@ -12,18 +12,17 @@ try {
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
         
-        // Enable Firestore offline persistence
-        firebase.firestore().enablePersistence()
-            .then(() => {
-                console.log('Firestore persistence enabled');
-            })
-            .catch((err) => {
-                if (err.code == 'failed-precondition') {
-                    console.warn('Firestore persistence unavailable: multiple tabs open');
-                } else if (err.code == 'unimplemented') {
-                    console.warn('Firestore persistence unavailable: unsupported browser');
-                }
-            });
+        // Configure Firestore with cache settings
+        const db = firebase.firestore();
+        db.settings({
+            cache: {
+                enabled: true,
+                persistenceEnabled: true,
+                tabSynchronization: false // Set to false to avoid multi-tab issues
+            },
+            merge: true // Prevent overriding original host settings
+        });
+        console.log('Firestore cache settings configured');
     }
     console.log('Firebase initialized successfully');
 } catch (error) {
