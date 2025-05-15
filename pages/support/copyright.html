@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copyright - GandiHub Sports</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #004494;
+            --text-color: #2c3e50;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+
+        .copyright-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .copyright-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .copyright-section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.8;
+        }
+
+        .copyright-list li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .copyright-list li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">GandiHub Sports</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="copyright-header text-center">
+        <div class="container" data-aos="fade-up">
+            <h1 class="display-4 fw-bold">Copyright Notice</h1>
+            <p class="lead">Protecting Our Intellectual Property Rights</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container pb-5">
+        <!-- Copyright Protection Section -->
+        <div class="copyright-section" data-aos="fade-up">
+            <h2>Copyright Protection</h2>
+            <p class="lead">© 2025 Gandi-Hub. All rights reserved.</p>
+            <p>The content, design, graphics, and other materials on this website are protected by copyright law. We take our intellectual property rights seriously and are committed to protecting them.</p>
+        </div>
+
+        <!-- Permitted Use Section -->
+        <div class="copyright-section" data-aos="fade-up" data-aos-delay="100">
+            <h2>Permitted Use</h2>
+            <p>Users may access and view the content on this website for personal, non-commercial use only. Any reproduction, distribution, or modification of content requires written permission from Gandi-Hub.</p>
+            <div class="alert alert-info mt-3">
+                <i class="bi bi-info-circle"></i> For commercial licensing inquiries, please contact our legal team.
+            </div>
+        </div>
+
+        <!-- Content Restrictions Section -->
+        <div class="copyright-section" data-aos="fade-up" data-aos-delay="200">
+            <h2>Content Restrictions</h2>
+            <p>The following actions are strictly prohibited without explicit permission:</p>
+            <ul class="copyright-list">
+                <li>Copying or reproducing any content from our platform</li>
+                <li>Modifying or creating derivative works based on our content</li>
+                <li>Distributing or publicly displaying our content</li>
+                <li>Using our content for commercial purposes</li>
+                <li>Removing copyright or proprietary notices from any content</li>
+            </ul>
+        </div>
+
+        <!-- Contact Information Section -->
+        <div class="contact-info mt-5" data-aos="fade-up" data-aos-delay="300">
+            <h2 class="text-white border-bottom-0">Contact Information</h2>
+            <p class="lead">For copyright inquiries or permissions, please reach out to us:</p>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-envelope-fill me-2"></i>
+                        <a href="mailto:gandihubgo@fmail.com">gandihubgo@fmail.com</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-telephone-fill me-2"></i>
+                        <a href="tel:+254708993909">+254 708 993 909</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Back to Top Button -->
+    <button class="btn btn-primary back-to-top" id="backToTop" title="Back to Top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">© 2025 Gandi-Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Back to Top button functionality
+        const backToTopButton = document.getElementById('backToTop');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        };
+
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
