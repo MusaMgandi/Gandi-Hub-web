@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decentralized Sports Ecosystem - Gandi-Hub</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/decentralized-sports.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Header - Only visible on mobile -->
+        <header class="mobile-header d-md-none" style="display: flex; justify-content: space-between; align-items: center; padding: 0 15px; height: 60px; background-color: #1a2634; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div class="header-logo">
+                <img src="../images/rugbylogo.png" alt="Rugby Logo" class="logo" style="height: 40px; width: auto;">
+            </div>
+            <button id="menuBtn" style="background: none; border: none; font-size: 28px; color: white; cursor: pointer; padding: 5px; transition: color 0.2s ease;">
+                <i class="bi bi-list"></i>
+            </button>
+        </header>
+        
+        <!-- Mobile Sidebar -->
+        <div id="mobileSidebar" style="position: fixed; top: 60px; left: -250px; width: 250px; height: calc(100vh - 60px); background: #1a2634; color: white; transition: left 0.3s ease; z-index: 1000; overflow-y: auto; box-shadow: 3px 0 10px rgba(0,0,0,0.2);">
+            <div class="sidebar-header" style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px;">
+                <img src="../images/rugbylogo.png" alt="Gandi-Hub Logo" class="sidebar-logo" style="height: 30px; width: auto;">
+                <h4 style="margin: 0; color: white; font-size: 18px;">Gandi-Hub</h4>
+            </div>
+
+            <nav class="sidebar-nav" style="padding: 15px 0;">
+                <ul class="nav-list" style="list-style: none; padding: 0; margin: 0;">
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#overview" class="nav-link" data-section="overview" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-house-door" style="font-size: 18px;"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#problem-solved" class="nav-link" data-section="problem-solved" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-puzzle" style="font-size: 18px;"></i>
+                            <span>Problem Solved</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#token-ecosystem" class="nav-link" data-section="token-ecosystem" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-coin" style="font-size: 18px;"></i>
+                            <span>Token Ecosystem</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#ai-integration" class="nav-link" data-section="ai-integration" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-robot" style="font-size: 18px;"></i>
+                            <span>AI Integration</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 5px;">
+                        <a href="#roadmap" class="nav-link" data-section="roadmap" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: white; text-decoration: none; transition: background-color 0.2s ease;">
+                            <i class="bi bi-map" style="font-size: 18px;"></i>
+                            <span>Roadmap</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Mobile Overlay -->
+        <div id="mobileOverlay" style="position: fixed; top: 60px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 999; display: none; backdrop-filter: blur(2px); transition: opacity 0.3s ease;"></div>
+        
+        <!-- Desktop Sidebar -->
+        <div class="sidebar d-none d-md-flex" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/rugbylogo.png" alt="Gandi-Hub Logo" class="sidebar-logo">
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#overview" class="nav-link" data-section="overview">
+                            <i class="bi bi-house-door"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#problem-solved" class="nav-link" data-section="problem-solved">
+                            <i class="bi bi-puzzle"></i>
+                            <span>Problem Solved</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#token-ecosystem" class="nav-link" data-section="token-ecosystem">
+                            <i class="bi bi-coin"></i>
+                            <span>Token Ecosystem</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#ai-integration" class="nav-link" data-section="ai-integration">
+                            <i class="bi bi-robot"></i>
+                            <span>AI Integration</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#roadmap" class="nav-link" data-section="roadmap">
+                            <i class="bi bi-map"></i>
+                            <span>Roadmap</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-sections">
+                <!-- Overview Section -->
+                <div id="overview-content" class="content-section active">
+                    <div class="content-header">
+                        <h1>Decentralized Sports Ecosystem</h1>
+                    </div>
+                    <div class="overview-card">
+                        <h3 class="card-title">Vision</h3>
+                        <p>The Gandi-Hub Decentralized Sports Ecosystem leverages blockchain technology and AI to create a comprehensive platform that empowers student-athletes, engages fans, and builds a community-driven sports ecosystem.</p>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-trophy"></i>
+                                </div>
+                                <h4>Athlete Empowerment</h4>
+                                <p>Athletes earn tokens for completing training goals, improving grades, and attending matches.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <h4>Fan Engagement</h4>
+                                <p>Fans support athletes directly through token donations and can invest in their favorite players or teams.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <h4>Data Ownership</h4>
+                                <p>Athletes own and control their performance data via blockchain, creating a trustless, decentralized identity system.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-graph-up"></i>
+                                </div>
+                                <h4>Growth Opportunities</h4>
+                                <p>Create new revenue streams and opportunities for athletes, coaches, and sports organizations.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="avalanche-integration-vision">
+                            <h3>Powered by Avalanche Blockchain</h3>
+                            <div class="avalanche-logo">
+                                <i class="bi bi-snow"></i>
+                            </div>
+                            <p>Gandi-Hub's decentralized sports ecosystem is built on Avalanche, a revolutionary blockchain platform that provides the speed, security, and scalability needed for our vision.</p>
+                            
+                            <div class="avalanche-features">
+                                <div class="avalanche-feature">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-lightning-charge"></i>
+                                    </div>
+                                    <div class="feature-content">
+                                        <h4>High-Performance Blockchain</h4>
+                                        <p>Avalanche processes thousands of transactions per second with sub-second finality, ensuring our athlete profiles, achievements, and token transactions are fast and responsive.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="avalanche-feature">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-layers"></i>
+                                    </div>
+                                    <div class="feature-content">
+                                        <h4>Subnets for Scalability</h4>
+                                        <p>Avalanche's subnet architecture allows us to create a dedicated blockchain environment for Gandi-Hub, optimized specifically for sports data and athlete achievements.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="avalanche-feature">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-shield-lock"></i>
+                                    </div>
+                                    <div class="feature-content">
+                                        <h4>Secure & Decentralized</h4>
+                                        <p>The decentralized nature of Avalanche ensures athlete data and achievements are immutable, verifiable, and resistant to tampering or censorship.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="avalanche-feature">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-tree"></i>
+                                    </div>
+                                    <div class="feature-content">
+                                        <h4>Eco-Friendly Consensus</h4>
+                                        <p>Avalanche's Proof-of-Stake consensus mechanism is energy-efficient, aligning with our commitment to sustainability in sports technology.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="avalanche-impact">
+                                <h4>How Avalanche Transforms Gandi-Hub</h4>
+                                <ul>
+                                    <li><strong>Verifiable Achievements:</strong> Athletic and academic milestones are recorded on-chain, creating tamper-proof credentials that scouts and sponsors can trust.</li>
+                                    <li><strong>Smart Contracts for Incentives:</strong> Automated reward distribution when athletes complete goals or reach milestones.</li>
+                                    <li><strong>Tokenized Athlete Profiles:</strong> Athletes can create tokenized representations of their careers, allowing fans to support them directly.</li>
+                                    <li><strong>Decentralized Identity:</strong> Athletes maintain ownership of their performance data and control who can access it.</li>
+                                    <li><strong>Cross-Border Opportunities:</strong> Blockchain removes geographical barriers, connecting African athletes to global opportunities without intermediaries.</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="avalanche-quote">
+                                <blockquote>
+                                    "By building on Avalanche, Gandi-Hub isn't just creating an app — we're building a decentralized infrastructure for the future of sports, where athletes own their data, fans directly support talent, and opportunities are accessible to all."
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="overview-card">
+                        <h3 class="card-title">Avalanche Integration</h3>
+                        <p>Built on the Avalanche blockchain for fast, low-cost transactions, our ecosystem aligns perfectly with Avalanche's mission to support real-world use cases that bring mass adoption of blockchain technology.</p>
+                        
+                        <div class="avalanche-benefits">
+                            <div class="benefit">
+                                <i class="bi bi-lightning"></i>
+                                <span>Fast Transactions</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="bi bi-currency-dollar"></i>
+                                <span>Low Fees</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="bi bi-globe"></i>
+                                <span>Scalability</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="bi bi-shield"></i>
+                                <span>Security</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="market-size-container">
+                        <h3 class="card-title">Market Size & Opportunity</h3>
+                        <p>Gandi-Hub targets a significant and growing market of student-athletes, sports organizations, and tech-savvy youth across Africa.</p>
+                        
+                        <div class="market-segments">
+                            <div class="market-segment primary">
+                                <div class="segment-header">
+                                    <i class="bi bi-people-fill"></i>
+                                    <h4>Primary Market: Student-Athletes in Kenya</h4>
+                                </div>
+                                <div class="segment-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value">5,000+</div>
+                                        <div class="stat-label">University Rugby Players</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">10,000+</div>
+                                        <div class="stat-label">High School Rugby Players</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">50+</div>
+                                        <div class="stat-label">Universities & Colleges</div>
+                                    </div>
+                                </div>
+                                <div class="segment-details">
+                                    <p>Kenya has one of the strongest rugby cultures in Africa, with over 50 universities and 200+ schools with active rugby programs. Our initial target audience consists of 10,000+ student-athletes in tertiary and secondary education.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="market-segment secondary">
+                                <div class="segment-header">
+                                    <i class="bi bi-building"></i>
+                                    <h4>Secondary Market: Sports Organizations & Coaches</h4>
+                                </div>
+                                <div class="segment-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value">30+</div>
+                                        <div class="stat-label">Rugby Clubs</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value">20+</div>
+                                        <div class="stat-label">Youth Academies</div>
+                                    </div>
+                                </div>
+                                <div class="segment-details">
+                                    <p>Clubs, academies, and sponsors like Betika and Kenya Rugby Union can adopt Gandi-Hub for athlete management, tracking progress, and fan engagement.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="market-segment tertiary">
+                                <div class="segment-header">
+                                    <i class="bi bi-globe-africa"></i>
+                                    <h4>Pan-African Expansion Potential</h4>
+                                </div>
+                                <div class="segment-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value">1M+</div>
+                                        <div class="stat-label">Student-Athletes Across Africa</div>
+                                    </div>
+                                </div>
+                                <div class="segment-details">
+                                    <p>East African countries like Tanzania, Uganda, and Rwanda have growing university sports scenes, while Southern African nations like South Africa and Namibia have strong rugby cultures. The pan-African potential includes over 1 million student-athletes across universities and schools.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="market-segment web3">
+                                <div class="segment-header">
+                                    <i class="bi bi-currency-bitcoin"></i>
+                                    <h4>Web3 Opportunity: Digital-Savvy Youth</h4>
+                                </div>
+                                <div class="segment-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value">Top 10</div>
+                                        <div class="stat-label">Kenya's Blockchain Adoption Rank in Africa</div>
+                                    </div>
+                                </div>
+                                <div class="segment-details">
+                                    <p>Kenya ranks among the top 10 countries in Africa for blockchain adoption, with young people being early adopters of mobile-first tools and crypto. Our future token-based features (fan tokens, achievement NFTs) will appeal to millions of tech-savvy youth ready to engage with digital rewards and decentralized identity systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="market-summary">
+                            <h4>Why This Matters for Avalanche</h4>
+                            <p>Starting with rugby student-athletes in Kenya provides a clear, defined entry point, with a path to scale across Africa and into web3. This makes Gandi-Hub not just a niche app, but a platform with real growth potential aligned with Avalanche's mission of bringing blockchain technology to real-world use cases.</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Problem Solved Section -->
+                <div id="problem-solved-content" class="content-section">
+                    <div class="content-header">
+                        <h1>Problem Solved</h1>
+                    </div>
+                    
+                    <div class="problem-intro-card">
+                        <div class="problem-icon">
+                            <i class="bi bi-puzzle-fill"></i>
+                        </div>
+                        <div class="problem-intro-content">
+                            <h3>The Challenge for Student-Athletes</h3>
+                            <p>Student-athletes struggle to balance sports and academics, while also lacking visibility and support in their journey to become professional athletes or earn scholarships.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-categories">
+                        <div class="problem-category">
+                            <div class="category-icon">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+                            <div class="category-content">
+                                <h4>Time Management Struggles</h4>
+                                <ul>
+                                    <li>Early morning trainings</li>
+                                    <li>Afternoon matches</li>
+                                    <li>Evening study sessions</li>
+                                </ul>
+                                <div class="problem-impact">
+                                    <i class="bi bi-arrow-right-circle"></i>
+                                    <p>Leads to burnout, missed deadlines, and poor performance in both sports and academics</p>
+                                </div>
+                                <div class="solution">
+                                    <h5>Gandi-Hub Solution:</h5>
+                                    <p>Integrated calendar, event reminders, and AI-powered scheduling assistance</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-category">
+                            <div class="category-icon">
+                                <i class="bi bi-grid-3x3-gap"></i>
+                            </div>
+                            <div class="category-content">
+                                <h4>Fragmented Tools</h4>
+                                <ul>
+                                    <li>Training logs in one app</li>
+                                    <li>Academic planners in another</li>
+                                    <li>Communication spread across WhatsApp, email, etc.</li>
+                                </ul>
+                                <div class="problem-impact">
+                                    <i class="bi bi-arrow-right-circle"></i>
+                                    <p>No single platform to manage both sports and school effectively</p>
+                                </div>
+                                <div class="solution">
+                                    <h5>Gandi-Hub Solution:</h5>
+                                    <p>All-in-one hub for sports, academics, and communication in a single platform</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-category">
+                            <div class="category-icon">
+                                <i class="bi bi-person-x"></i>
+                            </div>
+                            <div class="category-content">
+                                <h4>Limited Personalized Support</h4>
+                                <ul>
+                                    <li>Coaches focus on physical performance</li>
+                                    <li>Teachers expect academic excellence</li>
+                                    <li>Few resources help athletes manage both together</li>
+                                </ul>
+                                <div class="problem-impact">
+                                    <i class="bi bi-arrow-right-circle"></i>
+                                    <p>Athletes often go unnoticed despite hard work and potential</p>
+                                </div>
+                                <div class="solution">
+                                    <h5>Gandi-Hub Solution:</h5>
+                                    <p>AI Chatbot gives real-time advice on both sports and academics, tailored to individual needs</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-category">
+                            <div class="category-icon">
+                                <i class="bi bi-eye-slash"></i>
+                            </div>
+                            <div class="category-content">
+                                <h4>Lack of Exposure & Career Pathways</h4>
+                                <ul>
+                                    <li>Coaches and scouts don't see consistent performance data</li>
+                                    <li>No way to build a personal brand or portfolio</li>
+                                    <li>Difficult to stand out in a competitive field</li>
+                                </ul>
+                                <div class="problem-impact">
+                                    <i class="bi bi-arrow-right-circle"></i>
+                                    <p>Missed opportunities for sponsorships, scholarships, and professional pathways</p>
+                                </div>
+                                <div class="solution">
+                                    <h5>Gandi-Hub Solution:</h5>
+                                    <p>Performance tracking, verified achievements, and shareable athlete profiles</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="problem-category">
+                            <div class="category-icon">
+                                <i class="bi bi-megaphone"></i>
+                            </div>
+                            <div class="category-content">
+                                <h4>No Way to Market Themselves</h4>
+                                <ul>
+                                    <li>No centralized profile or stats tracker that's easy to share</li>
+                                    <li>No recognition system for dual excellence in academics and athletics</li>
+                                    <li>Limited visibility to international opportunities</li>
+                                </ul>
+                                <div class="problem-impact">
+                                    <i class="bi bi-arrow-right-circle"></i>
+                                    <p>Limited access to global talent networks, funding, and career advancement</p>
+                                </div>
+                                <div class="solution">
+                                    <h5>Gandi-Hub Solution:</h5>
+                                    <p>Blockchain-verified athlete profiles with performance history, highlight reels, and academic records</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="athlete-marketing-showcase">
+                        <h3>Athlete Marketing Platform</h3>
+                        <p>More than just managing life — Gandi-Hub helps athletes market themselves to scouts, sponsors, and universities.</p>
+                        
+                        <div class="marketing-features">
+                            <div class="marketing-feature">
+                                <div class="feature-icon">
+                                    <i class="bi bi-graph-up"></i>
+                                </div>
+                                <h4>Performance Tracking</h4>
+                                <p>Record and visualize progress across key metrics, creating a verifiable performance history</p>
+                            </div>
+                            
+                            <div class="marketing-feature">
+                                <div class="feature-icon">
+                                    <i class="bi bi-award"></i>
+                                </div>
+                                <h4>Achievement Verification</h4>
+                                <p>Blockchain-verified achievements and milestones that cannot be tampered with</p>
+                            </div>
+                            
+                            <div class="marketing-feature">
+                                <div class="feature-icon">
+                                    <i class="bi bi-person-badge"></i>
+                                </div>
+                                <h4>Digital Identity</h4>
+                                <p>Comprehensive athlete profile showcasing both athletic and academic excellence</p>
+                            </div>
+                            
+                            <div class="marketing-feature">
+                                <div class="feature-icon">
+                                    <i class="bi bi-share"></i>
+                                </div>
+                                <h4>Global Visibility</h4>
+                                <p>Share profiles with scouts, coaches, sponsors, and universities worldwide</p>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-preview">
+                            <h4>Athlete Profile Preview</h4>
+                            <div class="profile-mockup">
+                                <div class="profile-header">
+                                    <div class="profile-avatar">
+                                        <i class="bi bi-person-circle"></i>
+                                    </div>
+                                    <div class="profile-info">
+                                        <h5>John Kamau</h5>
+                                        <p>Rugby Wing | University of Nairobi | Class of 2026</p>
+                                        <div class="profile-stats">
+                                            <div class="stat">
+                                                <span class="stat-value">85%</span>
+                                                <span class="stat-label">Academic Score</span>
+                                            </div>
+                                            <div class="stat">
+                                                <span class="stat-value">92%</span>
+                                                <span class="stat-label">Training Completion</span>
+                                            </div>
+                                            <div class="stat">
+                                                <span class="stat-value">12</span>
+                                                <span class="stat-label">Achievements</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-body">
+                                    <div class="performance-chart">
+                                        <div class="chart-placeholder">
+                                            <i class="bi bi-bar-chart-line"></i>
+                                            <span>Performance Trends</span>
+                                        </div>
+                                    </div>
+                                    <div class="recent-achievements">
+                                        <h6>Recent Achievements</h6>
+                                        <ul>
+                                            <li><i class="bi bi-trophy"></i> Top Scorer - University Championship</li>
+                                            <li><i class="bi bi-mortarboard"></i> Dean's List - Fall Semester</li>
+                                            <li><i class="bi bi-award"></i> Most Improved Player</li>
+                                        </ul>
+                                    </div>
+                                    <div class="profile-actions">
+                                        <button class="btn btn-primary btn-sm">Contact Athlete</button>
+                                        <button class="btn btn-outline-primary btn-sm">View Full Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-summary">
+                        <h3>Problem Classification</h3>
+                        <div class="problem-types">
+                            <div class="problem-type">
+                                <i class="bi bi-calendar-week"></i>
+                                <h4>Lifestyle & Productivity</h4>
+                                <p>Helps athletes organize their daily routines</p>
+                            </div>
+                            <div class="problem-type">
+                                <i class="bi bi-book"></i>
+                                <h4>Education Tech (EdTech)</h4>
+                                <p>Supports students in staying on top of schoolwork</p>
+                            </div>
+                            <div class="problem-type">
+                                <i class="bi bi-stopwatch"></i>
+                                <h4>Sports Performance Tech</h4>
+                                <p>Tracks progress and improves training habits</p>
+                            </div>
+                            <div class="problem-type">
+                                <i class="bi bi-heart-pulse"></i>
+                                <h4>Mental Health & Wellness</h4>
+                                <p>Reduces stress by improving structure and clarity</p>
+                            </div>
+                            <div class="problem-type">
+                                <i class="bi bi-megaphone"></i>
+                                <h4>Athlete Marketing Platform</h4>
+                                <p>Gives athletes tools to showcase skills and achievements</p>
+                            </div>
+                            <div class="problem-type">
+                                <i class="bi bi-briefcase"></i>
+                                <h4>Career Development Tool</h4>
+                                <p>Helps athletes connect with scouts, sponsors, and universities</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Token Ecosystem Section -->
+                <div id="token-ecosystem-content" class="content-section">
+                    <div class="content-header">
+                        <h1>Token Ecosystem</h1>
+                    </div>
+                    
+                    <div class="token-intro-card">
+                        <div class="token-logo">
+                            <i class="bi bi-coin"></i>
+                            <h3>GHUB Token</h3>
+                        </div>
+                        <p>The Gandi-Hub Token (GHUB) is a utility token built on the Avalanche blockchain that powers our decentralized sports ecosystem.</p>
+                    </div>
+                    
+                    <div class="token-use-cases">
+                        <h3>Token Use Cases</h3>
+                        
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i class="bi bi-award"></i>
+                            </div>
+                            <div class="use-case-content">
+                                <h4>Motivational Token Rewards</h4>
+                                <p>Athletes earn GHUB tokens for:</p>
+                                <ul>
+                                    <li>Completing workouts</li>
+                                    <li>Improving grades</li>
+                                    <li>Attending matches</li>
+                                </ul>
+                                <p>Tokens can be used to unlock:</p>
+                                <ul>
+                                    <li>Exclusive training content</li>
+                                    <li>Merchandise</li>
+                                    <li>Discounts on sports gear or mentorship sessions</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <div class="use-case-content">
+                                <h4>Fan Engagement & Support Tokens</h4>
+                                <p>Fans or sponsors can send GHUB tokens as encouragement or rewards. Create team tokens where fans can "invest" in their favorite players or teams. The more an athlete performs, the more value their personal token gains — similar to NFTs or player stocks.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <div class="use-case-content">
+                                <h4>AI Chatbot + Token Gating</h4>
+                                <p>Unlock advanced AI tips (e.g., match strategy or study hacks) by holding or earning GHUB tokens. Users who contribute helpful tips or content can earn tokens too — building a community-driven knowledge base.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i class="bi bi-mortarboard"></i>
+                            </div>
+                            <div class="use-case-content">
+                                <h4>Academic Achievement Tokens</h4>
+                                <p>Issue achievement tokens when students hit milestones:</p>
+                                <ul>
+                                    <li>Top 5 in class = Gold Achievement Token</li>
+                                    <li>Perfect attendance = Loyalty Token</li>
+                                </ul>
+                                <p>These can be stored in a digital wallet and shared with coaches or recruiters.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                            <div class="use-case-content">
+                                <h4>Decentralized Identity & Data Control</h4>
+                                <p>Store verified stats, match highlights, academic records, and achievements on-chain. Athletes control who sees what — and even monetize access if they choose.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sponsor-agent-benefits">
+                        <h3>Benefits for Sponsors & Agents</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-card">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                <h4>Talent Discovery</h4>
+                                <p>Access verified performance data and achievements to identify promising athletes early.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <i class="bi bi-clipboard-data"></i>
+                                <h4>Performance Tracking</h4>
+                                <p>Monitor athletes' progress in real-time with transparent, immutable blockchain records.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <i class="bi bi-cash-coin"></i>
+                                <h4>Direct Investment</h4>
+                                <p>Support athletes directly through token-based sponsorships and earn returns as they succeed.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <i class="bi bi-file-earmark-check"></i>
+                                <h4>Smart Contracts</h4>
+                                <p>Create performance-based agreements with automatic payouts when milestones are achieved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Integration Section -->
+                <div id="ai-integration-content" class="content-section">
+                    <div class="content-header">
+                        <h1>AI Integration</h1>
+                    </div>
+                    
+                    <div class="ai-overview-card">
+                        <h3>AI-Powered Sports Ecosystem</h3>
+                        <p>Our decentralized sports ecosystem leverages artificial intelligence to enhance athlete development, fan engagement, and data analysis.</p>
+                    </div>
+                    
+                    <div class="ai-features">
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="bi bi-person-lines-fill"></i>
+                            </div>
+                            <div class="ai-feature-content">
+                                <h4>Personalized Training</h4>
+                                <p>AI analyzes athlete performance data to create customized training programs that address individual strengths and weaknesses.</p>
+                                <div class="ai-feature-demo">
+                                    <div class="demo-chat">
+                                        <div class="demo-message user">
+                                            <p>How can I improve my sprint speed for rugby?</p>
+                                        </div>
+                                        <div class="demo-message ai">
+                                            <p>Based on your recent performance data, I recommend focusing on explosive power exercises like box jumps and hill sprints. Your acceleration in the first 10m needs the most improvement. Here's a personalized 4-week program to address this...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </div>
+                            <div class="ai-feature-content">
+                                <h4>Performance Analytics</h4>
+                                <p>Advanced AI algorithms analyze on-field performance, identifying patterns and providing actionable insights for improvement.</p>
+                                <div class="ai-analytics-demo">
+                                    <div class="analytics-chart">
+                                        <div class="chart-placeholder">
+                                            <i class="bi bi-bar-chart-line"></i>
+                                            <span>Performance Trends</span>
+                                        </div>
+                                    </div>
+                                    <div class="analytics-insights">
+                                        <h5>AI Insights:</h5>
+                                        <ul>
+                                            <li>Your tackle completion rate drops by 15% in the final 20 minutes of matches</li>
+                                            <li>Your sprint speed is 8% faster when running support lines on the right wing</li>
+                                            <li>Recommendation: Focus on late-game endurance training</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="bi bi-mortarboard-fill"></i>
+                            </div>
+                            <div class="ai-feature-content">
+                                <h4>Academic Support</h4>
+                                <p>AI-powered study assistance helps student-athletes balance their academic and athletic commitments.</p>
+                                <div class="ai-feature-demo">
+                                    <div class="demo-chat">
+                                        <div class="demo-message user">
+                                            <p>I have a biology exam next week but also have three training sessions. How should I prepare?</p>
+                                        </div>
+                                        <div class="demo-message ai">
+                                            <p>I've analyzed your training schedule and study patterns. Here's a personalized study plan that works around your training sessions, focusing on spaced repetition for key biology concepts. I've also identified your knowledge gaps based on your previous quiz results...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="bi bi-coin"></i>
+                            </div>
+                            <div class="ai-feature-content">
+                                <h4>Token-Gated AI Insights</h4>
+                                <p>Premium AI features and insights are available to users who stake or spend GHUB tokens, creating value for token holders.</p>
+                                <div class="token-gated-demo">
+                                    <div class="locked-feature">
+                                        <i class="bi bi-lock"></i>
+                                        <h5>Advanced Match Strategy Analysis</h5>
+                                        <p>Unlock with 50 GHUB tokens</p>
+                                        <button class="btn btn-primary btn-sm">Unlock Feature</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-chat-preview">
+                        <h3>Try Our AI Assistant</h3>
+                        <p>Get a taste of our AI-powered sports assistant. Ask questions about training, nutrition, or academic balance.</p>
+                        <div class="chat-preview-container">
+                            <div class="chat-messages" id="previewChatMessages">
+                                <div class="ai-message">
+                                    <div class="message-avatar">
+                                        <i class="bi bi-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <p>Hello! I'm the Gandi-Hub AI assistant. I can help with training tips, academic advice, and more. What would you like to know?</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="previewChatInput" placeholder="Type your question here...">
+                                <button id="previewSendButton">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chat-disclaimer">
+                            <p><small>This is a preview of our AI assistant. For full features, please visit the <a href="ai-chat.html">AI Chat page</a>.</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roadmap Section -->
+                <div id="roadmap-content" class="content-section">
+                    <div class="content-header">
+                        <h1>Token Roadmap</h1>
+                    </div>
+                    
+                    <div class="roadmap-vision">
+                        <h3>Vision</h3>
+                        <p>To introduce token-based incentives and decentralized tools that empower student-athletes, engage fans, and build a community-driven sports ecosystem.</p>
+                    </div>
+                    
+                    <div class="roadmap-timeline">
+                        <div class="timeline-phase current">
+                            <div class="phase-marker">
+                                <span class="phase-dot"></span>
+                                <span class="phase-line"></span>
+                            </div>
+                            <div class="phase-content">
+                                <h3>Phase 1: MVP Web App (Now – Q3 2025)</h3>
+                                <div class="phase-status">Current Phase</div>
+                                <h4>Status: Live at gandi-hub-app.netlify.app</h4>
+                                <div class="phase-goals">
+                                    <h5>Goals:</h5>
+                                    <ul>
+                                        <li>Build user base with rugby student-athletes</li>
+                                        <li>Launch mobile app (Android + iOS)</li>
+                                        <li>Introduce AI chatbot for training & academic advice</li>
+                                    </ul>
+                                </div>
+                                <div class="phase-details">
+                                    <h5>No Tokens Yet — But Laying the Foundation:</h5>
+                                    <ul>
+                                        <li>Collect data on athlete behavior, progress, and engagement</li>
+                                        <li>Build trust with users and early partners (e.g., Betika, universities)</li>
+                                        <li>Establish community via Instagram and word-of-mouth</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker">
+                                <span class="phase-dot"></span>
+                                <span class="phase-line"></span>
+                            </div>
+                            <div class="phase-content">
+                                <h3>Phase 2: Token Concept & Design (Q4 2025 – Q1 2026)</h3>
+                                <h4>Announce Gandi Token (GHUB):</h4>
+                                <ul>
+                                    <li>Utility Token: Used within the Gandi-Hub ecosystem</li>
+                                    <li>Built on Avalanche blockchain for fast, low-cost transactions</li>
+                                </ul>
+                                <div class="phase-details">
+                                    <h5>Token Use Cases:</h5>
+                                    <ul>
+                                        <li>Earn tokens for completing workouts, hitting academic goals, or attending matches</li>
+                                        <li>Spend tokens to unlock premium content, mentorship sessions, or gear discounts</li>
+                                        <li>Fans can send tokens as support to athletes they follow</li>
+                                    </ul>
+                                </div>
+                                <div class="phase-details">
+                                    <h5>Tools to Build:</h5>
+                                    <ul>
+                                        <li>Token wallet integration (walletconnect + MetaMask Mobile)</li>
+                                        <li>Token leaderboard (who earned the most this week?)</li>
+                                        <li>Token reward system based on performance</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker">
+                                <span class="phase-dot"></span>
+                                <span class="phase-line"></span>
+                            </div>
+                            <div class="phase-content">
+                                <h3>Phase 3: Token Launch & Community Building (Q2 – Q3 2026)</h3>
+                                <h4>Launch GHUB Token:</h4>
+                                <ul>
+                                    <li>Airdrop initial tokens to early adopters</li>
+                                    <li>Allow token staking to unlock features or rewards</li>
+                                    <li>Begin partnerships with sponsors and local teams</li>
+                                </ul>
+                                <div class="phase-details">
+                                    <h5>New Features:</h5>
+                                    <ul>
+                                        <li>Fan Tokens: Support your favorite player/team and earn rewards</li>
+                                        <li>Achievement NFTs: Mint digital badges for milestones (e.g., "Top Scorer", "Dean's List")</li>
+                                        <li>Leaderboards: Gamify fitness and academics with token rankings</li>
+                                    </ul>
+                                </div>
+                                <div class="phase-details">
+                                    <h5>Benefits:</h5>
+                                    <ul>
+                                        <li>Builds loyalty and long-term engagement</li>
+                                        <li>Attracts attention from sports organizations and brands</li>
+                                        <li>Positions Gandi-Hub as a pioneer in sports-tech x web3</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-phase">
+                            <div class="phase-marker">
+                                <span class="phase-dot"></span>
+                            </div>
+                            <div class="phase-content">
+                                <h3>Phase 4: Decentralized Sports Ecosystem (2027+)</h3>
+                                <h4>Expand Beyond Kenya:</h4>
+                                <ul>
+                                    <li>Scale across African universities and youth leagues</li>
+                                    <li>Explore DAO governance for fan communities or team decisions</li>
+                                </ul>
+                                <div class="phase-details">
+                                    <h5>Advanced Web3 Integrations:</h5>
+                                    <ul>
+                                        <li>On-chain Athlete Profiles: Verifiable stats, achievements, and academic records</li>
+                                        <li>Token-based Scholarships: Sponsors fund student-athletes using GHUB tokens</li>
+                                        <li>Decentralized Marketplaces: Sell merchandise, lessons, or highlight reels using Avalanche</li>
+                                    </ul>
+                                </div>
+                                <div class="phase-details">
+                                    <h5>Long-Term Impact:</h5>
+                                    <ul>
+                                        <li>Student-athletes own their data and reputation</li>
+                                        <li>Fans become stakeholders in teams and players</li>
+                                        <li>Gandi-Hub becomes a decentralized sports hub powered by Avalanche</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="avalanche-benefits-section">
+                        <h3>How This Benefits Avalanche</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit-card">
+                                <i class="bi bi-people-fill"></i>
+                                <h4>User Acquisition</h4>
+                                <p>Introduces thousands of young athletes and fans to blockchain technology through a practical use case.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <i class="bi bi-globe-americas"></i>
+                                <h4>African Market Expansion</h4>
+                                <p>Establishes Avalanche's presence in the rapidly growing African blockchain market.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <i class="bi bi-lightning-charge"></i>
+                                <h4>Real-World Utility</h4>
+                                <p>Demonstrates practical blockchain applications beyond speculation, aligning with Avalanche's mission.</p>
+                            </div>
+                            <div class="benefit-card">
+                                <i class="bi bi-code-square"></i>
+                                <h4>Developer Ecosystem</h4>
+                                <p>Builds a pipeline of African developers familiar with Avalanche's technology.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/decentralized-sports.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Decentralized Sports Ecosystem page loaded');
+            
+            // Mobile menu functionality
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            
+            if (menuBtn) {
+                menuBtn.addEventListener('click', function() {
+                    if (mobileSidebar.style.left === '0px') {
+                        mobileSidebar.style.left = '-250px';
+                        mobileOverlay.style.display = 'none';
+                    } else {
+                        mobileSidebar.style.left = '0px';
+                        mobileOverlay.style.display = 'block';
+                    }
+                });
+            }
+            
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', function() {
+                    mobileSidebar.style.left = '-250px';
+                    mobileOverlay.style.display = 'none';
+                });
+            }
+            
+            // Navigation functionality
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Hide all sections
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show target section
+                    document.getElementById(`${targetSection}-content`).classList.add('active');
+                    
+                    // Close mobile sidebar if open
+                    if (window.innerWidth < 768) {
+                        mobileSidebar.style.left = '-250px';
+                        mobileOverlay.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
