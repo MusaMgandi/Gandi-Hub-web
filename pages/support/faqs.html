@@ -226,16 +226,25 @@
         </div>
 
         <div class="faq-categories">
-            <button class="category-btn active">
+            <button class="category-btn active" data-category="general">
                 <i class="fas fa-globe"></i>General
             </button>
-            <button class="category-btn">
+            <button class="category-btn" data-category="tokens">
+                <i class="fas fa-coins"></i>GHUB Tokens
+            </button>
+            <button class="category-btn" data-category="wallet">
+                <i class="fas fa-wallet"></i>Wallet
+            </button>
+            <button class="category-btn" data-category="blockchain">
+                <i class="fas fa-link"></i>Blockchain
+            </button>
+            <button class="category-btn" data-category="training">
                 <i class="fas fa-running"></i>Training
             </button>
-            <button class="category-btn">
+            <button class="category-btn" data-category="academics">
                 <i class="fas fa-graduation-cap"></i>Academics
             </button>
-            <button class="category-btn">
+            <button class="category-btn" data-category="ai">
                 <i class="fas fa-robot"></i>AI Features
             </button>
         </div>
@@ -251,11 +260,77 @@
             general: [
                 {
                     question: "What is Gandi-Hub?",
-                    answer: "Gandi-Hub is a comprehensive platform designed to help student-athletes balance their sports training and academic commitments through smart scheduling, progress tracking, and AI-powered assistance."
+                    answer: "Gandi-Hub is a comprehensive platform designed to help students excel in both academics and sports. It offers tools for training management, academic tracking, and AI-powered insights."
                 },
                 {
-                    question: "How much does it cost?",
-                    answer: "We offer different subscription tiers. The basic features are free, while premium features are available through our monthly or annual subscription plans."
+                    question: "How do I get started with Gandi-Hub?",
+                    answer: "Sign up for an account, complete your profile with academic and sports information, and explore the dashboard to access training plans, academic tools, and community features."
+                },
+                {
+                    question: "Is Gandi-Hub available on mobile devices?",
+                    answer: "Yes, Gandi-Hub is fully responsive and works on smartphones and tablets. We also offer dedicated mobile apps for iOS and Android for an optimized experience."
+                },
+                {
+                    question: "How does Gandi-Hub help with sports training?",
+                    answer: "Our platform tracks your training sessions, records achievements, and provides visual progress reports through charts and statistics."
+                }
+            ],
+            blockchain: [
+                {
+                    question: "How does GandiHub use blockchain technology?",
+                    answer: "GandiHub uses blockchain to secure token transactions, create immutable records of achievements, and ensure transparency in the token economy."
+                },
+                {
+                    question: "What are smart contracts in GandiHub?",
+                    answer: "Smart contracts are self-executing agreements that automatically distribute tokens when predefined conditions are met, such as completing a training milestone or academic achievement."
+                },
+                {
+                    question: "Is my personal data stored on the blockchain?",
+                    answer: "No, your personal data is stored securely in our protected databases. Only token transactions and achievement verifications are recorded on the blockchain."
+                },
+                {
+                    question: "Do I need technical blockchain knowledge to use GandiHub?",
+                    answer: "Not at all. We've designed the platform to hide the technical complexity while providing all the benefits of blockchain technology."
+                }
+            ],
+            tokens: [
+                {
+                    question: "What are GHUB Tokens?",
+                    answer: "GHUB Tokens are digital rewards that recognize your achievements across the platform. They're earned through academic success, sports activities, and community contributions, and can be used for various benefits within the platform."
+                },
+                {
+                    question: "How do I earn GHUB Tokens?",
+                    answer: "You can earn tokens by completing academic tasks, participating in sports activities, contributing to the community, achieving milestones, and through special events or challenges."
+                },
+                {
+                    question: "What can I do with my GHUB Tokens?",
+                    answer: "Tokens can be used to unlock premium content, access special features, redeem for merchandise, gain recognition in the community, and potentially connect with external partner benefits."
+                },
+                {
+                    question: "Where can I see my token balance?",
+                    answer: "Your token balance is displayed in your profile page under the GHUB Tokens section. You can see a breakdown by category and view your transaction history."
+                },
+                {
+                    question: "Are my tokens secure?",
+                    answer: "Yes, your tokens are secured using blockchain technology, ensuring transparency and protection against unauthorized access or manipulation."
+                }
+            ],
+            wallet: [
+                {
+                    question: "How do I access my GandiHub wallet?",
+                    answer: "Your wallet is accessible from your profile page. Click on the wallet icon or navigate to the wallet section to view your balance, transaction history, and manage your tokens."
+                },
+                {
+                    question: "How do I secure my wallet?",
+                    answer: "Set up a secure PIN, enable two-factor authentication, create recovery options, and never share your wallet credentials with others."
+                },
+                {
+                    question: "Can I transfer tokens to other users?",
+                    answer: "Yes, you can transfer tokens to other GandiHub users through the wallet interface. Simply enter the recipient's username, the amount, and confirm with your wallet PIN."
+                },
+                {
+                    question: "What should I do if I notice suspicious activity in my wallet?",
+                    answer: "Contact support immediately, change your security credentials, and review your recent transaction history for any unauthorized transactions."
                 }
             ],
             training: [
@@ -266,6 +341,14 @@
                 {
                     question: "How does progress tracking work?",
                     answer: "Our platform tracks your training sessions, records achievements, and provides visual progress reports through charts and statistics."
+                },
+                {
+                    question: "Can I share my training plans with others?",
+                    answer: "Yes, you can share your training plans with teammates, coaches, or friends. You can control who has view-only access and who can edit."
+                },
+                {
+                    question: "Are there video tutorials for exercises?",
+                    answer: "Yes, our platform includes a comprehensive library of video tutorials for all exercises, ensuring proper form and technique."
                 }
             ],
             academics: [
@@ -358,21 +441,23 @@
                 btn.classList.add('active');
 
                 // Update FAQ list
-                const category = btn.textContent.trim().toLowerCase();
+                const category = btn.dataset.category;
                 const faqList = document.querySelector('.faq-list');
                 faqList.innerHTML = '';
-                faqData[category].forEach(faq => {
-                    faqList.appendChild(createFAQItem(faq));
-                });
+                if (faqData[category]) {
+                    faqData[category].forEach(faq => {
+                        faqList.appendChild(createFAQItem(faq));
+                    });
+                }
             });
         });
 
         // Add click handler specifically for AI Features
-        document.querySelector('.category-btn:has(i.fa-robot)').addEventListener('click', () => {
+        document.querySelector('.category-btn[data-category="ai"]').addEventListener('click', () => {
             const faqList = document.querySelector('.faq-list');
             faqList.innerHTML = '';
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('.category-btn:has(i.fa-robot)').classList.add('active');
+            document.querySelector('.category-btn[data-category="ai"]').classList.add('active');
             
             // Load AI Features content with a slight animation delay
             setTimeout(() => {

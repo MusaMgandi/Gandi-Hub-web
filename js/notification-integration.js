@@ -178,13 +178,14 @@ class NotificationIntegration {
     showWelcomeNotification(user) {
         if (!window.notificationCenter) return;
         
-        // Check if welcome message was already shown
-        if (localStorage.getItem('welcomeNotificationShown')) {
+        // Don't show welcome message if tokens notification was already shown
+        if (localStorage.getItem('welcomeNotificationShown') || 
+            localStorage.getItem('tokenWelcomeShown')) {
             return;
         }
         
         const name = user.displayName || 'User';
-        const message = `Welcome to Gandi-Hub, ${name}! We're glad to have you here.`;
+        const message = `Welcome to Gandi-Hub, ${name}! Check your notifications for your welcome bonus.`;
         
         window.notificationCenter.addNotification(
             'welcome',
@@ -192,12 +193,11 @@ class NotificationIntegration {
             message,
             { 
                 showToast: true,
-                duration: 8000,
-                priority: 'high'
+                duration: 5000,
+                priority: 'normal'
             }
         );
         
-        // Set flag in localStorage
         localStorage.setItem('welcomeNotificationShown', 'true');
         this.welcomeShown = true;
     }

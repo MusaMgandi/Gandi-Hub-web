@@ -491,32 +491,44 @@
         </header>
 
         <div class="container">
-            <aside class="sidebar">
+            <div class="categories">
                 <div class="category-item active" data-category="getting-started">
                     <i class="fas fa-home"></i>
-                    <span>Getting Started</span>
+                    Getting Started
                 </div>
                 <div class="category-item" data-category="training">
                     <i class="fas fa-dumbbell"></i>
-                    <span>Training</span>
+                    Training
                 </div>
                 <div class="category-item" data-category="academics">
                     <i class="fas fa-graduation-cap"></i>
-                    <span>Academics</span>
+                    Academics
                 </div>
-                <div class="category-item" data-category="ai-features">
-                    <i class="fas fa-robot"></i>
-                    <span>AI Features</span>
+                <div class="category-item" data-category="community">
+                    <i class="fas fa-users"></i>
+                    Community
+                </div>
+                <div class="category-item" data-category="ghub-tokens">
+                    <i class="fas fa-coins"></i>
+                    GHUB Tokens
+                </div>
+                <div class="category-item" data-category="wallet">
+                    <i class="fas fa-wallet"></i>
+                    Wallet
+                </div>
+                <div class="category-item" data-category="blockchain">
+                    <i class="fas fa-link"></i>
+                    Blockchain
                 </div>
                 <div class="category-item" data-category="account">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Account</span>
+                    <i class="fas fa-cog"></i>
+                    Account Settings
                 </div>
-                <div class="category-item" data-category="privacy">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>Privacy</span>
+                <div class="category-item" data-category="troubleshooting">
+                    <i class="fas fa-question-circle"></i>
+                    Troubleshooting
                 </div>
-            </aside>
+            </div>
 
             <main class="content-sections">
                 <!-- Content will be dynamically loaded here -->
@@ -532,6 +544,33 @@
                     { id: 'welcome', title: 'Welcome to GandiHub', icon: 'fas fa-star' },
                     { id: 'profile-setup', title: 'Setting up your profile', icon: 'fas fa-user-edit' },
                     { id: 'navigation', title: 'Navigation guide', icon: 'fas fa-compass' }
+                ]
+            },
+            'ghub-tokens': {
+                title: 'GHUB Tokens',
+                articles: [
+                    { id: 'token-overview', title: 'What are GHUB Tokens', icon: 'fas fa-coins' },
+                    { id: 'earning-tokens', title: 'How to Earn Tokens', icon: 'fas fa-award' },
+                    { id: 'token-usage', title: 'Using Your Tokens', icon: 'fas fa-exchange-alt' },
+                    { id: 'token-dashboard', title: 'Token Dashboard Guide', icon: 'fas fa-tachometer-alt' }
+                ]
+            },
+            'wallet': {
+                title: 'Wallet Management',
+                articles: [
+                    { id: 'wallet-setup', title: 'Setting Up Your Wallet', icon: 'fas fa-wallet' },
+                    { id: 'wallet-security', title: 'Wallet Security', icon: 'fas fa-shield-alt' },
+                    { id: 'transaction-history', title: 'Transaction History', icon: 'fas fa-history' },
+                    { id: 'token-transfer', title: 'Transferring Tokens', icon: 'fas fa-paper-plane' }
+                ]
+            },
+            'blockchain': {
+                title: 'Blockchain Technology',
+                articles: [
+                    { id: 'blockchain-basics', title: 'Blockchain Basics', icon: 'fas fa-link' },
+                    { id: 'smart-contracts', title: 'Smart Contracts', icon: 'fas fa-file-contract' },
+                    { id: 'blockchain-security', title: 'Security Features', icon: 'fas fa-lock' },
+                    { id: 'blockchain-integration', title: 'Integration with GandiHub', icon: 'fas fa-plug' }
                 ]
             },
             'training': {
@@ -585,6 +624,542 @@
         };
 
         const articleContent = {
+            // Token Articles
+            'token-overview': {
+                title: 'What are GHUB Tokens',
+                content: `
+                    <div class="article-content">
+                        <h1>Understanding GHUB Tokens</h1>
+                        <p>GHUB Tokens are digital rewards that recognize your achievements and contributions across the GandiHub platform.</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature">
+                                <h3>Token Categories</h3>
+                                <ul>
+                                    <li><strong>Academic Tokens</strong> - Earned through academic achievements and study activities</li>
+                                    <li><strong>Sports Tokens</strong> - Earned through training, competitions, and sports achievements</li>
+                                    <li><strong>Community Tokens</strong> - Earned through community participation and contributions</li>
+                                    <li><strong>Special Tokens</strong> - Awarded for exceptional achievements or events</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Token Benefits</h3>
+                                <ul>
+                                    <li>Access to premium content and features</li>
+                                    <li>Unlock special training programs</li>
+                                    <li>Redeem for merchandise and event tickets</li>
+                                    <li>Recognition within the GandiHub community</li>
+                                    <li>Potential for future external partnerships</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Your tokens are securely stored on our blockchain system, ensuring transparency and security for all your rewards.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'earning-tokens': {
+                title: 'How to Earn Tokens',
+                content: `
+                    <div class="article-content">
+                        <h1>How to Earn GHUB Tokens</h1>
+                        <p>There are multiple ways to earn GHUB Tokens across different areas of the platform.</p>
+                        
+                        <div class="steps-container">
+                            <div class="step">
+                                <h3>Academic Achievements</h3>
+                                <ul>
+                                    <li>Complete study sessions and track them in the app</li>
+                                    <li>Achieve academic goals and milestones</li>
+                                    <li>Submit assignments through the platform</li>
+                                    <li>Participate in academic challenges</li>
+                                    <li>Maintain consistent study streaks</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>Sports Activities</h3>
+                                <ul>
+                                    <li>Complete training sessions</li>
+                                    <li>Participate in competitions</li>
+                                    <li>Achieve personal records</li>
+                                    <li>Complete fitness challenges</li>
+                                    <li>Attend team events and practices</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>Community Engagement</h3>
+                                <ul>
+                                    <li>Help other community members</li>
+                                    <li>Create and share valuable content</li>
+                                    <li>Participate in forums and discussions</li>
+                                    <li>Provide feedback and suggestions</li>
+                                    <li>Refer new members to the platform</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Token earning opportunities are regularly updated. Check your profile dashboard for the latest ways to earn tokens!</p>
+                        </div>
+                    </div>
+                `
+            },
+            'token-usage': {
+                title: 'Using Your Tokens',
+                content: `
+                    <div class="article-content">
+                        <h1>Using Your GHUB Tokens</h1>
+                        <p>Your earned tokens can be used in various ways across the GandiHub platform.</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature">
+                                <h3>Premium Content Access</h3>
+                                <ul>
+                                    <li>Unlock advanced training programs</li>
+                                    <li>Access exclusive academic resources</li>
+                                    <li>Unlock premium analytics and insights</li>
+                                    <li>Access special events and webinars</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Rewards Marketplace</h3>
+                                <ul>
+                                    <li>Redeem for GandiHub merchandise</li>
+                                    <li>Exchange for event tickets</li>
+                                    <li>Unlock digital badges and profile enhancements</li>
+                                    <li>Access special community features</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Community Benefits</h3>
+                                <ul>
+                                    <li>Boost visibility of your content</li>
+                                    <li>Sponsor community events</li>
+                                    <li>Create challenges for other members</li>
+                                    <li>Gain priority access to new features</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>To use your tokens, navigate to your wallet section in your profile and select the "Use Tokens" option.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'token-dashboard': {
+                title: 'Token Dashboard Guide',
+                content: `
+                    <div class="article-content">
+                        <h1>Understanding Your Token Dashboard</h1>
+                        <p>Your token dashboard provides a comprehensive overview of your token activity and balance.</p>
+                        
+                        <div class="steps-container">
+                            <div class="step">
+                                <h3>Token Balance</h3>
+                                <ul>
+                                    <li>View your total token balance</li>
+                                    <li>See breakdown by token category (Academic, Sports, Community)</li>
+                                    <li>Track token growth over time with interactive charts</li>
+                                    <li>Set token earning goals and monitor progress</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>Transaction History</h3>
+                                <ul>
+                                    <li>View complete history of token earnings</li>
+                                    <li>Track token usage and redemptions</li>
+                                    <li>Filter transactions by date, type, or category</li>
+                                    <li>Export transaction history for your records</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>Earning Opportunities</h3>
+                                <ul>
+                                    <li>Discover available token earning activities</li>
+                                    <li>View potential token rewards for different actions</li>
+                                    <li>See personalized recommendations for earning more tokens</li>
+                                    <li>Track progress on ongoing token earning challenges</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Access your token dashboard by clicking on the GHUB Token section in your profile page.</p>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Wallet Articles
+            'wallet-setup': {
+                title: 'Setting Up Your Wallet',
+                content: `
+                    <div class="article-content">
+                        <h1>Setting Up Your GandiHub Wallet</h1>
+                        <p>Your GandiHub wallet is automatically created when you register, but there are important steps to secure and optimize it.</p>
+                        
+                        <div class="steps-container">
+                            <div class="step">
+                                <h3>1. Access Your Wallet</h3>
+                                <ul>
+                                    <li>Navigate to your profile page</li>
+                                    <li>Click on the "Wallet" section in the sidebar</li>
+                                    <li>Review your initial wallet setup</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>2. Secure Your Wallet</h3>
+                                <ul>
+                                    <li>Set up a wallet PIN for transactions</li>
+                                    <li>Enable two-factor authentication</li>
+                                    <li>Create recovery options</li>
+                                    <li>Review and accept wallet terms</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>3. Customize Settings</h3>
+                                <ul>
+                                    <li>Set transaction notification preferences</li>
+                                    <li>Configure privacy settings</li>
+                                    <li>Set up automatic token distribution</li>
+                                    <li>Connect to external services (if applicable)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Your wallet security is crucial. Never share your wallet PIN or recovery information with anyone.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'wallet-security': {
+                title: 'Wallet Security',
+                content: `
+                    <div class="article-content">
+                        <h1>Securing Your GandiHub Wallet</h1>
+                        <p>Protecting your wallet is essential to ensure the safety of your tokens and transactions.</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature">
+                                <h3>Authentication</h3>
+                                <ul>
+                                    <li>Use a strong, unique PIN for your wallet</li>
+                                    <li>Enable two-factor authentication</li>
+                                    <li>Consider biometric authentication if available</li>
+                                    <li>Regularly update your security credentials</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Transaction Safety</h3>
+                                <ul>
+                                    <li>Verify all transaction details before confirming</li>
+                                    <li>Enable transaction notifications</li>
+                                    <li>Set daily transaction limits</li>
+                                    <li>Only use secure networks for transactions</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Recovery Options</h3>
+                                <ul>
+                                    <li>Set up and securely store recovery information</li>
+                                    <li>Configure trusted contacts for recovery assistance</li>
+                                    <li>Regularly verify recovery options are up-to-date</li>
+                                    <li>Understand the recovery process before you need it</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>If you notice any suspicious activity in your wallet, contact support immediately and change your security credentials.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'transaction-history': {
+                title: 'Transaction History',
+                content: `
+                    <div class="article-content">
+                        <h1>Understanding Your Transaction History</h1>
+                        <p>Your transaction history provides a complete record of all token movements in your wallet.</p>
+                        
+                        <div class="steps-container">
+                            <div class="step">
+                                <h3>Accessing Transaction History</h3>
+                                <ul>
+                                    <li>Navigate to your wallet section</li>
+                                    <li>Select the "Transactions" or "History" tab</li>
+                                    <li>View your complete transaction timeline</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>Understanding Transaction Types</h3>
+                                <ul>
+                                    <li><strong>Earnings</strong> - Tokens received for activities</li>
+                                    <li><strong>Transfers</strong> - Tokens sent to or received from other users</li>
+                                    <li><strong>Redemptions</strong> - Tokens used for rewards or services</li>
+                                    <li><strong>Adjustments</strong> - Administrative changes to your balance</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>Managing Your History</h3>
+                                <ul>
+                                    <li>Filter transactions by type, date, or amount</li>
+                                    <li>Search for specific transactions</li>
+                                    <li>Export transaction records</li>
+                                    <li>Report discrepancies or issues</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Transaction records are maintained on the blockchain, ensuring transparency and immutability of your token history.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'token-transfer': {
+                title: 'Transferring Tokens',
+                content: `
+                    <div class="article-content">
+                        <h1>How to Transfer GHUB Tokens</h1>
+                        <p>GandiHub allows you to transfer tokens to other users for various purposes.</p>
+                        
+                        <div class="steps-container">
+                            <div class="step">
+                                <h3>1. Initiate a Transfer</h3>
+                                <ul>
+                                    <li>Navigate to your wallet section</li>
+                                    <li>Select the "Transfer" or "Send" option</li>
+                                    <li>Choose the token category you wish to transfer</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>2. Recipient Details</h3>
+                                <ul>
+                                    <li>Enter the recipient's username or ID</li>
+                                    <li>Verify the recipient's profile</li>
+                                    <li>Add a note or purpose for the transfer (optional)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>3. Confirm and Complete</h3>
+                                <ul>
+                                    <li>Enter the amount of tokens to transfer</li>
+                                    <li>Review all transaction details</li>
+                                    <li>Enter your wallet PIN to authorize</li>
+                                    <li>Confirm the transaction</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Transfers are final and cannot be reversed. Always double-check recipient details and amounts before confirming.</p>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Blockchain Articles
+            'blockchain-basics': {
+                title: 'Blockchain Basics',
+                content: `
+                    <div class="article-content">
+                        <h1>Understanding Blockchain Technology</h1>
+                        <p>Blockchain is the underlying technology that powers GandiHub's token system, providing security, transparency, and trust.</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature">
+                                <h3>What is Blockchain?</h3>
+                                <ul>
+                                    <li>A decentralized digital ledger technology</li>
+                                    <li>Records transactions across multiple computers</li>
+                                    <li>Creates unchangeable, time-stamped records</li>
+                                    <li>Eliminates the need for central authorities</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Key Features</h3>
+                                <ul>
+                                    <li><strong>Immutability</strong> - Records cannot be altered</li>
+                                    <li><strong>Transparency</strong> - All transactions are visible</li>
+                                    <li><strong>Security</strong> - Cryptographic protection</li>
+                                    <li><strong>Decentralization</strong> - No single point of failure</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Benefits for Users</h3>
+                                <ul>
+                                    <li>Secure ownership of digital assets</li>
+                                    <li>Transparent record of achievements</li>
+                                    <li>Protection against fraud or manipulation</li>
+                                    <li>Potential for integration with external platforms</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>GandiHub uses a private blockchain optimized for educational and sports achievement tracking, focusing on security and efficiency.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'smart-contracts': {
+                title: 'Smart Contracts',
+                content: `
+                    <div class="article-content">
+                        <h1>Smart Contracts in GandiHub</h1>
+                        <p>Smart contracts are self-executing agreements that automatically enforce rules and distribute tokens based on predefined conditions.</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature">
+                                <h3>What are Smart Contracts?</h3>
+                                <ul>
+                                    <li>Automated, self-executing digital agreements</li>
+                                    <li>Run when predetermined conditions are met</li>
+                                    <li>Execute without intermediaries</li>
+                                    <li>Create transparent, predictable outcomes</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>GandiHub Applications</h3>
+                                <ul>
+                                    <li>Automatic token distribution for achievements</li>
+                                    <li>Challenge completion verification</li>
+                                    <li>Reward distribution for community contributions</li>
+                                    <li>Milestone tracking and recognition</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Benefits</h3>
+                                <ul>
+                                    <li>Eliminates manual reward processing</li>
+                                    <li>Ensures fair and consistent token distribution</li>
+                                    <li>Creates trust through transparent rules</li>
+                                    <li>Reduces administrative overhead</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Smart contracts in GandiHub are designed to be fair, transparent, and efficient, ensuring that you receive tokens exactly when you've earned them.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'blockchain-security': {
+                title: 'Security Features',
+                content: `
+                    <div class="article-content">
+                        <h1>Blockchain Security Features</h1>
+                        <p>GandiHub's blockchain implementation includes multiple security features to protect your tokens and data.</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature">
+                                <h3>Cryptographic Protection</h3>
+                                <ul>
+                                    <li>Advanced encryption for all transactions</li>
+                                    <li>Secure digital signatures</li>
+                                    <li>Unique cryptographic identifiers</li>
+                                    <li>Hash-based data integrity verification</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Consensus Mechanisms</h3>
+                                <ul>
+                                    <li>Validation of all transactions</li>
+                                    <li>Prevention of double-spending</li>
+                                    <li>Distributed agreement on transaction validity</li>
+                                    <li>Protection against tampering</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="feature">
+                                <h3>Access Controls</h3>
+                                <ul>
+                                    <li>Multi-factor authentication</li>
+                                    <li>Role-based permissions</li>
+                                    <li>Secure key management</li>
+                                    <li>Audit trails for all system access</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>Our blockchain security is regularly audited by independent experts to ensure the highest level of protection for your digital assets.</p>
+                        </div>
+                    </div>
+                `
+            },
+            'blockchain-integration': {
+                title: 'Integration with GandiHub',
+                content: `
+                    <div class="article-content">
+                        <h1>How Blockchain Integrates with GandiHub</h1>
+                        <p>Blockchain technology is seamlessly integrated throughout the GandiHub platform to enhance your experience.</p>
+                        
+                        <div class="steps-container">
+                            <div class="step">
+                                <h3>Token System</h3>
+                                <ul>
+                                    <li>Secure storage of all token balances</li>
+                                    <li>Transparent record of token earnings</li>
+                                    <li>Immutable history of achievements</li>
+                                    <li>Verifiable proof of accomplishments</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>Achievement Verification</h3>
+                                <ul>
+                                    <li>Cryptographic proof of completed activities</li>
+                                    <li>Tamper-proof record of milestones</li>
+                                    <li>Verification of academic and sports achievements</li>
+                                    <li>Digital certificates backed by blockchain</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="step">
+                                <h3>User Experience</h3>
+                                <ul>
+                                    <li>User-friendly interfaces hiding technical complexity</li>
+                                    <li>Real-time updates of token balances</li>
+                                    <li>Simplified transaction processes</li>
+                                    <li>Intuitive wallet management</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight">
+                            <p>While blockchain technology works behind the scenes, its benefits of security, transparency, and trust enhance every aspect of your GandiHub experience.</p>
+                        </div>
+                    </div>
+                `
+            },
+
             'welcome': {
                 title: 'Welcome to GandiHub',
                 content: `

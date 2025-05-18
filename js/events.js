@@ -1,5 +1,5 @@
 // Event Data
-const events = [
+window.events = window.events || [
     {
         id: 1,
         title: 'Kenya Cup Semi Finals 2025',
@@ -12,7 +12,7 @@ const events = [
     {
         id: 2,
         title: 'Safari Sevens 2025',
-        date: '2025-07-26',
+        date: '2025-08-03',
         time: '09:00',
         location: 'RFUEA Grounds, Nairobi',
         description: 'Annual international rugby sevens tournament featuring teams from around the world.',
@@ -44,6 +44,15 @@ const events = [
         location: 'Uganda',
         description: 'Join us for an exciting rugby event in the heart of Uganda!',
         image: '../images/rugby2.jpg'
+    },
+    {
+        id: 6,
+        title: 'Driftwood Seven',
+        date: '2025-07-26',
+        time: '09:00',
+        location: 'Mombasa Sports Club',
+        description: 'Experience the thrill of rugby sevens at the beautiful Mombasa Sports Club.',
+        image: '../images/driftwood.png'
     }
 ];
 
@@ -208,31 +217,47 @@ function setReminder(eventId) {
     window.reminderModal.show();
 }
 
-// Save reminder function
-async function saveReminder() {
-    const modal = document.getElementById('reminderModal');
-    const eventId = parseInt(modal.dataset.eventId);
-    const event = events.find(e => e.id === eventId);
-    
-    const email = document.getElementById('reminderEmail').value;
-
-    if (!email) {
-        showNotification('Please enter your email address', 'error');
-        return;
-    }
-
-    // Show loading state
-    const submitBtn = modal.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Setting reminder...';
-
+async function saveReminder(event) {
     try {
-        // Send confirmation email to user
-        const eventDate = new Date(event.date);
-        const reminderDate = new Date(eventDate);
-        reminderDate.setDate(reminderDate.getDate() - 1); // Day before the event
+        // Prevent the default form submission
+        event.preventDefault();
+        
+        // Get form and validate
+        const form = document.getElementById('reminderForm');
+        if (!form || !form.checkValidity()) {
+            throw new Error('Please fill in all required fields');
+        }
 
+        // Get modal and event data
+        const modal = document.getElementById('reminderModal');
+        const eventId = parseInt(modal.dataset.eventId);
+        const eventData = events.find(e => e.id === eventId);
+        if (!eventData) {
+            throw new Error('Event not found');
+        }
+
+        // Get and validate email
+        const emailInput = form.querySelector('input[type="email"]');
+        if (!emailInput) {
+            throw new Error('Email input not found');
+        }
+
+        const email = emailInput.value.trim();
+        if (!email || !email.includes('@')) {
+            throw new Error('Please enter a valid email address');
+        }
+
+        // Get submit button and store its original state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (!submitBtn) {
+            throw new Error('Submit button not found');
+        }
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Setting reminder...';
+
+        // Format date for the email
+        const eventDate = new Date(eventData.date);
         const formattedDate = eventDate.toLocaleDateString('en-US', {
             weekday: 'long',
             year: 'numeric',
@@ -240,76 +265,129 @@ async function saveReminder() {
             day: 'numeric'
         });
 
-        const emailSent = await sendEmail(
-            email,
-            `Reminder Set: ${event.title}`,
-            `Hello Rugby Fan!
-
-Your reminder has been set for ${event.title}.
-
-Event Details:
-- Date: ${formattedDate}
-- Time: ${event.time}
-- Location: ${event.location}
-
-We'll send you another reminder email one day before the event.
-
-Best regards,
-Gandi Hub Rugby Team`
-        );
-
-        if (emailSent) {
-            // Store reminder in localStorage for demonstration
-            const reminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
-            reminders.push({
-                email,
-                eventId,
-                eventDate: event.date,
-                reminderDate: reminderDate.toISOString()
-            });
-            localStorage.setItem('eventReminders', JSON.stringify(reminders));
-
-            showNotification('Reminder set successfully! Check your email for confirmation.', 'success');
-            window.reminderModal.hide();
-            document.getElementById('reminderForm').reset();
-        }
-    } catch (error) {
-        console.error('Failed to set reminder:', error);
-        showNotification('Failed to set reminder. Please try again.', 'error');
-    } finally {
-        // Restore button state
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-    }
-}
-
-// Function to send emails using EmailJS
-async function sendEmail(to, subject, message) {
-    try {
+        // Send email using EmailJS with template variables
+        console.log('Sending email to:', email);
         const response = await emailjs.send(
-            'service_22fih5l', // Service ID from EmailJS
-            'template_d9r347j', // Template ID from EmailJS
+            'service_22fih5l',
+            'template_d9r347j',
             {
-                to_email: to,
-                subject: subject,
-                message: message,
-                from_name: 'Gandi Hub Rugby',
-                reply_to: 'gandihubgo@gmail.com'
+                to_email: email,
+                email: email,
+                recipient: email,
+                from_name: 'Gandi-Hub Rugby',
+                reply_to: 'gandihubgo@gmail.com',
+                subject: 'Gandi-Hub Rugby',
+                message: `Event Details:
+- Title: ${eventData.title}
+- Date: ${formattedDate}
+- Time: ${eventData.time || 'TBD'}
+- Location: ${eventData.location || 'TBD'}`
             }
         );
 
-        if (response.status === 200) {
-            console.log('Email sent successfully!');
-            return true;
-        } else {
-            throw new Error('Failed to send email');
+        console.log('Email sent successfully:', response);
+
+        // Store reminder in localStorage
+        const reminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
+        reminders.push({
+            email,
+            eventId,
+            eventDate: eventData.date,
+            reminderDate: new Date(eventDate.getTime() - 24 * 60 * 60 * 1000).toISOString()
+        });
+        localStorage.setItem('eventReminders', JSON.stringify(reminders));
+
+        showNotification('Reminder set successfully! Check your email for confirmation.', 'success');
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+        form.reset();
+
+    } catch (error) {
+        console.error('Failed to set reminder:', error);
+        showNotification(
+            'Failed to send email. Please check your email address and try again.',
+            'error'
+        );
+    } finally {
+        const form = document.getElementById('reminderForm');
+        const submitBtn = form?.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = submitBtn.dataset.originalText || 'Set Reminder';
+        }
+    }
+}
+
+// Update the email validation and sending functions
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+async function sendEmail(to, subject, message) {
+    try {
+        // Enhanced email validation
+        if (!to || typeof to !== 'string' || !validateEmail(to)) {
+            throw new Error('Invalid or empty email address');
+        }
+
+        // Ensure all required fields are properly formatted
+        // Use the exact parameter names that match the template variables
+        // The template likely uses {{to_email}}, {{to_name}}, etc.
+        const templateParams = {
+            to_email: to.trim(),
+            to_name: 'Rugby Fan',
+            from_name: 'Gandi Hub Rugby',
+            subject: subject || 'Gandi Hub Rugby Notification',
+            message: message || '',
+            reply_to: 'gandihubgo@gmail.com'
+        };
+        
+        console.log('Sending email with params:', JSON.stringify(templateParams));
+
+        // Initialize EmailJS if not already done
+        if (typeof emailjs !== 'undefined' && !emailjs.init._called) {
+            emailjs.init('zV_N744b4DBmaQV04');
+        }
+
+        // Add a try-catch block specifically for the emailjs.send call
+        try {
+            const response = await emailjs.send(
+                'service_22fih5l',
+                'template_d9r347j',
+                templateParams
+            );
+            
+            // Log the successful response
+            console.log('EmailJS response:', response);
+
+            if (response.status === 200) {
+                return true;
+            }
+            throw new Error(`Email sending failed with status: ${response.status}`);
+        } catch (emailError) {
+            console.error('EmailJS send error:', emailError);
+            throw emailError;
         }
     } catch (error) {
         console.error('Email sending failed:', error);
-        showNotification('Failed to send email. Please try again.', 'error');
-        return false;
+        throw new Error('Failed to send email. Please check your email address and try again.');
     }
 }
+
+// Initialize email service
+const initializeEmailService = async () => {
+    try {
+        await emailService.initialize();
+        console.log('Email service initialized');
+    } catch (error) {
+        console.error('Failed to initialize email service:', error);
+        showNotification('Email service initialization failed', 'error');
+    }
+};
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeEmailService);
 
 // Function to schedule reminder emails
 function scheduleReminderEmail(email, event, reminderDate) {
