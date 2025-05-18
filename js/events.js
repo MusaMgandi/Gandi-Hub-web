@@ -52,7 +52,7 @@ window.events = window.events || [
         time: '09:00',
         location: 'Mombasa Sports Club',
         description: 'Experience the thrill of rugby sevens at the beautiful Mombasa Sports Club.',
-        image: '../images/driftwood.png'
+        image: '../images/driftwood.jpg'
     }
 ];
 
