@@ -7,16 +7,19 @@
     <link rel="icon" type="image/png" href="../images/rugbylogo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/profile.css">
+    <!-- Add Chart.js for token visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <nav>
                 <div class="logo">
+                    <a href="homepage.html" class="back-btn"><i class="bi bi-arrow-left"></i></a>
                     <h1>Rugby Player Profile</h1>
                 </div>
                 <div class="nav-links">
-                    <a href="#" class="active">Profile</a>
+                    <a href="wallet.html" class="wallet-btn"><i class="bi bi-wallet2"></i> Wallet</a>
                     <a href="#" class="logout-btn">Logout</a>
                 </div>
                 <button class="mobile-menu-toggle" aria-label="Toggle menu">
@@ -43,9 +46,151 @@
                 <button class="tab-btn active" data-tab="basic-info">Basic Information</button>
                 <button class="tab-btn" data-tab="player-details">Player Details</button>
                 <button class="tab-btn" data-tab="experience">Experience</button>
+                <button class="tab-btn" data-tab="blockchain-rewards">GHUB Tokens</button>
             </div>
 
             <div class="profile-content">
+                <!-- Blockchain Rewards Section -->
+                <div class="tab-content" id="blockchain-rewards">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <h3>GHUB Token Rewards</h3>
+                            <div class="token-display">
+                                <i class="bi bi-coin"></i>
+                                <span id="rewards-token-balance">0</span> GHUB
+                            </div>
+                        </div>
+                        
+                        <div class="token-dashboard">
+                            <div class="token-stats-container">
+                                <div class="token-stat">
+                                    <div class="stat-icon academic-bg">
+                                        <i class="bi bi-book"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h4>Academic</h4>
+                                        <p><span id="tab-academic-tokens">0</span> GHUB</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="token-stat">
+                                    <div class="stat-icon sports-bg">
+                                        <i class="bi bi-trophy"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h4>Sports</h4>
+                                        <p><span id="tab-sports-tokens">0</span> GHUB</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="token-stat">
+                                    <div class="stat-icon community-bg">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h4>Community</h4>
+                                        <p><span id="tab-community-tokens">0</span> GHUB</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="token-chart-wrapper">
+                                <canvas id="rewards-chart"></canvas>
+                            </div>
+                            
+                            <div class="token-earning-opportunities">
+                                <h4>Earning Opportunities</h4>
+                                <div class="opportunities-list">
+                                    <div class="opportunity-item">
+                                        <div class="opportunity-icon">
+                                            <i class="bi bi-book"></i>
+                                        </div>
+                                        <div class="opportunity-info">
+                                            <h5>Complete Academic Tasks</h5>
+                                            <p>Earn 5-20 GHUB tokens for each completed assignment</p>
+                                        </div>
+                                        <div class="opportunity-action">
+                                            <a href="academics.html" class="action-link">Go</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="opportunity-item">
+                                        <div class="opportunity-icon">
+                                            <i class="bi bi-trophy"></i>
+                                        </div>
+                                        <div class="opportunity-info">
+                                            <h5>Track Sports Performance</h5>
+                                            <p>Earn 10-30 GHUB tokens for performance milestones</p>
+                                        </div>
+                                        <div class="opportunity-action">
+                                            <a href="training.html" class="action-link">Go</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="opportunity-item">
+                                        <div class="opportunity-icon">
+                                            <i class="bi bi-people"></i>
+                                        </div>
+                                        <div class="opportunity-info">
+                                            <h5>Community Participation</h5>
+                                            <p>Earn 5-15 GHUB tokens for engaging with the community</p>
+                                        </div>
+                                        <div class="opportunity-action">
+                                            <a href="community.html" class="action-link">Go</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Blockchain Visualization -->
+                            <div class="blockchain-visualization">
+                                <h4>Blockchain Verification</h4>
+                                <div class="blockchain-chain">
+                                    <div class="blockchain-block">
+                                        <div class="block-icon">
+                                            <i class="bi bi-box"></i>
+                                        </div>
+                                        <div class="block-value">Block #1</div>
+                                        <div class="block-label">Genesis</div>
+                                    </div>
+                                    <div class="chain-link"></div>
+                                    <div class="blockchain-block">
+                                        <div class="block-icon">
+                                            <i class="bi bi-box"></i>
+                                        </div>
+                                        <div class="block-value">Block #2</div>
+                                        <div class="block-label">Verified</div>
+                                    </div>
+                                    <div class="chain-link"></div>
+                                    <div class="blockchain-block">
+                                        <div class="block-icon">
+                                            <i class="bi bi-box"></i>
+                                        </div>
+                                        <div class="block-value">Block #3</div>
+                                        <div class="block-label">Verified</div>
+                                    </div>
+                                    <div class="chain-link"></div>
+                                    <div class="blockchain-block">
+                                        <div class="block-icon">
+                                            <i class="bi bi-box"></i>
+                                        </div>
+                                        <div class="block-value">Block #4</div>
+                                        <div class="block-label">Active</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Transaction History -->
+                            <div class="transaction-history">
+                                <h4>Recent Transactions</h4>
+                                <div id="transaction-list" class="transaction-list">
+                                    <!-- Transactions will be populated by JavaScript -->
+                                    <div class="empty-transactions">No transactions yet</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Basic Information Section -->
                 <div class="tab-content active" id="basic-info">
                     <div class="info-card">
@@ -217,6 +362,72 @@
 
     <!-- Modals Container -->
     <div class="modals-container">
+        <!-- Wallet Modal -->
+        <div class="modal" id="wallet-modal">
+            <div class="modal-content wallet-modal-content">
+                <div class="modal-header">
+                    <h3><i class="bi bi-wallet2"></i> GHUB Token Wallet</h3>
+                    <button class="close-modal" aria-label="Close modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="wallet-summary">
+                        <div class="token-balance">
+                            <span class="token-icon"><i class="bi bi-coin"></i></span>
+                            <div class="token-info">
+                                <h4>Total Balance</h4>
+                                <p class="token-amount"><span id="token-balance">0</span> GHUB</p>
+                            </div>
+                        </div>
+                        <div class="wallet-actions">
+                            <button class="action-btn" id="refresh-wallet"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+                            <button class="action-btn" id="share-wallet"><i class="bi bi-share"></i> Share</button>
+                        </div>
+                    </div>
+                    
+                    <div class="token-chart-container">
+                        <canvas id="token-history-chart"></canvas>
+                    </div>
+                    
+                    <div class="token-categories">
+                        <h4>Token Breakdown</h4>
+                        <div class="category-list">
+                            <div class="category-item">
+                                <div class="category-icon academic"><i class="bi bi-book"></i></div>
+                                <div class="category-info">
+                                    <h5>Academic Achievements</h5>
+                                    <p><span id="academic-tokens">0</span> GHUB</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon sports"><i class="bi bi-trophy"></i></div>
+                                <div class="category-info">
+                                    <h5>Sports Performance</h5>
+                                    <p><span id="sports-tokens">0</span> GHUB</p>
+                                </div>
+                            </div>
+                            <div class="category-item">
+                                <div class="category-icon community"><i class="bi bi-people"></i></div>
+                                <div class="category-info">
+                                    <h5>Community Engagement</h5>
+                                    <p><span id="community-tokens">0</span> GHUB</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-transactions">
+                        <h4>Recent Transactions</h4>
+                        <div class="transaction-list" id="transaction-list">
+                            <!-- Transactions will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p class="blockchain-info">Secured by Avalanche Blockchain Technology</p>
+                </div>
+            </div>
+        </div>
+        
         <!-- Logout Confirmation Modal -->
         <div class="modal" id="logoutModal">
             <div class="modal-content">
@@ -283,6 +494,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/profile.js"></script>
+    <script src="../js/wallet.js"></script>
     
     <script>
         // Logout functionality

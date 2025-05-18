@@ -11,24 +11,43 @@
     <link href="../css/about-news.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="header-logo">
-                <img src="../images/rugbylogo.png" alt="Rugby Training Platform Logo" width="150" height="50">
+    <header class="header">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="../images/rugbylogo.png" alt="Rugby Training Platform Logo" height="40">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="events.html">Events</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="news.html">News</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <nav class="header-nav">
-                <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="events.html">Events</a></li>
-                    <li><a href="news.html" class="active">News</a></li>
-                </ul>
-            </nav>
-        </div>
+        </nav>
     </header>
 
-    <main class="main-content">
-        <section class="section">
-            <h1 class="section-title">Latest Rugby News</h1>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Latest Rugby News</h1>
+            </div>
+        </section>
+        
+        <section class="content-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
             
             <div class="news-grid">
                 <article class="news-card">
@@ -71,49 +90,41 @@
                     </div>
                 </article>
             </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <img src="../images/rugbylogo.png" alt="Rugby Training Platform Logo" width="120">
-                <p>Your gateway to Kenya's vibrant rugby community.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="events.html">Events</a></li>
-                    <li><a href="news.html">News</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p><i class="bi bi-envelope"></i> gandihubgo@gmail.com</p>
-                <p><i class="bi bi-phone"></i> +254 708 993 909</p>
-                <div class="footer-social">
-                    <a href="https://www.facebook.com/share/1B6tFdMcNV/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-                    <a href="https://www.threads.net/@gandi_hub" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Threads">
-                        <i class="bi bi-twitter"></i>
-                    </a>
-                    <a href="https://www.instagram.com/gandi_hub/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
-                        <i class="bi bi-instagram"></i>
-                    </a>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-geo-alt"></i> Kenya, Africa</li>
+                        <li><i class="bi bi-telephone"></i> +254 708 993 909</li>
+                        <li><i class="bi bi-envelope"></i> gandihubgo@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/1B6tFdMcNV/" target="_blank"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.threads.net/@gandi_hub" target="_blank"><i class="bi bi-twitter"></i></a>
+                        <a href="https://www.instagram.com/gandi_hub/" target="_blank"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Newsletter</h5>
+                    <form class="newsletter-form">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Enter your email" required>
-                    <button type="submit" class="btn btn-primary">Subscribe</button>
-                </form>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Kenya Rugby. All rights reserved.</p>
         </div>
     </footer>
 

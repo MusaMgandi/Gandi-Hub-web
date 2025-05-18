@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Initialize profile data
                     loadUserProfile();
+                    
+                    // Check if user is new and show welcome notification
+                    checkNewUserAndShowWelcomeNotification(userData);
                 } else {
                     console.log("No user data found!");
                     window.location.href = 'login.html';
@@ -99,6 +102,116 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Newsletter form enhancement
+    
+    // Function to check if user is new and show welcome notification
+    function checkNewUserAndShowWelcomeNotification(userData) {
+        // Check if the user was created recently (within the last 24 hours)
+        const creationDate = userData.createdAt ? new Date(userData.createdAt) : null;
+        if (!creationDate) return; // No creation date available
+        
+        const now = new Date();
+        const timeDifference = now - creationDate; // Difference in milliseconds
+        const daysDifference = timeDifference / (1000 * 3600 * 24);
+        
+        // If user was created within the last day, show welcome notification
+        if (daysDifference <= 1) {
+            // Add the welcome notification to the notification list
+            const notificationList = document.querySelector('.notification-list');
+            const welcomeNotification = document.createElement('li');
+            welcomeNotification.className = 'notification-item unread';
+            welcomeNotification.innerHTML = `
+                <div class="notification-info">
+                    <div class="notification-icon-wrapper" style="background-color: rgba(46, 204, 113, 0.2);">
+                        <i class="fas fa-coins" style="color: #2ecc71;"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">Welcome Bonus: 50 GHUB Tokens!</div>
+                        <div class="notification-text">As a new member, you've received 50 GHUB tokens in your wallet. Check your wallet in the profile section to see your balance.</div>
+                        <div class="notification-time">Just now</div>
+                        <div class="notification-actions">
+                            <a href="profile.html" class="notification-action-btn">View Wallet</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add to notification list
+            if (notificationList) {
+                notificationList.prepend(welcomeNotification);
+                
+                // Update notification badge
+                const notificationBadge = document.querySelector('.notification-badge');
+                if (notificationBadge) {
+                    const currentCount = parseInt(notificationBadge.textContent);
+                    notificationBadge.textContent = currentCount + 1;
+                }
+                
+                // Show a toast notification
+                showWelcomeToast();
+            }
+        }
+    }
+    
+    // Function to show welcome toast notification
+    function showWelcomeToast() {
+        const toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) return;
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification show';
+        toast.innerHTML = `
+            <div class="toast-icon" style="background-color: rgba(46, 204, 113, 0.2);">
+                <i class="fas fa-coins" style="color: #2ecc71;"></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title">Welcome Bonus!</div>
+                <div class="toast-message">You've received 50 GHUB tokens in your wallet.</div>
+            </div>
+            <button class="toast-close"><i class="fas fa-times"></i></button>
+        `;
+        
+        toastContainer.appendChild(toast);
+        
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
+        
+        // Close button functionality
+        const closeBtn = toast.querySelector('.toast-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            });
+        }
+    }
+    
+    // Toggle notification panel
+    const notificationIcon = document.querySelector('.notification-icon');
+    const notificationModal = document.querySelector('.notification-modal');
+    const closeNotificationBtn = document.querySelector('.close-notification');
+    
+    if (notificationIcon && notificationModal) {
+        notificationIcon.addEventListener('click', (e) => {
+            e.preventDefault();
+            notificationModal.classList.add('active');
+        });
+    }
+    
+    if (closeNotificationBtn && notificationModal) {
+        closeNotificationBtn.addEventListener('click', () => {
+            notificationModal.classList.remove('active');
+        });
+        
+        // Close when clicking outside
+        notificationModal.addEventListener('click', (e) => {
+            if (e.target === notificationModal) {
+                notificationModal.classList.remove('active');
+            }
+        });
+    }
     const form = document.querySelector('.newsletter-form');
     form.addEventListener('submit', async (e) => {
         e.preventDefault();

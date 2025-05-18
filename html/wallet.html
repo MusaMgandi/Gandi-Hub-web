@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHUB Wallet - Gandi-Hub</title>
+    <link rel="icon" type="image/png" href="../images/rugbylogo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/wallet.css">
+    <!-- Add Chart.js for token visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <h1><i class="bi bi-wallet2"></i> GHUB Wallet</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="profile.html"><i class="bi bi-person"></i> Profile</a>
+                    <a href="#" class="logout-btn">Logout</a>
+                </div>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="wallet-header" data-aos="fade-up">
+                <div class="wallet-balance-card">
+                    <button id="refresh-wallet" class="action-button"><i class="bi bi-arrow-clockwise"></i></button>
+                    <div class="balance-header">
+                        <h2>Total Balance</h2>
+                    </div>
+                    <div class="balance-amount">
+                        <div class="token-icon">
+                            <i class="bi bi-coin"></i>
+                        </div>
+                        <div class="amount-display">
+                            <span id="token-balance">0</span>
+                            <span class="token-symbol">GHUB</span>
+                        </div>
+                    </div>
+                    <div class="blockchain-verification">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Verified on Avalanche Blockchain</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wallet-dashboard">
+                <div class="dashboard-section token-stats" data-aos="fade-up" data-aos-delay="100">
+                    <h2 class="section-title">Token Distribution</h2>
+                    <div class="token-stats-container">
+                        <div class="token-chart-wrapper">
+                            <canvas id="token-distribution-chart"></canvas>
+                        </div>
+                        <div class="token-categories">
+                            <div class="category-item academic">
+                                <div class="category-icon">
+                                    <i class="bi bi-book"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Academic</h3>
+                                    <p><span id="academic-tokens">0</span> GHUB</p>
+                                </div>
+                            </div>
+                            <div class="category-item sports">
+                                <div class="category-icon">
+                                    <i class="bi bi-trophy"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Sports</h3>
+                                    <p><span id="sports-tokens">0</span> GHUB</p>
+                                </div>
+                            </div>
+                            <div class="category-item community">
+                                <div class="category-icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Community</h3>
+                                    <p><span id="community-tokens">0</span> GHUB</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-section token-history" data-aos="fade-up" data-aos-delay="200">
+                    <h2 class="section-title">Token History</h2>
+                    <div class="token-history-chart-container">
+                        <canvas id="token-history-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="dashboard-section transactions" data-aos="fade-up" data-aos-delay="300">
+                    <h2 class="section-title">Recent Transactions</h2>
+                    <div class="transactions-container">
+                        <div class="transaction-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="earned">Earned</button>
+                            <button class="filter-btn" data-filter="spent">Spent</button>
+                        </div>
+                        <div class="transaction-list" id="transaction-list">
+                            <!-- Transactions will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-section earning-opportunities" data-aos="fade-up" data-aos-delay="400">
+                    <h2 class="section-title">Earning Opportunities</h2>
+                    <div class="opportunities-grid">
+                        <div class="opportunity-card">
+                            <div class="opportunity-header academic-gradient">
+                                <div class="opportunity-icon">
+                                    <i class="bi bi-book"></i>
+                                </div>
+                                <h3>Academic Excellence</h3>
+                            </div>
+                            <div class="opportunity-body">
+                                <ul class="opportunity-list">
+                                    <li><i class="bi bi-check-circle"></i> Complete assignments (5-15 GHUB)</li>
+                                    <li><i class="bi bi-check-circle"></i> Achieve high grades (10-30 GHUB)</li>
+                                    <li><i class="bi bi-check-circle"></i> Study streak bonus (5 GHUB per day)</li>
+                                </ul>
+                                <a href="academics.html" class="opportunity-link">Go to Academics <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="opportunity-card">
+                            <div class="opportunity-header sports-gradient">
+                                <div class="opportunity-icon">
+                                    <i class="bi bi-trophy"></i>
+                                </div>
+                                <h3>Sports Performance</h3>
+                            </div>
+                            <div class="opportunity-body">
+                                <ul class="opportunity-list">
+                                    <li><i class="bi bi-check-circle"></i> Training completion (10-20 GHUB)</li>
+                                    <li><i class="bi bi-check-circle"></i> Performance milestones (15-40 GHUB)</li>
+                                    <li><i class="bi bi-check-circle"></i> Team contributions (10-25 GHUB)</li>
+                                </ul>
+                                <a href="training.html" class="opportunity-link">Go to Training <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="opportunity-card">
+                            <div class="opportunity-header community-gradient">
+                                <div class="opportunity-icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <h3>Community Engagement</h3>
+                            </div>
+                            <div class="opportunity-body">
+                                <ul class="opportunity-list">
+                                    <li><i class="bi bi-check-circle"></i> Forum participation (5-15 GHUB)</li>
+                                    <li><i class="bi bi-check-circle"></i> Help other students (10-20 GHUB)</li>
+                                    <li><i class="bi bi-check-circle"></i> Event organization (15-30 GHUB)</li>
+                                </ul>
+                                <a href="community.html" class="opportunity-link">Go to Community <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-section blockchain-info" data-aos="fade-up" data-aos-delay="500">
+                    <h2 class="section-title">Blockchain Technology</h2>
+                    <div class="blockchain-content">
+                        <div class="blockchain-text">
+                            <p>GHUB Tokens are secured by Avalanche blockchain technology, ensuring transparency, security, and immutability of your academic and sports achievements.</p>
+                            <ul class="blockchain-features">
+                                <li><i class="bi bi-shield-lock"></i> <strong>Secure & Immutable:</strong> Your achievements are permanently recorded on the blockchain</li>
+                                <li><i class="bi bi-lightning"></i> <strong>Fast Transactions:</strong> Near-instant finality for token rewards</li>
+                                <li><i class="bi bi-graph-up"></i> <strong>Transparent System:</strong> All token transactions are verifiable</li>
+                                <li><i class="bi bi-award"></i> <strong>Verifiable Credentials:</strong> Your achievements can be verified by third parties</li>
+                            </ul>
+                        </div>
+                        <div class="blockchain-visual">
+                            <div class="blockchain-animation">
+                                <div class="block block-1">
+                                    <div class="block-header">
+                                        <span class="block-title">Block #1</span>
+                                        <span class="block-hash">#a7f3d...</span>
+                                    </div>
+                                    <div class="block-body">
+                                        <div class="transaction">Academic: +10 GHUB</div>
+                                        <div class="transaction">Sports: +15 GHUB</div>
+                                    </div>
+                                </div>
+                                <div class="chain-link"></div>
+                                <div class="block block-2">
+                                    <div class="block-header">
+                                        <span class="block-title">Block #2</span>
+                                        <span class="block-hash">#e8b2c...</span>
+                                    </div>
+                                    <div class="block-body">
+                                        <div class="transaction">Community: +5 GHUB</div>
+                                        <div class="transaction">Academic: +20 GHUB</div>
+                                    </div>
+                                </div>
+                                <div class="chain-link"></div>
+                                <div class="block block-3">
+                                    <div class="block-header">
+                                        <span class="block-title">Block #3</span>
+                                        <span class="block-hash">#f9d1a...</span>
+                                    </div>
+                                    <div class="block-body">
+                                        <div class="transaction">Sports: +25 GHUB</div>
+                                        <div class="transaction">Community: +10 GHUB</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Gandi-Hub</h2>
+                    <p>Empowering student-athletes through blockchain technology</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column" id="platform-column">
+                        <h3>Platform</h3>
+                        <ul>
+                            <li><a href="homepage.html">Home</a></li>
+                            <li><a href="academics.html">Academics</a></li>
+                            <li><a href="sports.html">Training</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" id="resources-column">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#">Blockchain Guide</a></li>
+                            <li><a href="#">Token Documentation</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" id="connect-column">
+                        <h3>Connect</h3>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/share/1B6tFdMcNV/" target="_blank" rel="noopener" aria-label="Facebook" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.threads.net/@gandi_hub" target="_blank" rel="noopener" aria-label="Twitter" class="social-link"><i class="bi bi-twitter"></i></a>
+                            <a href="https://www.instagram.com/gandi_hub" target="_blank" rel="noopener" aria-label="Instagram" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Gandi-Hub. All rights reserved.</p>
+                <p>Created by Musa Mgandi</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modals Container -->
+    <div class="modals-container">
+        <!-- Logout Confirmation Modal -->
+        <div class="modal" id="logoutModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Logout Confirmation</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelLogout" class="modal-btn cancel-btn">Cancel</button>
+                    <button id="confirmLogout" class="modal-btn confirm-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer">
+        <!-- Toast notifications will be inserted here dynamically -->
+    </div>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/wallet.js"></script>
+    
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (navLinks.classList.contains('active') && 
+                    !e.target.closest('.nav-links') && 
+                    !e.target.closest('.mobile-menu-toggle')) {
+                    navLinks.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
+            });
+            
+            // Logout functionality
+            document.querySelector('.logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('logoutModal').style.display = 'block';
+            });
+
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                loadingOverlay.style.display = 'flex';
+
+                firebase.auth().signOut()
+                    .then(() => {
+                        window.location.href = '../index.html';
+                    })
+                    .catch((error) => {
+                        showToast('Error logging out. Please try again.', 'error');
+                    })
+                    .finally(() => {
+                        loadingOverlay.style.display = 'none';
+                        document.getElementById('logoutModal').style.display = 'none';
+                    });
+            });
+
+            document.getElementById('cancelLogout').addEventListener('click', function() {
+                document.getElementById('logoutModal').style.display = 'none';
+            });
+
+            // Close modal when clicking on X or outside the modal
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+            
+            // Transaction filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get filter value
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Filter transactions
+                    filterTransactions(filter);
+                });
+            });
+            
+            function filterTransactions(filter) {
+                const transactions = document.querySelectorAll('.transaction-item');
+                
+                transactions.forEach(transaction => {
+                    if (filter === 'all') {
+                        transaction.style.display = 'flex';
+                    } else {
+                        if (transaction.classList.contains(filter)) {
+                            transaction.style.display = 'flex';
+                        } else {
+                            transaction.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            
+            // Refresh wallet functionality
+            document.getElementById('refresh-wallet').addEventListener('click', function() {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                loadingOverlay.style.display = 'flex';
+                
+                // Simulate refresh delay
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    
+                    // Show success message when wallet is refreshed
+                    showToast('Wallet refreshed successfully!', 'success');
+                    
+                    // Update the wallet data
+                    if (typeof updateWalletData === 'function') {
+                        updateWalletData();
+                    }
+                }, 1000);
+            });
+            
+            // Mobile footer collapsible sections
+            const footerColumns = document.querySelectorAll('.footer-column');
+            
+            // Only apply this behavior on mobile
+            function setupFooterColumns() {
+                if (window.innerWidth <= 768) {
+                    footerColumns.forEach(column => {
+                        const heading = column.querySelector('h3');
+                        
+                        heading.addEventListener('click', function() {
+                            // Close all other columns
+                            footerColumns.forEach(col => {
+                                if (col !== column) {
+                                    col.classList.remove('active');
+                                }
+                            });
+                            
+                            // Toggle current column
+                            column.classList.toggle('active');
+                        });
+                    });
+                } else {
+                    // Remove click handlers for desktop
+                    footerColumns.forEach(column => {
+                        column.classList.remove('active');
+                    });
+                }
+            }
+            
+            // Initial setup
+            setupFooterColumns();
+            
+            // Re-setup on window resize
+            window.addEventListener('resize', setupFooterColumns);
+        });
+        
+        // Helper function to show toast messages
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            
+            const container = document.getElementById('toastContainer');
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => container.removeChild(toast), 500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHUB Blockchain Guide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/wallet.css">
+    <link rel="stylesheet" href="../css/documentation.css">
+    <style>
+        .blockchain-section {
+            margin-bottom: 40px;
+        }
+        
+        .blockchain-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .blockchain-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .blockchain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blockchain-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .blockchain-card p {
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+        
+        .blockchain-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .blockchain-diagram {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: block;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .tech-tag {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <a href="wallet.html" class="back-btn"><i class="bi bi-arrow-left"></i></a>
+                    <h1>GHUB Blockchain Guide</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="homepage.html">Home</a>
+                    <a href="wallet.html" class="wallet-btn"><i class="bi bi-wallet2"></i> Wallet</a>
+                </div>
+            </nav>
+        </header>
+
+        <main class="documentation-container">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3>Contents</h3>
+                </div>
+                <ul class="sidebar-nav">
+                    <li><a href="#introduction" class="active">Introduction</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#ghub-blockchain">GHUB Blockchain</a></li>
+                    <li><a href="#security">Security & Privacy</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#future">Future Developments</a></li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <section id="introduction" class="blockchain-section">
+                    <h2>Introduction to Blockchain</h2>
+                    <div class="blockchain-card">
+                        <h3>What is Blockchain?</h3>
+                        <p>Blockchain is a distributed ledger technology that allows data to be stored globally on thousands of servers while letting anyone on the network see everyone else's entries in near real-time. This makes it difficult for one user to gain control of the network.</p>
+                        <p>At GHUB, we use blockchain technology to create a transparent, secure, and immutable record of all token transactions, ensuring that your academic and sports achievements are properly rewarded and permanently recorded.</p>
+                    </div>
+
+                    <div class="blockchain-card">
+                        <h3>Key Blockchain Features</h3>
+                        <ul>
+                            <li><strong>Decentralization:</strong> No single entity has control over the entire blockchain</li>
+                            <li><strong>Transparency:</strong> All transactions are visible to anyone on the network</li>
+                            <li><strong>Immutability:</strong> Once data is recorded, it cannot be altered</li>
+                            <li><strong>Security:</strong> Cryptographic principles ensure data integrity</li>
+                            <li><strong>Consensus:</strong> Network participants agree on the validity of transactions</li>
+                        </ul>
+                        <div class="tech-list">
+                            <span class="tech-tag">Distributed Ledger</span>
+                            <span class="tech-tag">Cryptography</span>
+                            <span class="tech-tag">Consensus Algorithms</span>
+                            <span class="tech-tag">Smart Contracts</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="how-it-works" class="blockchain-section">
+                    <h2>How Blockchain Works</h2>
+                    <div class="blockchain-card">
+                        <h3>The Blockchain Process</h3>
+                        <p>Blockchain operates through a series of connected blocks, each containing a list of transactions. Here's a simplified explanation of how it works:</p>
+                        <ol>
+                            <li><strong>Transaction Initiation:</strong> A user initiates a transaction (e.g., earning GHUB tokens for completing an academic task)</li>
+                            <li><strong>Transaction Verification:</strong> The transaction is verified by network nodes through cryptographic algorithms</li>
+                            <li><strong>Block Creation:</strong> Verified transactions are grouped into a block</li>
+                            <li><strong>Block Validation:</strong> The block is validated through a consensus mechanism</li>
+                            <li><strong>Block Addition:</strong> Once validated, the block is added to the existing blockchain</li>
+                            <li><strong>Transaction Completion:</strong> The transaction is complete and permanently recorded</li>
+                        </ol>
+                        <img src="../images/blockchain-diagram.png" alt="Blockchain Process Diagram" class="blockchain-diagram">
+                    </div>
+                </section>
+
+                <section id="ghub-blockchain" class="blockchain-section">
+                    <h2>GHUB Blockchain</h2>
+                    <div class="blockchain-card">
+                        <h3>Our Implementation</h3>
+                        <p>The GHUB blockchain is specifically designed to track and reward student achievements in academics, sports, and community engagement. Our blockchain:</p>
+                        <ul>
+                            <li>Records all token transactions transparently</li>
+                            <li>Ensures fair distribution of rewards based on verified achievements</li>
+                            <li>Prevents manipulation or falsification of records</li>
+                            <li>Creates a permanent record of your accomplishments</li>
+                        </ul>
+                    </div>
+
+                    <div class="blockchain-card">
+                        <h3>GHUB Token Economy</h3>
+                        <p>GHUB tokens are the native cryptocurrency of our platform. They are earned through:</p>
+                        <ul>
+                            <li><strong>Academic Achievements:</strong> Completing courses, assignments, and exams</li>
+                            <li><strong>Sports Performance:</strong> Participating in training sessions and competitions</li>
+                            <li><strong>Community Engagement:</strong> Contributing to the GHUB community</li>
+                        </ul>
+                        <p>These tokens can be used for various purposes within the GHUB ecosystem, including accessing premium content, participating in exclusive events, and redeeming rewards.</p>
+                    </div>
+                </section>
+
+                <section id="security" class="blockchain-section">
+                    <h2>Security & Privacy</h2>
+                    <div class="blockchain-card">
+                        <h3>How We Protect Your Data</h3>
+                        <p>Security is paramount in our blockchain implementation. We employ several measures to ensure the safety of your data and tokens:</p>
+                        <ul>
+                            <li><strong>Advanced Cryptography:</strong> All transactions are secured using state-of-the-art cryptographic algorithms</li>
+                            <li><strong>Multi-factor Authentication:</strong> Additional layers of security for accessing your wallet</li>
+                            <li><strong>Regular Security Audits:</strong> Our system undergoes frequent security assessments</li>
+                            <li><strong>Privacy Controls:</strong> You control what information is shared publicly</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="use-cases" class="blockchain-section">
+                    <h2>Use Cases</h2>
+                    <div class="blockchain-card">
+                        <h3>Academic Tracking</h3>
+                        <p>The GHUB blockchain creates an immutable record of your academic achievements, making it easy to showcase your accomplishments to potential employers or educational institutions.</p>
+                    </div>
+
+                    <div class="blockchain-card">
+                        <h3>Sports Performance</h3>
+                        <p>Your training sessions, competitions, and achievements in sports are recorded on the blockchain, providing a verifiable history of your athletic development.</p>
+                    </div>
+
+                    <div class="blockchain-card">
+                        <h3>Reward Distribution</h3>
+                        <p>The blockchain ensures fair and transparent distribution of GHUB tokens based on your achievements and contributions to the platform.</p>
+                    </div>
+                </section>
+
+                <section id="future" class="blockchain-section">
+                    <h2>Future Developments</h2>
+                    <div class="blockchain-card">
+                        <h3>Upcoming Features</h3>
+                        <p>We are continuously working to enhance our blockchain technology. Some upcoming features include:</p>
+                        <ul>
+                            <li><strong>Cross-platform Integration:</strong> Use your GHUB tokens across multiple platforms and services</li>
+                            <li><strong>Enhanced Analytics:</strong> Gain deeper insights into your achievements and token usage</li>
+                            <li><strong>Community Governance:</strong> Participate in decision-making regarding the GHUB ecosystem</li>
+                            <li><strong>Expanded Token Utility:</strong> More ways to use and benefit from your GHUB tokens</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-links">
+                    <div class="footer-column" id="platform-column">
+                        <h3>Platform</h3>
+                        <ul>
+                            <li><a href="homepage.html">Home</a></li>
+                            <li><a href="academics.html">Academics</a></li>
+                            <li><a href="training.html">Training</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" id="resources-column">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="blockchain-guide.html">Blockchain Guide</a></li>
+                            <li><a href="token-documentation.html">Token Documentation</a></li>
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="support.html">Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" id="connect-column">
+                        <h3>Connect</h3>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/share/1B6tFdMcNV/" target="_blank" rel="noopener" aria-label="Facebook" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.threads.net/@gandi_hub" target="_blank" rel="noopener" aria-label="Twitter" class="social-link"><i class="bi bi-twitter"></i></a>
+                            <a href="https://www.instagram.com/gandi_hub" target="_blank" rel="noopener" aria-label="Instagram" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Gandi-Hub. All rights reserved.</p>
+                <p>Created by Musa Mgandi</p>
+            </div>
+        </footer>
+    </div>
+
+    <a href="#" class="back-to-top" id="backToTop"><i class="bi bi-arrow-up"></i></a>
+
+    <script>
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Sidebar navigation highlighting
+        const sections = document.querySelectorAll('.blockchain-section');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.sidebar-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

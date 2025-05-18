@@ -1317,29 +1317,142 @@
 @media (max-width: 768px) {
     .main-content {
         margin-left: 0;
-        padding: 15px;
+        padding: 12px;
         padding-top: 70px;
     }
-    
-    .feature-grid, .benefits-grid {
-        grid-template-columns: 1fr;
+
+    .content-header h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
     }
-    
-    .use-case-card {
-        flex-direction: column;
+
+    /* Improve card layouts */
+    .overview-card,
+    .market-segment,
+    .problem-summary,
+    .ai-overview-card,
+    .token-intro-card {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* Adjust grids for mobile */
+    .feature-grid,
+    .benefits-grid,
+    .problem-types {
+        grid-template-columns: 1fr;
         gap: 15px;
     }
-    
-    .token-intro-card {
-        flex-direction: column;
-        text-align: center;
+
+    /* Market segments improvements */
+    .market-segments {
+        gap: 15px;
     }
-    
+
+    .market-segment {
+        transform: none;
+    }
+
+    .market-segment:hover {
+        transform: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .segment-stats {
+        gap: 10px;
+    }
+
+    .stat-item {
+        min-width: calc(50% - 5px);
+        padding: 12px;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    /* Improve card layouts */
+    .use-case-card,
+    .token-intro-card,
     .ai-feature-card {
         flex-direction: column;
+        gap: 15px;
+        text-align: center;
     }
-    
+
+    .use-case-icon,
     .ai-feature-icon {
         margin: 0 auto 15px;
+    }
+
+    /* Adjust feature cards */
+    .feature-card {
+        transform: none;
+    }
+
+    .feature-card:hover {
+        transform: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Improve navigation */
+    #mobileSidebar {
+        width: 280px;
+        left: -280px;
+    }
+
+    .mobile-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: #1a2634;
+    }
+
+    /* Improve profile preview */
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .profile-avatar {
+        height: 60px;
+        width: 60px;
+        font-size: 2rem;
+    }
+
+    .profile-stats {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    /* Improve font sizes */
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .feature-card h4,
+    .market-segment h4,
+    .problem-type h4 {
+        font-size: 1.1rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    /* Improve buttons and interactive elements */
+    button,
+    .nav-link {
+        min-height: 44px; /* Better touch targets */
+        padding: 12px 15px;
+    }
+
+    /* Improve spacing between sections */
+    .content-section > * + * {
+        margin-top: 20px;
     }
 }

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHUB Token Documentation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/wallet.css">
+    <link rel="stylesheet" href="../css/documentation.css">
+    <style>
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Base styles */
+        .token-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .token-card:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Mobile-first responsive design */
+        @media (max-width: 768px) {
+            .documentation-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -280px;
+                height: 100%;
+                width: 280px;
+                background: var(--card-bg);
+                padding: 20px;
+                margin: 0;
+                z-index: 999;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0;
+            }
+
+            .sidebar-nav li {
+                margin: 10px 0;
+            }
+
+            .sidebar-nav a {
+                display: block;
+                padding: 10px 15px;
+                border-radius: var(--border-radius);
+                transition: background-color 0.3s ease;
+            }
+
+            .sidebar-nav a:hover,
+            .sidebar-nav a.active {
+                background-color: rgba(52, 152, 219, 0.1);
+            }
+
+            .content {
+                padding: 0 10px;
+            }
+
+            .token-card {
+                padding: 15px;
+            }
+
+            .token-stats {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .token-metric {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px;
+            }
+
+            .reward-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .reward-table th,
+            .reward-table td {
+                min-width: 120px;
+                padding: 8px;
+            }
+
+            .achievement-card {
+                margin: 10px 0;
+            }
+
+            /* Improve header for mobile */
+            header nav {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .logo {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            /* Adjust font sizes for mobile */
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.3rem; }
+            h3 { font-size: 1.1rem; }
+            .stat-value { font-size: 1.5rem; }
+            .token-metric-value { font-size: 1rem; }
+        }
+
+        /* Tablet improvements */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .token-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .documentation-container {
+                gap: 20px;
+            }
+
+            .sidebar {
+                flex: 0 0 200px;
+            }
+        }
+
+        .token-metric {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .token-metric i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .token-metric-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .token-metric-label {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .reward-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .reward-table th,
+        .reward-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .reward-table th {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-color);
+        }
+
+        .reward-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .token-diagram {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            display: block;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .achievement-card {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .achievement-card h4 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+
+        .token-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <a href="wallet.html" class="back-btn"><i class="bi bi-arrow-left"></i></a>
+                    <h1>GHUB Token Documentation</h1>
+                    <button class="menu-toggle" aria-label="Toggle Menu">
+                        <i class="bi bi-list"></i>
+                    </button>
+                </div>
+                <div class="nav-links">
+                    <a href="homepage.html">Home</a>
+                    <a href="wallet.html" class="wallet-btn"><i class="bi bi-wallet2"></i> Wallet</a>
+                </div>
+            </nav>
+        </header>
+
+        <main class="documentation-container">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3>Contents</h3>
+                </div>
+                <ul class="sidebar-nav">
+                    <li><a href="#overview" class="active">Overview</a></li>
+                    <li><a href="#tokenomics">Tokenomics</a></li>
+                    <li><a href="#earning">Earning Tokens</a></li>
+                    <li><a href="#using">Using Tokens</a></li>
+                    <li><a href="#rewards">Rewards System</a></li>
+                    <li><a href="#technical">Technical Details</a></li>
+                </ul>
+            </aside>
+
+            <div class="content">
+                <section id="overview">
+                    <h2>GHUB Token Overview</h2>
+                    <div class="token-card">
+                        <h3>What are GHUB Tokens?</h3>
+                        <p>GHUB tokens are digital assets that represent your achievements and engagement within the Gandi-Hub platform. These tokens are earned through various activities and can be used to access premium features, participate in exclusive events, and redeem rewards.</p>
+                        
+                        <div class="token-stats">
+                            <div class="stat-card">
+                                <div class="stat-value">50</div>
+                                <div class="stat-label">Welcome Bonus Tokens</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">∞</div>
+                                <div class="stat-label">Maximum Supply</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">24/7</div>
+                                <div class="stat-label">Token Availability</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="tokenomics">
+                    <h2>Tokenomics</h2>
+                    <div class="token-card">
+                        <h3>Token Distribution</h3>
+                        <div class="token-metric">
+                            <i class="bi bi-gift"></i>
+                            <div>
+                                <div class="token-metric-value">50 GHUB</div>
+                                <div class="token-metric-label">Welcome Bonus for New Users</div>
+                            </div>
+                        </div>
+                        <div class="token-metric">
+                            <i class="bi bi-book"></i>
+                            <div>
+                                <div class="token-metric-value">10-100 GHUB</div>
+                                <div class="token-metric-label">Academic Achievements</div>
+                            </div>
+                        </div>
+                        <div class="token-metric">
+                            <i class="bi bi-trophy"></i>
+                            <div>
+                                <div class="token-metric-value">5-50 GHUB</div>
+                                <div class="token-metric-label">Sports Achievements</div>
+                            </div>
+                        </div>
+                        <div class="token-metric">
+                            <i class="bi bi-people"></i>
+                            <div>
+                                <div class="token-metric-value">1-25 GHUB</div>
+                                <div class="token-metric-label">Community Engagement</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="earning">
+                    <h2>Earning GHUB Tokens</h2>
+                    <div class="token-card">
+                        <h3>Ways to Earn</h3>
+                        <table class="reward-table">
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th>Token Reward</th>
+                                    <th>Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Account Creation</td>
+                                    <td>50 GHUB</td>
+                                    <td>One-time</td>
+                                </tr>
+                                <tr>
+                                    <td>Course Completion</td>
+                                    <td>20-100 GHUB</td>
+                                    <td>Per course</td>
+                                </tr>
+                                <tr>
+                                    <td>Training Session</td>
+                                    <td>5-20 GHUB</td>
+                                    <td>Per session</td>
+                                </tr>
+                                <tr>
+                                    <td>Community Post</td>
+                                    <td>1-5 GHUB</td>
+                                    <td>Per quality post</td>
+                                </tr>
+                                <tr>
+                                    <td>Competition Participation</td>
+                                    <td>10-50 GHUB</td>
+                                    <td>Per event</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="token-card">
+                        <h3>Achievement Bonuses</h3>
+                        <div class="achievement-card">
+                            <h4>Academic Excellence</h4>
+                            <p>Earn bonus tokens for maintaining high grades and completing courses with distinction.</p>
+                        </div>
+                        <div class="achievement-card">
+                            <h4>Sports Milestones</h4>
+                            <p>Receive additional tokens for reaching training milestones and competition achievements.</p>
+                        </div>
+                        <div class="achievement-card">
+                            <h4>Community Leadership</h4>
+                            <p>Get rewarded for helping others and contributing to the GHUB community.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="using">
+                    <h2>Using GHUB Tokens</h2>
+                    <div class="token-card">
+                        <h3>Token Utility</h3>
+                        <ul>
+                            <li><strong>Premium Content Access:</strong> Unlock exclusive educational materials and training resources</li>
+                            <li><strong>Event Participation:</strong> Register for special events and competitions</li>
+                            <li><strong>Rewards Redemption:</strong> Exchange tokens for physical and digital rewards</li>
+                            <li><strong>Profile Enhancement:</strong> Access premium profile features and customization options</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="rewards">
+                    <h2>Rewards System</h2>
+                    <div class="token-card">
+                        <h3>Reward Tiers</h3>
+                        <table class="reward-table">
+                            <thead>
+                                <tr>
+                                    <th>Tier</th>
+                                    <th>Required Tokens</th>
+                                    <th>Benefits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Bronze</td>
+                                    <td>100 GHUB</td>
+                                    <td>Basic rewards and features access</td>
+                                </tr>
+                                <tr>
+                                    <td>Silver</td>
+                                    <td>500 GHUB</td>
+                                    <td>Premium content and exclusive events</td>
+                                </tr>
+                                <tr>
+                                    <td>Gold</td>
+                                    <td>1000 GHUB</td>
+                                    <td>VIP benefits and special recognition</td>
+                                </tr>
+                                <tr>
+                                    <td>Platinum</td>
+                                    <td>2500 GHUB</td>
+                                    <td>Elite status and maximum rewards</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="technical">
+                    <h2>Technical Details</h2>
+                    <div class="token-card">
+                        <h3>Token Specifications</h3>
+                        <ul>
+                            <li><strong>Token Standard:</strong> ERC-20 Compatible</li>
+                            <li><strong>Blockchain:</strong> GHUB Private Chain</li>
+                            <li><strong>Transaction Speed:</strong> Instant</li>
+                            <li><strong>Security:</strong> Advanced cryptographic protection</li>
+                            <li><strong>Smart Contracts:</strong> Automated reward distribution</li>
+                        </ul>
+                        
+                        <div class="note-box">
+                            <p><strong>Note:</strong> GHUB tokens are stored securely in your wallet and can be tracked in real-time through the platform.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-links">
+                    <div class="footer-column" id="platform-column">
+                        <h3>Platform</h3>
+                        <ul>
+                            <li><a href="homepage.html">Home</a></li>
+                            <li><a href="academics.html">Academics</a></li>
+                            <li><a href="training.html">Training</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" id="resources-column">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="blockchain-guide.html">Blockchain Guide</a></li>
+                            <li><a href="token-documentation.html">Token Documentation</a></li>
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="support.html">Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" id="connect-column">
+                        <h3>Connect</h3>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/share/1B6tFdMcNV/" target="_blank" rel="noopener" aria-label="Facebook" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.threads.net/@gandi_hub" target="_blank" rel="noopener" aria-label="Twitter" class="social-link"><i class="bi bi-twitter"></i></a>
+                            <a href="https://www.instagram.com/gandi_hub" target="_blank" rel="noopener" aria-label="Instagram" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Gandi-Hub. All rights reserved.</p>
+                <p>Created by Musa Mgandi</p>
+            </div>
+        </footer>
+    </div>
+
+    <a href="#" class="back-to-top" id="backToTop"><i class="bi bi-arrow-up"></i></a>
+
+    <script>
+        // Mobile menu functionality
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.createElement('div');
+        overlay.classList.add('mobile-menu-overlay');
+        document.body.appendChild(overlay);
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Sidebar navigation highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.sidebar-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

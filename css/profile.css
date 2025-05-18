@@ -18,9 +18,22 @@
     --success-color: #2ecc71;
     --warning-color: #f39c12;
     --danger-color: #e74c3c;
+    --purple-color: #9b59b6;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --border-radius: 8px;
     --transition: all 0.3s ease;
+    
+    /* Blockchain Colors */
+    --academic-color: #3498db;
+    --sports-color: #e74c3c;
+    --community-color: #9b59b6;
+    --token-color: #2ecc71;
+    
+    /* Gradients */
+    --academic-gradient: linear-gradient(135deg, #3498db, #2980b9);
+    --sports-gradient: linear-gradient(135deg, #e74c3c, #c0392b);
+    --community-gradient: linear-gradient(135deg, #9b59b6, #8e44ad);
+    --token-gradient: linear-gradient(135deg, #2ecc71, #27ae60);
 }
 
 body {
@@ -51,10 +64,35 @@ nav {
     padding: 15px 20px;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .logo h1 {
     color: var(--primary-color);
     font-size: 1.8rem;
     font-weight: 600;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.back-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateX(-3px);
 }
 
 .nav-links {
@@ -75,6 +113,24 @@ nav {
 .nav-links a.active {
     color: var(--primary-color);
     background-color: rgba(52, 152, 219, 0.1);
+}
+
+.wallet-btn {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71 !important;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.wallet-btn:hover {
+    background-color: rgba(46, 204, 113, 0.2) !important;
+    transform: translateY(-2px);
+}
+
+.wallet-btn i {
+    font-size: 1.1rem;
 }
 
 .logout-btn {
@@ -212,6 +268,467 @@ main {
 /* Profile Content */
 .profile-content {
     margin-bottom: 30px;
+}
+
+/* GHUB Token Styles */
+.token-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    background: var(--token-gradient);
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.token-display:hover {
+    transform: translateY(-2px);
+}
+
+.token-display i {
+    font-size: 1.2rem;
+    animation: coinSpin 4s infinite linear;
+}
+
+@keyframes coinSpin {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+.token-dashboard {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+    .token-dashboard {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 992px) {
+    .token-dashboard {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+.token-stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.token-stat {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.token-stat:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.token-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--token-gradient);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.academic-bg {
+    background: var(--academic-gradient);
+}
+
+.sports-bg {
+    background: var(--sports-gradient);
+}
+
+.community-bg {
+    background: var(--community-gradient);
+}
+
+.stat-info h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.stat-info p {
+    margin: 5px 0 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--token-color);
+}
+
+.token-chart-wrapper {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    min-height: 250px;
+    position: relative;
+}
+
+.token-earning-opportunities {
+    grid-column: 1 / -1;
+}
+
+.token-earning-opportunities h4 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.token-earning-opportunities h4::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--token-gradient);
+    border-radius: 3px;
+}
+
+.opportunities-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+    .opportunities-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .opportunities-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.opportunity-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.opportunity-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.opportunity-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--token-gradient);
+}
+
+.opportunity-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+    background: var(--token-gradient);
+    flex-shrink: 0;
+}
+
+.opportunity-info {
+    flex-grow: 1;
+}
+
+.opportunity-info h5 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.opportunity-info p {
+    margin: 5px 0 0;
+    font-size: 0.85rem;
+    color: var(--light-text);
+}
+
+.opportunity-action {
+    flex-shrink: 0;
+}
+
+.action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--token-color);
+    border-radius: 50%;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.action-link:hover {
+    background-color: var(--token-color);
+    color: white;
+}
+
+/* Blockchain Visualization */
+.blockchain-visualization {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.blockchain-visualization h4 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.blockchain-visualization h4::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--token-gradient);
+    border-radius: 3px;
+}
+
+.blockchain-chain {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.blockchain-block {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.blockchain-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.blockchain-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--token-gradient);
+    border-radius: 12px 12px 0 0;
+}
+
+.block-icon {
+    font-size: 1.5rem;
+    color: var(--token-color);
+    margin-bottom: 5px;
+}
+
+.block-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.block-label {
+    font-size: 0.7rem;
+    color: var(--light-text);
+}
+
+.chain-link {
+    width: 30px;
+    height: 2px;
+    background-color: var(--token-color);
+    position: relative;
+    margin: 0 5px;
+}
+
+.chain-link::before,
+.chain-link::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: var(--token-color);
+    border-radius: 50%;
+    top: -2px;
+}
+
+.chain-link::before {
+    left: 0;
+}
+
+.chain-link::after {
+    right: 0;
+}
+
+/* Transaction History */
+.transaction-history {
+    margin-top: 30px;
+}
+
+.transaction-history h4 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.transaction-history h4::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--token-gradient);
+    border-radius: 3px;
+}
+
+.transaction-list {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.3s ease;
+}
+
+.transaction-item:last-child {
+    border-bottom: none;
+}
+
+.transaction-item:hover {
+    background-color: rgba(46, 204, 113, 0.05);
+}
+
+.transaction-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.transaction-icon.earned {
+    background: var(--token-gradient);
+}
+
+.transaction-icon.spent {
+    background: var(--accent-color);
+}
+
+.transaction-details {
+    flex-grow: 1;
+}
+
+.transaction-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.transaction-date {
+    margin: 3px 0 0;
+    font-size: 0.8rem;
+    color: var(--light-text);
+}
+
+.transaction-amount {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.transaction-amount.earned {
+    color: var(--token-color);
+}
+
+.transaction-amount.spent {
+    color: var(--accent-color);
+}
+
+.empty-transactions {
+    padding: 30px;
+    text-align: center;
+    color: var(--light-text);
+    font-style: italic;
 }
 
 .tab-content {

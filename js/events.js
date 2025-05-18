@@ -1,244 +1,346 @@
-// Event handling functions
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize modal
-    const modalElement = document.getElementById('mainModal');
-    if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement, {
-            backdrop: true,
-            keyboard: true,
-            focus: true
-        });
-        
-        // Store modal instance globally if needed
-        window.mainModal = modal;
+// Event Data
+const events = [
+    {
+        id: 1,
+        title: 'Kenya Cup Semi Finals 2025',
+        date: '2025-03-30',
+        time: '14:00',
+        location: 'RFUEA Grounds, Nairobi',
+        description: 'KCB Rugby vs Kabras Sugar - The battle for Kenya Cup final spot.',
+        image: '../images/kenya-cup.jpg'
+    },
+    {
+        id: 2,
+        title: 'Safari Sevens 2025',
+        date: '2025-07-26',
+        time: '09:00',
+        location: 'RFUEA Grounds, Nairobi',
+        description: 'Annual international rugby sevens tournament featuring teams from around the world.',
+        image: '../images/sevens.jpg'
+    },
+    {
+        id: 3,
+        title: 'Enterprise Cup Quarter Finals',
+        date: '2025-04-06',
+        time: '14:00',
+        location: 'Impala Club, Nairobi',
+        description: 'Experience the intensity of Enterprise Cup knockout stages.',
+        image: '../images/enterprise-cup.jpg'
+    },
+    {
+        id: 4,
+        title: 'Bingwa Fest 2025 By Betika',
+        date: '2025-04-20',
+        time: '10:00',
+        location: 'Kisumu ASK Showground',
+        description: 'Join us for the ultimate rugby festival powered by Betika. Experience thrilling matches, entertainment, and more!',
+        image: '../images/BINGWA.jpg'
+    },
+    {
+        id: 5,
+        title: 'JINJA FUN RUGBY',
+        date: '2025-06-30',
+        time: '09:00',
+        location: 'Uganda',
+        description: 'Join us for an exciting rugby event in the heart of Uganda!',
+        image: '../images/rugby2.jpg'
     }
-    
-    // Add scroll effect for header
-    window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
-        if (window.scrollY > 50) {
-            header.classList.remove('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
+];
 
-    // Ensure header is initially styled based on scroll position
-    const header = document.querySelector('header');
-    if (window.scrollY > 50) {
-        header.classList.remove('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
+// Initialize when document is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Load events
+    loadEvents();
 
-    // Handle fan registration form
-    const fanRegistrationForm = document.getElementById('fanRegistrationForm');
-    if (fanRegistrationForm) {
-        fanRegistrationForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(fanRegistrationForm);
-            registerFan(Object.fromEntries(formData));
-        });
-    }
+    // Initialize Bootstrap components
+    initializeBootstrapComponents();
 
-    // Handle newsletter form
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = newsletterForm.querySelector('input[type="email"]').value;
-            subscribeToNewsletter(email);
-        });
-    }
+    // Add scroll effect for navbar
+    handleNavbarScroll();
 
-    // Update all event elements on page load
-    const eventElements = document.querySelectorAll('.event-item');
-    eventElements.forEach(eventElement => {
-        const eventDateTime = eventElement.dataset.eventDateTime;
-        updateEventUI(eventElement, eventDateTime);
-    });
-
-    // Event search functionality
-    const searchInput = document.getElementById('eventSearch');
-    
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const eventCards = document.querySelectorAll('.event-card');
-        let hasResults = false;
-
-        eventCards.forEach(card => {
-            const title = card.querySelector('.event-title').textContent.toLowerCase();
-            const description = card.querySelector('.event-description').textContent.toLowerCase();
-            const location = card.querySelector('.bi-geo-alt').parentElement.textContent.toLowerCase();
-            const date = card.querySelector('.bi-calendar').parentElement.textContent.toLowerCase();
-
-            if (title.includes(searchTerm) || 
-                description.includes(searchTerm) || 
-                location.includes(searchTerm) ||
-                date.includes(searchTerm)) {
-                card.style.display = 'block';
-                hasResults = true;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-
-        // Show/hide no results message
-        let noResults = document.querySelector('.no-results');
-        if (!hasResults) {
-            if (!noResults) {
-                noResults = document.createElement('p');
-                noResults.className = 'no-results';
-                noResults.textContent = 'No events found';
-                document.querySelector('.event-cards').appendChild(noResults);
-            }
-        } else if (noResults) {
-            noResults.remove();
-        }
-    });
+    // Initialize newsletter form
+    initializeNewsletterForm();
 });
 
-// Function to check if event has passed
-function hasEventPassed(eventDateTime) {
-    const now = new Date();
-    const eventDate = new Date(eventDateTime);
-    return eventDate < now;
+// Load events into the container
+function loadEvents() {
+    const container = document.getElementById('eventsContainer');
+    const currentDate = new Date();
+    
+    // Sort events by date
+    const sortedEvents = [...events].sort((a, b) => {
+        const dateA = new Date(a.date + 'T' + a.time);
+        const dateB = new Date(b.date + 'T' + b.time);
+        return dateA - dateB;
+    });
+
+    // Separate future and past events
+    const futureEvents = [];
+    const pastEvents = [];
+    
+    sortedEvents.forEach(event => {
+        const eventDate = new Date(event.date + 'T' + event.time);
+        if (eventDate > currentDate) {
+            futureEvents.push(event);
+        } else {
+            pastEvents.push(event);
+        }
+    });
+
+    // Clear container
+    container.innerHTML = '';
+
+    // Add future events first
+    futureEvents.forEach(event => {
+        const eventCard = createEventCard(event);
+        container.appendChild(eventCard);
+    });
+
+    // Add past events
+    pastEvents.forEach(event => {
+        const eventCard = createEventCard(event);
+        container.appendChild(eventCard);
+    });
+}
+
+// Create event card element
+function createEventCard(event) {
+    const col = document.createElement('div');
+    col.className = 'col-md-6 col-lg-4';
+    
+    const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    const eventDate = new Date(event.date + 'T' + event.time);
+    const currentDate = new Date();
+    const isPastEvent = eventDate < currentDate;
+
+    col.innerHTML = `
+        <div class="event-card${isPastEvent ? ' past-event' : ''}">
+            <img src="${event.image}" alt="${event.title}" class="event-image">
+            <div class="event-content">
+                <h3 class="event-title">${event.title}</h3>
+                <div class="event-details">
+                    <p><i class="bi bi-calendar"></i> ${formattedDate}</p>
+                    <p><i class="bi bi-clock"></i> ${event.time}</p>
+                    <p><i class="bi bi-geo-alt"></i> ${event.location}</p>
+                    <p class="event-description">${event.description}</p>
+                </div>
+                <div class="event-actions">
+                    ${isPastEvent ? `
+                        <p class="text-muted mb-0"><i class="bi bi-clock-history"></i> Event has already passed</p>
+                    ` : `
+                        <button onclick="buyTicket(${event.id})" class="btn btn-primary">
+                            <i class="bi bi-ticket-perforated"></i> Buy Tickets
+                        </button>
+                        <button onclick="setReminder(${event.id})" class="btn btn-outline-primary">
+                            <i class="bi bi-bell"></i> Set Reminder
+                        </button>
+                    `}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return col;
+}
+
+// Initialize Bootstrap components
+function initializeBootstrapComponents() {
+    // Initialize all tooltips
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(tooltip => new bootstrap.Tooltip(tooltip));
+
+    // Initialize reminder modal
+    window.reminderModal = new bootstrap.Modal(document.getElementById('reminderModal'));
+}
+
+// Handle navbar scroll effect
+function handleNavbarScroll() {
+    const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    });
+}
+
+// Initialize newsletter form
+function initializeNewsletterForm() {
+    const form = document.querySelector('.newsletter-form');
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = form.querySelector('input[type="email"]').value;
+        
+        if (email) {
+            showNotification('Thank you for subscribing!', 'success');
+            form.reset();
+        }
+    });
 }
 
 // Buy ticket function
-function buyTicket(eventName, eventDateTime) {
-    if (hasEventPassed(eventDateTime)) {
-        showNotification('This event has already passed', 'error');
-        return;
-    }
-    // Here you would integrate with your ticket booking system
-    console.log(`Initiating ticket purchase for: ${eventName}`);
-    // Redirect to TikoHub booking page
+function buyTicket(eventId) {
+    const event = events.find(e => e.id === eventId);
+    if (!event) return;
+
+    // Redirect to TikoHub events page
     window.open('https://www.tikohub.co.ke/events.php', '_blank');
 }
 
 // Set reminder function
-function setReminder(eventName, eventDateTime) {
-    if (hasEventPassed(eventDateTime)) {
-        showNotification('This event has already passed', 'error');
-        return;
-    }
+function setReminder(eventId) {
+    const event = events.find(e => e.id === eventId);
+    if (!event) return;
+
     // Store event details in the modal
     const modal = document.getElementById('reminderModal');
-    modal.dataset.eventName = eventName;
-    modal.dataset.eventDateTime = eventDateTime;
+    modal.dataset.eventId = eventId;
     
-    // Show the modal
-    const reminderModal = new bootstrap.Modal(modal);
-    reminderModal.show();
+    // Show modal
+    window.reminderModal.show();
 }
 
 // Save reminder function
-function saveReminder() {
+async function saveReminder() {
     const modal = document.getElementById('reminderModal');
+    const eventId = parseInt(modal.dataset.eventId);
+    const event = events.find(e => e.id === eventId);
+    
     const email = document.getElementById('reminderEmail').value;
-    const phone = document.getElementById('reminderPhone').value;
-    const eventName = modal.dataset.eventName;
-    const eventDateTime = modal.dataset.eventDateTime;
 
-    // Here you would integrate with your reminder service
-    console.log('Saving reminder:', {
-        eventName,
-        eventDateTime,
-        email,
-        phone
+    if (!email) {
+        showNotification('Please enter your email address', 'error');
+        return;
+    }
+
+    // Show loading state
+    const submitBtn = modal.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Setting reminder...';
+
+    try {
+        // Send confirmation email to user
+        const eventDate = new Date(event.date);
+        const reminderDate = new Date(eventDate);
+        reminderDate.setDate(reminderDate.getDate() - 1); // Day before the event
+
+        const formattedDate = eventDate.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        const emailSent = await sendEmail(
+            email,
+            `Reminder Set: ${event.title}`,
+            `Hello Rugby Fan!
+
+Your reminder has been set for ${event.title}.
+
+Event Details:
+- Date: ${formattedDate}
+- Time: ${event.time}
+- Location: ${event.location}
+
+We'll send you another reminder email one day before the event.
+
+Best regards,
+Gandi Hub Rugby Team`
+        );
+
+        if (emailSent) {
+            // Store reminder in localStorage for demonstration
+            const reminders = JSON.parse(localStorage.getItem('eventReminders') || '[]');
+            reminders.push({
+                email,
+                eventId,
+                eventDate: event.date,
+                reminderDate: reminderDate.toISOString()
+            });
+            localStorage.setItem('eventReminders', JSON.stringify(reminders));
+
+            showNotification('Reminder set successfully! Check your email for confirmation.', 'success');
+            window.reminderModal.hide();
+            document.getElementById('reminderForm').reset();
+        }
+    } catch (error) {
+        console.error('Failed to set reminder:', error);
+        showNotification('Failed to set reminder. Please try again.', 'error');
+    } finally {
+        // Restore button state
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+}
+
+// Function to send emails using EmailJS
+async function sendEmail(to, subject, message) {
+    try {
+        const response = await emailjs.send(
+            'service_22fih5l', // Service ID from EmailJS
+            'template_d9r347j', // Template ID from EmailJS
+            {
+                to_email: to,
+                subject: subject,
+                message: message,
+                from_name: 'Gandi Hub Rugby',
+                reply_to: 'gandihubgo@gmail.com'
+            }
+        );
+
+        if (response.status === 200) {
+            console.log('Email sent successfully!');
+            return true;
+        } else {
+            throw new Error('Failed to send email');
+        }
+    } catch (error) {
+        console.error('Email sending failed:', error);
+        showNotification('Failed to send email. Please try again.', 'error');
+        return false;
+    }
+}
+
+// Function to schedule reminder emails
+function scheduleReminderEmail(email, event, reminderDate) {
+    // This would be implemented with a backend scheduling system
+    // For now, we'll just log the scheduled reminder
+    console.log('Scheduled reminder email:', {
+        to: email,
+        event: event.title,
+        reminderDate: reminderDate,
+        message: `Reminder: ${event.title} is tomorrow at ${event.time} at ${event.location}. Don't miss it!`
     });
-
-    // Close the modal
-    const reminderModal = bootstrap.Modal.getInstance(modal);
-    reminderModal.hide();
-
-    // Show success message
-    showNotification('Reminder set successfully!', 'success');
 }
 
-// Register for event function
-function register(eventName) {
-    // Here you would integrate with your registration system
-    console.log(`Registering for: ${eventName}`);
-    showNotification('Registration successful!', 'success');
-}
-
-// Fan registration function
-async function registerFan(data) {
-    try {
-        // Here you would integrate with your backend
-        console.log('Registering fan:', data);
-        
-        // Show success message
-        showNotification('Registration successful! Welcome to the team!', 'success');
-        
-        // Reset form
-        document.getElementById('fanRegistrationForm').reset();
-    } catch (error) {
-        console.error('Error registering fan:', error);
-        showNotification('Registration failed. Please try again.', 'error');
-    }
-}
-
-// Newsletter subscription function
-async function subscribeToNewsletter(email) {
-    try {
-        // Here you would integrate with your newsletter service
-        console.log('Subscribing to newsletter:', email);
-        
-        // Show success message
-        showNotification('Thanks for subscribing!', 'success');
-        
-        // Reset form
-        document.querySelector('.newsletter-form').reset();
-    } catch (error) {
-        console.error('Error subscribing to newsletter:', error);
-        showNotification('Subscription failed. Please try again.', 'error');
-    }
-}
-
-// Notification function
+// Show notification function
 function showNotification(message, type = 'info') {
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.setAttribute('role', 'alert');
     
-    // Add icon based on type
     const icon = document.createElement('i');
     icon.className = `bi bi-${type === 'success' ? 'check-circle' : 'info-circle'}`;
     notification.appendChild(icon);
     
-    // Add message
     const text = document.createElement('span');
     text.textContent = message;
     notification.appendChild(text);
     
-    // Add to document
     document.body.appendChild(notification);
     
-    // Remove after 3 seconds
     setTimeout(() => {
         notification.classList.add('fade-out');
         setTimeout(() => notification.remove(), 300);
     }, 3000);
-}
-
-// Update UI based on event status
-function updateEventUI(eventElement, eventDateTime) {
-    if (hasEventPassed(eventDateTime)) {
-        // Add 'past-event' class to event container
-        eventElement.classList.add('past-event');
-        
-        // Hide buttons for past events
-        const buttons = eventElement.querySelectorAll('.buy-ticket-btn, .set-reminder-btn');
-        buttons.forEach(button => button.style.display = 'none');
-        
-        // Add past event indicator
-        const statusBadge = document.createElement('div');
-        statusBadge.className = 'event-status';
-        statusBadge.textContent = 'Event Passed';
-        eventElement.appendChild(statusBadge);
-    }
 }
